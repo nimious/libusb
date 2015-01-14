@@ -551,10 +551,244 @@ type
       ## packet descriptors, for isochronous transfers only.
 
 
+type 
+  libusb_capability* = enum ## \
+    ## Enumerates capabilities supported by an instance of libusb on the current
+    ## running platform. Test if the loaded library supports a given capability
+    ## by calling `libusb_has_capability()`.
+    LIBUSB_CAP_HAS_CAPABILITY = 0x00000000, ## The libusb_has_capability() API
+      ## is available.
+    LIBUSB_CAP_HAS_HOTPLUG = 0x00000001, ## Hotplug support is available on this
+      ## platform.
+    LIBUSB_CAP_HAS_HID_ACCESS = 0x00000100, ## The library can access HID
+      ## devices without requiring user intervention. Note that before being
+      ## able to actually access an HID device, you may still have to call
+      ## additional libusb functions such as `libusb_detach_kernel_driver()`.
+    LIBUSB_CAP_SUPPORTS_DETACH_KERNEL_DRIVER = 0x00000101 ## The library
+      ## supports detaching of the default USB driver, using
+      ## `libusb_detach_kernel_driver()`, if one is set by the OS kernel.
 
 
+  libusb_log_level* = enum ## \
+    ## Enumerates log message levels.
+    LIBUSB_LOG_LEVEL_NONE = 0, ## No messages ever printed by the library (default)
+    LIBUSB_LOG_LEVEL_ERROR, ## Error messages are printed to stderr
+    LIBUSB_LOG_LEVEL_WARNING, ## Warning and error messages are printed to stderr
+    LIBUSB_LOG_LEVEL_INFO, ## Informational messages are printed to stdout,
+      ## warning and error messages are printed to stderr
+    LIBUSB_LOG_LEVEL_DEBUG ## Debug and informational messages are printed to
+      ## stdout, warnings and errors to stderr
 
 
+proc libusb_init*(ctx: ptr ptr libusb_context): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_init".}
+  ## Initializes libusb.
+  ##
+  ## This function must be called before calling any other libusb function.
+  ## If you do not provide an output location for a context pointer, a default
+  ## context will be created. If there was already a default context, it will be
+  ## reused (and nothing will be initialized/reinitialized).
+  ##
+  ## - ``context`` - Optional output location for context pointer. Only valid on
+  ##    return code 0.
+  ##
+  ## ``Returns`` 0 on success, or a LIBUSB_ERROR code on failure.
+
+proc libusb_exit*(ctx: ptr libusb_context)
+  {.cdecl, dynlib: dllname, importc: "libusb_exit".}
+  ## Shuts down libusb.
+  ##
+  ## Should be called after closing all open devices and before your application
+  ## terminates.
+  ##
+  ## - ``ctx`` - The context to deinitialize, or NULL for the default context.
+
+proc libusb_set_debug*(ctx: ptr libusb_context; level: cint)
+  {.cdecl, dynlib: dllname, importc: "libusb_set_debug".}
+  ## Sets the log message verbosity.
+  ##
+  ## The default level is LIBUSB_LOG_LEVEL_NONE, which means no messages are
+  ## ever printed. If you choose to increase the message verbosity level, ensure
+  ## that your application does not close the stdout/stderr file descriptors.
+  ##
+  ## You are advised to use level LIBUSB_LOG_LEVEL_WARNING. libusb is
+  ## conservative with its message logging and most of the time, will only log
+  ## messages that explain error conditions and other oddities. This will help
+  ## you debug your software.
+  ##
+  ## If the LIBUSB_DEBUG environment variable was set when libusb was
+  ## initialized, this function does nothing: the message verbosity is fixed to
+  ## the value in the environment variable.
+  ##
+  ## If libusb was compiled without any message logging, this function does
+  ## nothing: you'll never get any messages. If libusb was compiled with verbose
+  ## debug message logging, this function does nothing: you'll always get
+  ## messages from all levels.
+  ##
+  ## - ``ctx`` - The context to operate on, or NULL for the default context
+  ## - ``level`` - The debug level to set.
+
+proc libusb_get_version*(): ptr libusb_version
+  {.cdecl, dynlib: dllname, importc: "libusb_get_version".}
+  ## Gets the version (major, minor, micro, nano and rc) of the running library.
+  ##
+  ## ``Returns`` An object containing the version number.
+
+proc libusb_has_capability*(capability: uint32_t): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_has_capability".}
+  ## Checks at runtime if the loaded library has a given capability.
+  ##
+  ## This call should be performed after `libusb_init()`, to ensure the
+  ## backend has updated its capability set.
+  ##
+  ## - ``capability`` - The libusb_capability to check for.
+  ##
+  ## ``Returns`` nonzero if the running library has the capability, 0 otherwise.
+
+proc libusb_error_name*(errcode: cint): cstring
+  {.cdecl, dynlib: dllname, importc: "libusb_error_name".}
+  ## Gets a constant NULL-terminated string with the ASCII name of a libusb
+  ## error or transfer status code.
+  ##
+  ## The caller must not free the returned string.
+  ##
+  ## - ``error_code`` - The libusb_error or libusb_transfer_status code to
+  ##    return the name of.
+  ##
+  ## ``Returns`` the error name, or the string UNKNOWN if the value of
+  ##    error_code is not a known error / status code.
+
+
+proc libusb_setlocale*(locale: cstring): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_setlocale".}
+  ## Sets the language, and only the language, not the encoding! used for
+  ## translatable libusb messages.
+  ##
+  ## This takes a locale string in the default setlocale format: lang[-region]
+  ## or lang[_country_region][.codeset]. Only the lang part of the string is
+  ## used, and only 2 letter ISO 639-1 codes are accepted for it, such as "de".
+  ## The optional region, country_region or codeset parts are ignored. This
+  ## means that functions which return translatable strings will NOT honor the
+  ## specified encoding. All strings returned are encoded as UTF-8 strings.
+  ##
+  ## If `libusb_setlocale()` is not called, all messages will be in English.
+  ##
+  ## The following functions return translatable strings:
+  ##    - `libusb_strerror()`
+  ##
+  ## Note that the libusb log messages controlled through `libusb_set_debug()`
+  ## are not translated, they are always in English.
+  ##
+  ## For POSIX UTF-8 environments if you want libusb to follow the standard
+  ## locale settings, call libusb_setlocale(setlocale(LC_MESSAGES, NULL)),
+  ## after your app has done its locale setup.
+  ##
+  ## ``locale`` - The locale-string in the form of
+  ##    lang[_country_region][.codeset] or lang[-region], where lang is a 2
+  ##    letter ISO 639-1 code.
+  ##
+  ## ``Returns``
+  ##    - LIBUSB_SUCCESS on success
+  ##    - LIBUSB_ERROR_INVALID_PARAM if the locale doesn't meet the requirements
+  ##    - LIBUSB_ERROR_NOT_FOUND if the requested language is not supported
+  ##    - LIBUSB_ERROR code on other errors.
+
+proc libusb_strerror*(errcode: libusb_error): cstring
+  {.cdecl, dynlib: dllname, importc: "libusb_strerror".}
+  ## Gets a constant string with a short description of the given error code.
+  ## this description is intended for displaying to the end user and will be in
+  ## the language set by `libusb_setlocale()`.
+  ##
+  ## The returned string is encoded in UTF-8. The messages always start with a
+  ## capital letter and end without any dot. The caller must not free() the
+  ## returned string.
+  ##
+  ## ``errcode`` - The error code whose description is desired.
+  ##
+  ## ``Returns`` a short description of the error code in UTF-8 encoding.
+
+proc libusb_get_device_list*(ctx: ptr libusb_context; 
+  list: ptr ptr ptr libusb_device): ssize_t
+  {.cdecl, dynlib: dllname, importc: "libusb_get_device_list".}
+  ## Gets a list of USB devices currently attached to the system.
+  ##
+  ## This is your entry point into finding a USB device to operate. You are
+  ## expected to unreference all the devices when you are done with them, and
+  ## then free the list with `libusb_free_device_list()`.
+  ##
+  ## Note that `libusb_free_device_list()` can unref all the devices for you.
+  ## Be careful not to unreference a device you are about to open until after
+  ## you have opened it.
+  ##
+  ## The return value of this function indicates the number of devices in the
+  ## resultant list. The list is actually one element larger, as it is
+  ## NULL-terminated.
+  ##
+  ## ``ctx`` - The context to operate on, or NULL for the default context.
+  ## ``list`` - The output location for a list of devices. Must be later freed
+  ##    with `libusb_free_device_list()`.
+  ##
+  ## ``Returns`` the number of devices in the outputted list, or any
+  ## `libusb_error` according to errors encountered by the backend.
+
+proc libusb_free_device_list*(list: ptr ptr libusb_device; unref_devices: cint)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_device_list".}
+  ## Frees a list of devices previously discovered using
+  ## `libusb_get_device_list()`.
+  ##
+  ## If the `unref_devices parameter` is set, the reference count of each device
+  ## in the list is decremented by 1.
+  ##
+  ## ``list`` - The list to free
+  ## ``unref_devices`` - Whether to unref the devices in the list.
+
+proc libusb_ref_device*(dev: ptr libusb_device): ptr libusb_device {.cdecl, dynlib: dllname, importc: "libusb_ref_device".}
+  ## Increment the reference count of a device.
+  ##
+  ## ``dev`` - The device to reference.
+  ##
+  ## ``Returns`` the same device.
+
+proc libusb_unref_device*(dev: ptr libusb_device) {.cdecl, dynlib: dllname, importc: "libusb_unref_device".}
+proc libusb_get_configuration*(dev: ptr libusb_device_handle; config: ptr cint): cint {.cdecl, dynlib: dllname, importc: "libusb_get_configuration".}
+proc libusb_get_device_descriptor*(dev: ptr libusb_device; 
+                                    desc: ptr libusb_device_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_device_descriptor".}
+proc libusb_get_active_config_descriptor*(dev: ptr libusb_device; 
+    config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_active_config_descriptor".}
+proc libusb_get_config_descriptor*(dev: ptr libusb_device; 
+                                    config_index: uint8_t; 
+                                    config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor".}
+proc libusb_get_config_descriptor_by_value*(dev: ptr libusb_device; 
+    bConfigurationValue: uint8_t; config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor_by_value".}
+proc libusb_free_config_descriptor*(config: ptr libusb_config_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_config_descriptor".}
+proc libusb_get_ss_endpoint_companion_descriptor*(ctx: ptr libusb_context; 
+    endpoint: ptr libusb_endpoint_descriptor; 
+    ep_comp: ptr ptr libusb_ss_endpoint_companion_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_ss_endpoint_companion_descriptor".}
+proc libusb_free_ss_endpoint_companion_descriptor*(
+    ep_comp: ptr libusb_ss_endpoint_companion_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_ss_endpoint_companion_descriptor".}
+proc libusb_get_bos_descriptor*(handle: ptr libusb_device_handle; 
+                                bos: ptr ptr libusb_bos_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_bos_descriptor".}
+proc libusb_free_bos_descriptor*(bos: ptr libusb_bos_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_bos_descriptor".}
+proc libusb_get_usb_2_0_extension_descriptor*(ctx: ptr libusb_context; 
+    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
+    usb_2_0_extension: ptr ptr libusb_usb_2_0_extension_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_usb_2_0_extension_descriptor".}
+proc libusb_free_usb_2_0_extension_descriptor*(
+    usb_2_0_extension: ptr libusb_usb_2_0_extension_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_usb_2_0_extension_descriptor".}
+proc libusb_get_ss_usb_device_capability_descriptor*(ctx: ptr libusb_context; 
+    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
+    ss_usb_device_cap: ptr ptr libusb_ss_usb_device_capability_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_ss_usb_device_capability_descriptor".}
+proc libusb_free_ss_usb_device_capability_descriptor*(
+    ss_usb_device_cap: ptr libusb_ss_usb_device_capability_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_ss_usb_device_capability_descriptor".}
+proc libusb_get_container_id_descriptor*(ctx: ptr libusb_context; 
+    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
+    container_id: ptr ptr libusb_container_id_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_container_id_descriptor".}
+proc libusb_free_container_id_descriptor*(
+    container_id: ptr libusb_container_id_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_container_id_descriptor".}
+proc libusb_get_bus_number*(dev: ptr libusb_device): uint8_t {.cdecl, dynlib: dllname, importc: "libusb_get_bus_number".}
+proc libusb_get_port_number*(dev: ptr libusb_device): uint8_t {.cdecl, dynlib: dllname, importc: "libusb_get_port_number".}
+proc libusb_get_port_numbers*(dev: ptr libusb_device; 
+                              port_numbers: ptr uint8_t; 
+                              port_numbers_len: cint): cint {.cdecl, dynlib: dllname, importc: "libusb_get_port_numbers".}
 
 
 
