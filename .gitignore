@@ -1,0 +1,7 @@
+nimcache
+.directory
+*.dll
+*.exe
+.kate*
+examples/ovr_details_example
+examples/ovr_logger_example
