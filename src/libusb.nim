@@ -18,7 +18,7 @@
 when defined(linux):
   const dllname = "libusb.so"
 elif defined(macos):
-  const dllname = "libusb.dylib
+  const dllname = "libusb.dylib"
 elif defined(windows):
   const dllname = "libusb.dll"
 else:
@@ -517,7 +517,38 @@ type
     status*: libusb_transfer_status ## Status code for this packet.
 
 
-
+  libusb_transfer* = object
+    ## Generic USB transfer structure. The user populates this structure and
+    ## then submits it in order to request a transfer. After the transfer has
+    ## completed, the library populates the transfer with the results and passes
+    ## it back to the user.
+    dev_handle*: ptr libusb_device_handle ## Handle of the device that this
+      ## transfer will be submitted to.
+    flags*: uint8 ## A bitwise OR combination of `libusb_transfer_flags`.
+    endpoint*: cuchar ## Address of the endpoint where this transfer will be sent.
+    `type`*: cuchar ## Type of the endpoint from \ref libusb_transfer_type.
+    timeout*: cuint ## Timeout for this transfer in millseconds. A value of 0
+      ## indicates no timeout.
+    status*: libusb_transfer_status ## The status of the transfer. Read-only,
+      ## and only for use within transfer callback function.
+      ##
+      ## If this is an isochronous transfer, this field may read COMPLETED even
+      ## if there were errors in the frames. Use the
+      ## `libusb_iso_packet_descriptor.status` field in each packet to determine
+      ## if errors occurred.
+    length*: cint ## Length of the data buffer.
+    actual_length*: cint ## Actual length of data that was transferred.
+      ## Read-only, and only for use within transfer callback function.
+      ## Not valid for isochronous endpoint transfers.
+    callback*: libusb_transfer_cb_fn ## Callback function. This will be invoked
+      ## when the transfer completes, fails, or is cancelled.
+      ## TODO: convert this to Nim
+    user_data*: pointer ## User context data to pass to the callback function.
+    buffer*: ptr cuchar ## Data buffer.
+    num_iso_packets*: cint ## Number of isochronous packets. Only used for I/O
+      ## with isochronous endpoints.
+    iso_packet_desc*: array[0, libusb_iso_packet_descriptor] ## Isochronous
+      ## packet descriptors, for isochronous transfers only.
 
 
 
