@@ -1,4 +1,4 @@
-# io-oculus
+# io-usb
 
 Nim bindings for libusb, the cross-platform user library to access USB devices.
 ![io-usb Logo](logo.png)
@@ -14,7 +14,7 @@ USB protocol.
 
 ## Supported Platforms
 
-io-usb is still under development and does not23 work yet. So far, the
+io-usb is still under development and does not work yet. So far, the
 following platforms have been built and tested:
 
 - ~~Android~~
@@ -47,14 +47,14 @@ TODO
 
 If you are using Linux then libusb is most likely already installed on your
 computer. If your Linux distribution includes a package manager or community
-repository, it likely also have the latest pre-compiled binaries for libusb.
+repository, it likely also has the latest pre-compiled binaries for libusb.
 
 For example, on ArchLinux you can get the library from the package manager:
 
 `sudo pacman -Sy libusb`
 
-Alternatively, you can download the latest source code from the libusb web site
-and compile it yourself.
+Alternatively, you can download the latest source code from the libusb GitHub
+repository and compile the library yourself.
 
 ### Mac OSX
 
