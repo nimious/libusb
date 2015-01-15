@@ -505,8 +505,6 @@ type
       ## This flag is currently only supported on Linux. On other systems,
       ## `libusb_submit_transfer()` will return `LIBUSB_ERROR_NOT_SUPPORTED`
       ## for every transfer where this flag is set.
-      ##
-      ## Available since libusb-1.0.9
 
 
 type 
@@ -526,7 +524,7 @@ type
       ## transfer will be submitted to.
     flags*: uint8 ## A bitwise OR combination of `libusb_transfer_flags`.
     endpoint*: cuchar ## Address of the endpoint where this transfer will be sent.
-    `type`*: cuchar ## Type of the endpoint from \ref libusb_transfer_type.
+    `type`*: cuchar ## Type of the endpoint from `libusb_transfer_type`.
     timeout*: cuint ## Timeout for this transfer in millseconds. A value of 0
       ## indicates no timeout.
     status*: libusb_transfer_status ## The status of the transfer. Read-only,
@@ -594,6 +592,7 @@ proc libusb_init*(ctx: ptr ptr libusb_context): cint
   ##
   ## ``Returns`` 0 on success, or a LIBUSB_ERROR code on failure.
 
+
 proc libusb_exit*(ctx: ptr libusb_context)
   {.cdecl, dynlib: dllname, importc: "libusb_exit".}
   ## Shuts down libusb.
@@ -601,7 +600,8 @@ proc libusb_exit*(ctx: ptr libusb_context)
   ## Should be called after closing all open devices and before your application
   ## terminates.
   ##
-  ## - ``ctx`` - The context to deinitialize, or NULL for the default context.
+  ## - ``ctx`` - The context to deinitialize, or nil for the default context.
+
 
 proc libusb_set_debug*(ctx: ptr libusb_context; level: cint)
   {.cdecl, dynlib: dllname, importc: "libusb_set_debug".}
@@ -628,11 +628,13 @@ proc libusb_set_debug*(ctx: ptr libusb_context; level: cint)
   ## - ``ctx`` - The context to operate on, or NULL for the default context
   ## - ``level`` - The debug level to set.
 
+
 proc libusb_get_version*(): ptr libusb_version
   {.cdecl, dynlib: dllname, importc: "libusb_get_version".}
   ## Gets the version (major, minor, micro, nano and rc) of the running library.
   ##
   ## ``Returns`` An object containing the version number.
+
 
 proc libusb_has_capability*(capability: uint32_t): cint
   {.cdecl, dynlib: dllname, importc: "libusb_has_capability".}
@@ -644,6 +646,7 @@ proc libusb_has_capability*(capability: uint32_t): cint
   ## - ``capability`` - The libusb_capability to check for.
   ##
   ## ``Returns`` nonzero if the running library has the capability, 0 otherwise.
+
 
 proc libusb_error_name*(errcode: cint): cstring
   {.cdecl, dynlib: dllname, importc: "libusb_error_name".}
@@ -680,7 +683,7 @@ proc libusb_setlocale*(locale: cstring): cint
   ## are not translated, they are always in English.
   ##
   ## For POSIX UTF-8 environments if you want libusb to follow the standard
-  ## locale settings, call libusb_setlocale(setlocale(LC_MESSAGES, NULL)),
+  ## locale settings, call libusb_setlocale(setlocale(LC_MESSAGES, nil)),
   ## after your app has done its locale setup.
   ##
   ## ``locale`` - The locale-string in the form of
@@ -692,6 +695,7 @@ proc libusb_setlocale*(locale: cstring): cint
   ##    - LIBUSB_ERROR_INVALID_PARAM if the locale doesn't meet the requirements
   ##    - LIBUSB_ERROR_NOT_FOUND if the requested language is not supported
   ##    - LIBUSB_ERROR code on other errors.
+
 
 proc libusb_strerror*(errcode: libusb_error): cstring
   {.cdecl, dynlib: dllname, importc: "libusb_strerror".}
@@ -706,6 +710,7 @@ proc libusb_strerror*(errcode: libusb_error): cstring
   ## ``errcode`` - The error code whose description is desired.
   ##
   ## ``Returns`` a short description of the error code in UTF-8 encoding.
+
 
 proc libusb_get_device_list*(ctx: ptr libusb_context; 
   list: ptr ptr ptr libusb_device): ssize_t
@@ -724,12 +729,13 @@ proc libusb_get_device_list*(ctx: ptr libusb_context;
   ## resultant list. The list is actually one element larger, as it is
   ## NULL-terminated.
   ##
-  ## ``ctx`` - The context to operate on, or NULL for the default context.
+  ## ``ctx`` - The context to operate on, or nil for the default context.
   ## ``list`` - The output location for a list of devices. Must be later freed
   ##    with `libusb_free_device_list()`.
   ##
   ## ``Returns`` the number of devices in the outputted list, or any
   ## `libusb_error` according to errors encountered by the backend.
+
 
 proc libusb_free_device_list*(list: ptr ptr libusb_device; unref_devices: cint)
   {.cdecl, dynlib: dllname, importc: "libusb_free_device_list".}
@@ -742,85 +748,1098 @@ proc libusb_free_device_list*(list: ptr ptr libusb_device; unref_devices: cint)
   ## ``list`` - The list to free
   ## ``unref_devices`` - Whether to unref the devices in the list.
 
-proc libusb_ref_device*(dev: ptr libusb_device): ptr libusb_device {.cdecl, dynlib: dllname, importc: "libusb_ref_device".}
-  ## Increment the reference count of a device.
+
+proc libusb_ref_device*(dev: ptr libusb_device): ptr libusb_device
+  {.cdecl, dynlib: dllname, importc: "libusb_ref_device".}
+  ## Increments the reference count of a device.
   ##
   ## ``dev`` - The device to reference.
   ##
   ## ``Returns`` the same device.
 
-proc libusb_unref_device*(dev: ptr libusb_device) {.cdecl, dynlib: dllname, importc: "libusb_unref_device".}
-proc libusb_get_configuration*(dev: ptr libusb_device_handle; config: ptr cint): cint {.cdecl, dynlib: dllname, importc: "libusb_get_configuration".}
-proc libusb_get_device_descriptor*(dev: ptr libusb_device; 
-                                    desc: ptr libusb_device_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_device_descriptor".}
-proc libusb_get_active_config_descriptor*(dev: ptr libusb_device; 
-    config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_active_config_descriptor".}
-proc libusb_get_config_descriptor*(dev: ptr libusb_device; 
-                                    config_index: uint8_t; 
-                                    config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor".}
-proc libusb_get_config_descriptor_by_value*(dev: ptr libusb_device; 
-    bConfigurationValue: uint8_t; config: ptr ptr libusb_config_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor_by_value".}
-proc libusb_free_config_descriptor*(config: ptr libusb_config_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_config_descriptor".}
-proc libusb_get_ss_endpoint_companion_descriptor*(ctx: ptr libusb_context; 
-    endpoint: ptr libusb_endpoint_descriptor; 
-    ep_comp: ptr ptr libusb_ss_endpoint_companion_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_ss_endpoint_companion_descriptor".}
+
+proc libusb_unref_device*(dev: ptr libusb_device)
+  {.cdecl, dynlib: dllname, importc: "libusb_unref_device".}
+  ## Decrement the reference count of a device.
+  ##
+  ## If the decrement operation causes the reference count to reach zero, the
+  ## device shall be destroyed.
+  ##
+  ## ``dev`` - The device to unreference.
+
+
+proc libusb_get_configuration*(dev: ptr libusb_device_handle; config: ptr cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_configuration".}
+  ## Determines the bConfigurationValue of the currently active configuration.
+  ##
+  ## You could formulate your own control request to obtain this information,
+  ## but this function has the advantage that it may be able to retrieve the
+  ## information from operating system caches (no I/O involved).
+  ##
+  ## If the OS does not cache this information, then this function will block
+  ## while a control transfer is submitted to retrieve the information. This
+  ## function will return a value of 0 in the config output parameter if the
+  ## device is in unconfigured state.
+  ##
+  ## ``dev`` - A device handle.
+  ## ``config`` - Output location for the bConfigurationValue of the active
+  ##    configuration (only valid for return code 0)
+  ##
+  ## Returns
+  ##    0 on success,
+  ##    `LIBUSB_ERROR_NO_DEVICE` if the device has been disconnected,
+  ##    `LIBUSB_ERROR` codes for other failures.
+
+
+proc libusb_get_device_descriptor*(dev: ptr libusb_device;
+  desc: ptr libusb_device_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_device_descriptor".}
+  ## Gets the USB device descriptor for a given device.
+  ##
+  ## This is a non-blocking function; the device descriptor is cached in memory.
+  ## Note since libusb-1.0.16, LIBUSB_API_VERSION >= 0x01000102, this function
+  ## always succeeds.
+  ##
+  ## ``dev`` - The device.
+  ## ``desc`` - Output location for the descriptor data.
+  ##
+  ## Returns 0 on success or a `LIBUSB_ERROR` code on failure.
+
+
+proc libusb_get_active_config_descriptor*(dev: ptr libusb_device;
+  config: ptr ptr libusb_config_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_active_config_descriptor".}
+  ## Gets the USB configuration descriptor for the currently active configuration.
+  ##
+  ## This is a non-blocking function which does not involve any requests being
+  ## sent to the device.
+  ##
+  ## ``dev`` - A device
+  ## ``config`` - Output location for the USB configuration descriptor. Only
+  ##    valid if 0 was returned. Must be freed with
+  ##    `libusb_free_config_descriptor()` after use.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the device is in unconfigured state,
+  ##    `LIBUSB_ERROR` codes for other errors.
+
+
+proc libusb_get_config_descriptor*(dev: ptr libusb_device;
+  config_index: uint8_t; config: ptr ptr libusb_config_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor".}
+  ## Gets a USB configuration descriptor based on its index.
+  ##
+  ## This is a non-blocking function which does not involve any requests being
+  ## sent to the device.
+  ##
+  ## ``dev`` - A device.
+  ## ``config_index`` - The index of the configuration you wish to retrieve.
+  ## ``config`` - Output location for the USB configuration descriptor. Only
+  ##    valid if 0 was returned. Must be freed with
+  ##    `libusb_free_config_descriptor()` after use.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the configuration does not exist,
+  ##    `LIBUSB_ERROR` codes for other errors.
+
+
+proc libusb_get_config_descriptor_by_value*(dev: ptr libusb_device;
+  bConfigurationValue: uint8_t; config: ptr ptr libusb_config_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_config_descriptor_by_value".}
+  ## Gets a USB configuration descriptor with a specific bConfigurationValue.
+  ##
+  ## This is a non-blocking function which does not involve any requests being
+  ## sent to the device.
+  ##
+  ## ``dev`` - A device.
+  ## ``bConfigurationValue`` - The `bConfigurationValue` of the configuration
+  ##    you wish to retrieve.
+  ## ``config`` - Output location for the USB configuration descriptor. Only
+  ##    valid if 0 was returned. Must be freed with
+  ##    `libusb_free_config_descriptor()` after use.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the configuration does not exist,
+  ##    `LIBUSB_ERROR` codes for other errors.
+
+
+proc libusb_free_config_descriptor*(config: ptr libusb_config_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_config_descriptor".}
+  ## Frees a configuration descriptor obtained from
+  ## `libusb_get_active_config_descriptor() or `libusb_get_config_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil config parameter, in which
+  ## case the function simply returns.
+  ##
+  ## ``config`` - The configuration descriptor to free.
+
+
+proc libusb_get_ss_endpoint_companion_descriptor*(ctx: ptr libusb_context;
+  endpoint: ptr libusb_endpoint_descriptor;
+  ep_comp: ptr ptr libusb_ss_endpoint_companion_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_ss_endpoint_companion_descriptor".}
+  ## Gets an endpoints superspeed endpoint companion descriptor (if any).
+  ##
+  ## ``ctx`` - The context to operate on, or nil for the default context.
+  ## ``endpoint`` - Endpoint descriptor from which to get the superspeed
+  ##    endpoint companion descriptor.
+  ## ``ep_comp`` - Output location for the superspeed endpoint companion
+  ##    descriptor. Only valid if 0 was returned. Must be freed with
+  ## `libusb_free_ss_endpoint_companion_descriptor()` after use.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the configuration does not exist,
+  ##    `LIBUSB_ERROR` codes for other errors.
+
+
 proc libusb_free_ss_endpoint_companion_descriptor*(
-    ep_comp: ptr libusb_ss_endpoint_companion_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_ss_endpoint_companion_descriptor".}
-proc libusb_get_bos_descriptor*(handle: ptr libusb_device_handle; 
-                                bos: ptr ptr libusb_bos_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_bos_descriptor".}
-proc libusb_free_bos_descriptor*(bos: ptr libusb_bos_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_bos_descriptor".}
-proc libusb_get_usb_2_0_extension_descriptor*(ctx: ptr libusb_context; 
-    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
-    usb_2_0_extension: ptr ptr libusb_usb_2_0_extension_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_usb_2_0_extension_descriptor".}
+  ep_comp: ptr libusb_ss_endpoint_companion_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_ss_endpoint_companion_descriptor".}
+  ## Free a superspeed endpoint companion descriptor obtained from
+  ## `libusb_get_ss_endpoint_companion_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil `ep_comp parameter`, in which case the function simply returns.
+  ##
+  ## ``ep_comp`` - The superspeed endpoint companion descriptor to free.
+
+
+proc libusb_get_bos_descriptor*(handle: ptr libusb_device_handle;
+  bos: ptr ptr libusb_bos_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_bos_descriptor".}
+  ## Gets a Binary Object Store (BOS) descriptor This is a BLOCKING function,
+  ## which will send requests to the device.
+  ##
+  ## ``handle`` - The handle of an open libusb device.
+  ## ``bos`` - Output location for the BOS descriptor. Only valid if 0 was
+  ##    returned. Must be freed with `libusb_free_bos_descriptor()` after use.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the device doesn't have a BOS descriptor,
+  ##    `LIBUSB_ERROR` codes for other errors.
+
+
+proc libusb_free_bos_descriptor*(bos: ptr libusb_bos_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_bos_descriptor".}
+  ## Frees a BOS descriptor obtained from `libusb_get_bos_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil bos parameter, in which case
+  ## the function simply returns.
+  ##
+  ## ``bos`` - The BOS descriptor to free.
+
+
+proc libusb_get_usb_2_0_extension_descriptor*(ctx: ptr libusb_context;
+  dev_cap: ptr libusb_bos_dev_capability_descriptor;
+  usb_2_0_extension: ptr ptr libusb_usb_2_0_extension_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_usb_2_0_extension_descriptor".}
+  ## Gets an USB 2.0 Extension descriptor.
+  ##
+  ## ``ctx`` - The context to operate on, or nil for the default context.
+  ## ``dev_cap`` - Device Capability descriptor with a bDevCapabilityType of
+  ##    `libusb_capability_type.LIBUSB_BT_USB_2_0_EXTENSION`
+  ## ``usb_2_0_extension`` - Output location for the USB 2.0 Extension
+  ##    descriptor. Only valid if 0 was returned. Must be freed with
+  ##    `libusb_free_usb_2_0_extension_descriptor()` after use.
+  ##
+  ## Returns 0 on success, a LIBUSB_ERROR code on error.
+
+
 proc libusb_free_usb_2_0_extension_descriptor*(
-    usb_2_0_extension: ptr libusb_usb_2_0_extension_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_usb_2_0_extension_descriptor".}
-proc libusb_get_ss_usb_device_capability_descriptor*(ctx: ptr libusb_context; 
-    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
-    ss_usb_device_cap: ptr ptr libusb_ss_usb_device_capability_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_ss_usb_device_capability_descriptor".}
+  usb_2_0_extension: ptr libusb_usb_2_0_extension_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_usb_2_0_extension_descriptor".}
+  ## Frees a USB 2.0 Extension descriptor obtained from
+  ## `libusb_get_usb_2_0_extension_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil `usb_2_0_extension` parameter,
+  ## in which case the function simply returns.
+  ##
+  ## ``usb_2_0_extension`` - The USB 2.0 Extension descriptor to free.
+
+
+proc libusb_get_ss_usb_device_capability_descriptor*(ctx: ptr libusb_context;
+  dev_cap: ptr libusb_bos_dev_capability_descriptor;
+  ss_usb_device_cap: ptr ptr libusb_ss_usb_device_capability_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_ss_usb_device_capability_descriptor".}
+  ## Gets a SuperSpeed USB Device Capability descriptor.
+  ##
+  ## ``ctx`` - The context to operate on, or nil for the default context.
+  ## ``dev_cap`` - Device Capability descriptor with a `bDevCapabilityType` of
+  ##    `libusb_capability_type.LIBUSB_BT_SS_USB_DEVICE_CAPABILITY`
+  ## ``ss_usb_device_cap`` - Output location for the SuperSpeed USB Device
+  ##    Capability descriptor. Only valid if 0 was returned. Must be freed with
+  ##    `libusb_free_ss_usb_device_capability_descriptor()` after use.
+  ##
+  ## Returns 0 on success, a LIBUSB_ERROR code on error.
+
+
 proc libusb_free_ss_usb_device_capability_descriptor*(
-    ss_usb_device_cap: ptr libusb_ss_usb_device_capability_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_ss_usb_device_capability_descriptor".}
-proc libusb_get_container_id_descriptor*(ctx: ptr libusb_context; 
-    dev_cap: ptr libusb_bos_dev_capability_descriptor; 
-    container_id: ptr ptr libusb_container_id_descriptor): cint {.cdecl, dynlib: dllname, importc: "libusb_get_container_id_descriptor".}
+  ss_usb_device_cap: ptr libusb_ss_usb_device_capability_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_ss_usb_device_capability_descriptor".}
+  ## Frees a SuperSpeed USB Device Capability descriptor obtained from
+  ## `libusb_get_ss_usb_device_capability_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil `ss_usb_device_cap parameter`,
+  ## in which case the function simply returns.
+  ##
+  ## ``ss_usb_device_cap`` - the USB 2.0 Extension descriptor to free.
+
+
+proc libusb_get_container_id_descriptor*(ctx: ptr libusb_context;
+  dev_cap: ptr libusb_bos_dev_capability_descriptor;
+  container_id: ptr ptr libusb_container_id_descriptor): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_container_id_descriptor".}
+  ## Gets a Container ID descriptor.
+  ##
+  ## ``ctx`` - The context to operate on, or nil for the default context.
+  ## ``dev_cap`` - Device Capability descriptor with a `bDevCapabilityType` of
+  ##    `libusb_capability_type.LIBUSB_BT_CONTAINER_ID`
+  ## ``container_id`` - Output location for the Container ID descriptor. Only
+  ##    valid if 0 was returned. Must be freed with
+  ##    `libusb_free_container_id_descriptor()` after use.
+  ##
+  ## Returns 0 on success, a LIBUSB_ERROR code on error.
+
+
 proc libusb_free_container_id_descriptor*(
-    container_id: ptr libusb_container_id_descriptor) {.cdecl, dynlib: dllname, importc: "libusb_free_container_id_descriptor".}
-proc libusb_get_bus_number*(dev: ptr libusb_device): uint8_t {.cdecl, dynlib: dllname, importc: "libusb_get_bus_number".}
-proc libusb_get_port_number*(dev: ptr libusb_device): uint8_t {.cdecl, dynlib: dllname, importc: "libusb_get_port_number".}
-proc libusb_get_port_numbers*(dev: ptr libusb_device; 
-                              port_numbers: ptr uint8_t; 
-                              port_numbers_len: cint): cint {.cdecl, dynlib: dllname, importc: "libusb_get_port_numbers".}
+  container_id: ptr libusb_container_id_descriptor)
+  {.cdecl, dynlib: dllname, importc: "libusb_free_container_id_descriptor".}
+  ## Frees a Container ID descriptor obtained from
+  ## `libusb_get_container_id_descriptor()`.
+  ##
+  ## It is safe to call this function with a nil `container_id` parameter, in
+  ## which case the function simply returns.
+  ##
+  ## ``container_id`` - The USB 2.0 Extension descriptor to free.
+
+
+proc libusb_get_bus_number*(dev: ptr libusb_device): uint8
+  {.cdecl, dynlib: dllname, importc: "libusb_get_bus_number".}
+  ## Gets the number of the bus that a device is connected to.
+  ##
+  ## ``dev`` - A device.
+  ##
+  ## Returns the bus number.
+
+
+proc libusb_get_port_number*(dev: ptr libusb_device): uint8
+  {.cdecl, dynlib: dllname, importc: "libusb_get_port_number".}
+  ## Get the number of the port that a device is connected to.
+  ##
+  ## Unless the OS does something funky, or you are hot-plugging USB extension
+  ## cards, the port number returned by this call is usually guaranteed to be
+  ## uniquely tied to a physical port, meaning that different devices plugged on
+  ## the same physical port should return the same port number.
+  ##
+  ## But outside of this, there is no guarantee that the port number returned by
+  ## this call will remain the same, or even match the order in which ports have
+  ## been numbered by the HUB/HCD manufacturer.
+  ##
+  ## ``dev`` - A device.
+  ##
+  ## Returns the port number (0 if not available).
+
+
+proc libusb_get_port_numbers*(dev: ptr libusb_device;
+  port_numbers: ptr uint8; port_numbers_len: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_port_numbers".}
+  ## Get the list of all port numbers from root for the specified device.
+  ##
+  ## ``dev`` - A device.
+  ## ``port_numbers`` - The array that should contain the port numbers.
+  ## ``port_numbers_len`` - The maximum length of the array. As per the USB 3.0
+  ##    specs, the current maximum limit for the depth is 7.
+  ##
+  ## Returns the number of elements filled, `LIBUSB_ERROR_OVERFLOW` if the array
+  ## is too small.
+
+
+proc libusb_get_parent*(dev: ptr libusb_device): ptr libusb_device
+  {.cdecl, dynlib: dllname, importc: "libusb_get_parent".}
+
+proc libusb_get_device_address*(dev: ptr libusb_device): uint8
+  {.cdecl, dynlib: dllname, importc: "libusb_get_device_address".}
+
+proc libusb_get_device_speed*(dev: ptr libusb_device): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_device_speed".}
+
+proc libusb_get_max_packet_size*(dev: ptr libusb_device; endpoint: cuchar): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_max_packet_size".}
+
+proc libusb_get_max_iso_packet_size*(dev: ptr libusb_device; endpoint: cuchar): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_get_max_iso_packet_size".}
+
+proc libusb_open*(dev: ptr libusb_device; handle: ptr ptr libusb_device_handle): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_open".}
+
+proc libusb_close*(dev_handle: ptr libusb_device_handle)
+  {.cdecl, dynlib: dllname, importc: "libusb_close".}
+
+proc libusb_get_device*(dev_handle: ptr libusb_device_handle): ptr libusb_device
+  {.cdecl, dynlib: dllname, importc: "libusb_get_device".}
+
+proc libusb_set_configuration*(dev: ptr libusb_device_handle;
+  configuration: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_set_configuration".}
+
+proc libusb_claim_interface*(dev: ptr libusb_device_handle;
+  interface_number: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_claim_interface".}
+
+proc libusb_release_interface*(dev: ptr libusb_device_handle;
+  interface_number: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_release_interface".}
+
+proc libusb_open_device_with_vid_pid*(ctx: ptr libusb_context;
+  vendor_id: uint16_t; product_id: uint16_t): ptr libusb_device_handle
+  {.cdecl, dynlib: dllname, importc: "libusb_open_device_with_vid_pid".}
+
+proc libusb_set_interface_alt_setting*(dev: ptr libusb_device_handle; 
+  interface_number: cint; alternate_setting: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_set_interface_alt_setting".}
+
+proc libusb_clear_halt*(dev: ptr libusb_device_handle; endpoint: cuchar): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_clear_halt".}
+
+proc libusb_reset_device*(dev: ptr libusb_device_handle): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_reset_device".}
+
+proc libusb_alloc_streams*(dev: ptr libusb_device_handle; 
+  num_streams: uint32_t; endpoints: ptr cuchar; num_endpoints: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_alloc_streams".}
+
+proc libusb_free_streams*(dev: ptr libusb_device_handle; 
+  endpoints: ptr cuchar; num_endpoints: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_free_streams".}
+
+proc libusb_kernel_driver_active*(dev: ptr libusb_device_handle;
+  interface_number: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_kernel_driver_active".}
+
+proc libusb_detach_kernel_driver*(dev: ptr libusb_device_handle; 
+  interface_number: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_detach_kernel_driver".}
+
+proc libusb_attach_kernel_driver*(dev: ptr libusb_device_handle;
+  interface_number: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_attach_kernel_driver".}
+
+proc libusb_set_auto_detach_kernel_driver*(dev: ptr libusb_device_handle;
+  enable: cint): cint
+  {.cdecl, dynlib: dllname, importc: "libusb_set_auto_detach_kernel_driver".}
+
+
+# Async I/O ####################################################################
+
+proc libusb_control_transfer_get_data*(transfer: ptr libusb_transfer):
+  ptr cuchar {.inline.} =
+  ## Get the data section of a control transfer. This convenience function is here
+  ## to remind you that the data does not start until 8 bytes into the actual
+  ## buffer, as the setup packet comes first.
+  ##
+  ## Calling this function only makes sense from a transfer callback function,
+  ## or situations where you have already allocated a suitably sized buffer at
+  ## transfer->buffer.
+  ##
+  ## ``transfer`` - A transfer.
+  ##
+  ## Returns pointer to the first byte of the data section.
+  return transfer.buffer + LIBUSB_CONTROL_SETUP_SIZE
+
+
+proc libusb_control_transfer_get_setup*(transfer: ptr libusb_transfer):
+  ptr libusb_control_setup {.inline.} =
+  ## Get the control setup packet of a control transfer. This convenience
+  ## function is here to remind you that the control setup occupies the first
+  ## 8 bytes of the transfer data buffer.
+  ##
+  ## Calling this function only makes sense from a transfer callback function,
+  ## or situations where you have already allocated a suitably sized buffer at
+  ## transfer->buffer.
+  ##
+  ## ``transfer`` - A transfer.
+  ##
+  ## Returns a casted pointer to the start of the transfer data buffer.
+  return cast[ptr libusb_control_setup](cast[pointer](transfer.buffer))
+
+
+proc libusb_fill_control_setup*(buffer: ptr cuchar; bmRequestType: uint8;
+  bRequest: uint8; wValue: uint16; wIndex: uint16; wLength: uint16) {.inline.} =
+  ## Helper function to populate the setup packet (first 8 bytes of the data
+  ## buffer) for a control transfer. The wIndex, wValue and wLength values should
+  ## be given in host-endian byte order.
+  ##
+  ## ``buffer`` - Buffer to output the setup packet into. This pointer must be
+  ##      aligned to at least 2 bytes boundary.
+  ## ``bmRequestType`` - See the `bmRequestType` field of `libusb_control_setup`.
+  ## ``bRequest`` - See the `bRequest` field of `libusb_control_setup`.
+  ## ``wValue`` - See the `wValue` field of `libusb_control_setup`.
+  ## ``wIndex`` - See the `wIndex` field of `libusb_control_setup`.
+  ## ``wLength`` - See the `wLength` field of `libusb_control_setup`.
+  var setup: ptr libusb_control_setup = cast[ptr libusb_control_setup](cast[pointer](buffer))
+  setup.bmRequestType = bmRequestType
+  setup.bRequest = bRequest
+  setup.wValue = libusb_cpu_to_le16(wValue)
+  setup.wIndex = libusb_cpu_to_le16(wIndex)
+  setup.wLength = libusb_cpu_to_le16(wLength)
+
+
+proc libusb_alloc_transfer*(iso_packets: cint): ptr libusb_transfer
+  ## Allocate a libusb transfer with a specified number of isochronous packet
+  ## descriptors.
+  ##
+  ## The returned transfer is pre-initialized for you. When the new transfer is
+  ## no longer needed, it should be freed with `libusb_free_transfer()`.
+  ## Transfers intended for non-isochronous endpoints (e.g. control, bulk,
+  ## interrupt) should specify an iso_packets count of zero.
+  ##
+  ## For transfers intended for isochronous endpoints, specify an appropriate
+  ## number of packet descriptors to be allocated as part of the transfer. The
+  ## returned transfer is not specially initialized for isochronous I/O; you are
+  ## still required to set the num_iso_packets and type fields accordingly.
+  ##
+  ## It is safe to allocate a transfer with some isochronous packets and then
+  ## use it on a non-isochronous endpoint. If you do this, ensure that at time
+  ## of submission, num_iso_packets is 0 and that type is set appropriately.
+  ##
+  ## ``iso_packets`` - Number of isochronous packet descriptors to allocate.
+  ##
+  ## Returns a newly allocated transfer, or nil on error 
+
+
+proc libusb_submit_transfer*(transfer: ptr libusb_transfer): cint
+  ## Submit a transfer.
+  ##
+  ## This function will fire off the USB transfer and then return immediately.
+  ##
+  ## ``transfer`` - The transfer to submit.
+  ##
+  ## Returns
+  ##    0 on success,
+  ##    `LIBUSB_ERROR_NO_DEVICE` if the device has been disconnected,
+  ##    `LIBUSB_ERROR_BUSY` if the transfer has already been submitted,
+  ##    `LIBUSB_ERROR_NOT_SUPPORTED` if the transfer flags are not supported by
+  ##    the operating system,
+  ##    `LIBUSB_ERROR` codes for other failures.
+
+
+proc libusb_cancel_transfer*(transfer: ptr libusb_transfer): cint
+  ## Asynchronously cancel a previously submitted transfer.
+  ##
+  ## This function returns immediately, but this does not indicate cancellation
+  ## is complete. Your callback function will be invoked at some later time with
+  ## a transfer status of `LIBUSB_TRANSFER_CANCELLED`.
+  ##
+  ## ``transfer`` - The transfer to cancel.
+  ##
+  ## Returns 0 on success,
+  ##    `LIBUSB_ERROR_NOT_FOUND` if the transfer is already complete or
+  ##    cancelled,
+  ##    `LIBUSB_ERROR` codes for other failures.
+
+
+proc libusb_free_transfer*(transfer: ptr libusb_transfer)
+  ## Free a transfer structure.
+  ##
+  ## This should be called for all transfers allocated with
+  ## `libusb_alloc_transfer()`. If the `LIBUSB_TRANSFER_FREE_BUFFER` flag is set
+  ## and the transfer buffer is not nil, this function will also free the
+  ## transfer buffer using the standard system memory allocator (e.g. free()).
+  ##
+  ## It is legal to call this function with a nil transfer. In this case, the
+  ## function will simply return safely.
+  ##
+  ## It is not legal to free an active transfer (one which has been submitted
+  ## and has not yet completed).
+  ##
+  ## ``transfer`` - The transfer to free.
+
+
+proc libusb_transfer_set_stream_id*(transfer: ptr libusb_transfer;
+  stream_id: uint32)
+  ## Set a transfers bulk stream id.
+  ##
+  ## Note users are advised to use `libusb_fill_bulk_stream_transfer()` instead
+  ## of calling this function directly.
+  ##
+  ## ``transfer`` - The transfer to set the stream id for.
+  ## ``stream_id`` - The stream id to set.
+
+
+proc libusb_transfer_get_stream_id*(transfer: ptr libusb_transfer): uint32
+  ## Get a transfers bulk stream id.
+  ##
+  ## ``transfer`` - The transfer to get the stream id for.
+  ## Returns the stream id for the transfer.
+
+
+proc libusb_fill_control_transfer*(transfer: ptr libusb_transfer;
+  dev_handle: ptr libusb_device_handle; buffer: ptr cuchar;
+  callback: libusb_transfer_cb_fn; user_data: pointer; timeout: cuint)
+  {.inline.} =
+  ## Helper function to populate the required `libusb_transfer` fields for a
+  ## control transfer.
+  ##
+  ## If you pass a transfer buffer to this function, the first 8 bytes will be
+  ## interpreted as a control setup packet, and the wLength field will be used to
+  ## automatically populate the `length` field of the transfer. Therefore the
+  ## recommended approach is:
+  ## - Allocate a suitably sized data buffer (including space for control setup)
+  ## - Call `libusb_fill_control_setup()`
+  ## - If this is a host-to-device transfer with a data stage, put the data
+  ##   in place after the setup packet
+  ## - Call this function
+  ## - Call `libusb_submit_transfer()`
+  ##
+  ## It is also legal to pass a NULL buffer to this function, in which case this
+  ## function will not attempt to populate the length field. Remember that you
+  ## must then populate the buffer and length fields later.
+  ##
+  ## ``transfer`` - The transfer to populate.
+  ## ``dev_handle`` - Handle of the device that will handle the transfer.
+  ## ``buffer`` - Data buffer. If provided, this function will interpret the first
+  ##      8 bytes as a setup packet and infer the transfer length from that. This
+  ##      pointer must be aligned to at least 2 bytes boundary.
+  ## ``callback`` - Callback function to be invoked on transfer completion.
+  ## ``user_data`` - User data to pass to callback function.
+  ## ``timeout` - Timeout for the transfer in milliseconds.
+  var setup: ptr libusb_control_setup = cast[ptr libusb_control_setup](cast[pointer](buffer))
+  transfer.dev_handle = dev_handle
+  transfer.endpoint = 0
+  transfer.`type` = LIBUSB_TRANSFER_TYPE_CONTROL
+  transfer.timeout = timeout
+  transfer.buffer = buffer
+  if setup:
+    transfer.length = (int)(LIBUSB_CONTROL_SETUP_SIZE + libusb_le16_to_cpu(setup.wLength))
+  transfer.user_data = user_data
+  transfer.callback = callback
+
+
+proc libusb_fill_bulk_transfer*(transfer: ptr libusb_transfer;
+  dev_handle: ptr libusb_device_handle; endpoint: cuchar; buffer: ptr cuchar;
+  length: cint; callback: libusb_transfer_cb_fn; user_data: pointer;
+  timeout: cuint) {.inline.} =
+  ## Helper function to populate the required `libusb_transfer` fields for a
+  ## bulk transfer.
+  #
+  ## ``transfer`` - The transfer to populate.
+  ## ``dev_handle`` - Handle of the device that will handle the transfer.
+  ## ``endpoint`` - Address of the endpoint where this transfer will be sent.
+  ## ``buffer`` - Data buffer.
+  ## ``length`` - Length of data buffer.
+  ## ``callback`` - Callback function to be invoked on transfer completion.
+  ## ``user_data`` - User data to pass to callback function.
+  ## ``timeout`` - Timeout for the transfer in milliseconds.
+  transfer.endpoint = endpoint
+  transfer.`type` = LIBUSB_TRANSFER_TYPE_BULK
+  transfer.timeout = timeout
+  transfer.buffer = buffer
+  transfer.length = length
+  transfer.user_data = user_data
+  transfer.callback = callback
+
+
+proc libusb_fill_bulk_stream_transfer*(transfer: ptr libusb_transfer;
+  dev_handle: ptr libusb_device_handle; endpoint: cuchar; stream_id: uint32;
+  buffer: ptr cuchar; length: cint; callback: libusb_transfer_cb_fn;
+  user_data: pointer; timeout: cuint) {.inline.} =
+  ## Helper function to populate the required `libusb_transfer` fields for a
+  ## bulk transfer using bulk streams.
+  ##
+  ## ``transfer`` - The transfer to populate.
+  ## ``dev_handle`` - Handle of the device that will handle the transfer.
+  ## ``endpoint address`` - Of the endpoint where this transfer will be sent.
+  ## ``stream_id`` - Bulk stream id for this transfer.
+  ## ``buffer`` - Data buffer.
+  ## ``length`` - Length of data buffer.
+  ## ``callback`` - Callback function to be invoked on transfer completion.
+  ## ``user_data`` - User data to pass to callback function.
+  ## ``timeout`` - Timeout for the transfer in milliseconds.
+  libusb_fill_bulk_transfer(transfer, dev_handle, endpoint, buffer, length, 
+                            callback, user_data, timeout)
+  transfer.`type` = LIBUSB_TRANSFER_TYPE_BULK_STREAM
+  libusb_transfer_set_stream_id(transfer, stream_id)
+
+
+proc libusb_fill_interrupt_transfer*(transfer: ptr libusb_transfer; 
+  dev_handle: ptr libusb_device_handle; endpoint: cuchar; buffer: ptr cuchar;
+  length: cint; callback: libusb_transfer_cb_fn; user_data: pointer;
+  timeout: cuint) {.inline.} =
+  ## Helper function to populate the required `libusb_transfer` fields for an
+  ## interrupt transfer.
+  ##
+  ## ``transfer`` - The transfer to populate.
+  ## ``dev_handle`` - Handle of the device that will handle the transfer.
+  ## ``endpoint`` - Address of the endpoint where this transfer will be sent.
+  ## ``buffer`` - Data buffer.
+  ## ``length`` - Length of data buffer.
+  ## ``callback`` - Callback function to be invoked on transfer completion.
+  ## ``user_data`` - User data to pass to callback function.
+  ## ``timeout`` - Timeout for the transfer in milliseconds.
+  transfer.dev_handle = dev_handle
+  transfer.endpoint = endpoint
+  transfer.`type` = LIBUSB_TRANSFER_TYPE_INTERRUPT
+  transfer.timeout = timeout
+  transfer.buffer = buffer
+  transfer.length = length
+  transfer.user_data = user_data
+  transfer.callback = callback
+
+
+proc libusb_fill_iso_transfer*(transfer: ptr libusb_transfer;
+  dev_handle: ptr libusb_device_handle; endpoint: cuchar; buffer: ptr cuchar;
+  length: cint; num_iso_packets: cint; callback: libusb_transfer_cb_fn;
+  user_data: pointer; timeout: cuint) {.inline.} =
+  ## Helper function to populate the required `libusb_transfer` fields for an
+  ## isochronous transfer.
+  ##
+  ## ``transfer`` - The transfer to populate.
+  ## ``dev_handle`` - Handle of the device that will handle the transfer.
+  ## ``endpoint`` - Address of the endpoint where this transfer will be sent.
+  ## ``buffer`` - Data buffer.
+  ## ``length`` - Length of data buffer.
+  ## ``num_iso_packets`` - The number of isochronous packets.
+  ## ``callback`` - Callback function to be invoked on transfer completion.
+  ## ``user_data`` - User data to pass to callback function.
+  ## ``timeout`` - Timeout for the transfer in milliseconds.
+  transfer.dev_handle = dev_handle
+  transfer.endpoint = endpoint
+  transfer.`type` = LIBUSB_TRANSFER_TYPE_ISOCHRONOUS
+  transfer.timeout = timeout
+  transfer.buffer = buffer
+  transfer.length = length
+  transfer.num_iso_packets = num_iso_packets
+  transfer.user_data = user_data
+  transfer.callback = callback
+
+
+proc libusb_set_iso_packet_lengths*(transfer: ptr libusb_transfer;
+  length: cuint) {.inline.} =
+  ## Convenience function to set the length of all packets in an isochronous
+  ## transfer, based on the num_iso_packets field in the transfer structure.
+  ##
+  ## ``transfer`` - A transfer.
+  ## ``length`` - The length to set in each isochronous packet descriptor (see
+  ##      `libusb_get_max_packet_size()`.
+  var i: cint
+  i = 0
+  while i < transfer.num_iso_packets:
+    transfer.iso_packet_desc[i].length = length
+    inc(i)
+
+
+proc libusb_get_iso_packet_buffer*(transfer: ptr libusb_transfer;
+  packet: cuint): ptr cuchar {.inline.} =
+  ## Convenience function to locate the position of an isochronous packet within
+  ## the buffer of an isochronous transfer.
+  ##
+  ## This is a thorough function which loops through all preceding packets,
+  ## accumulating their lengths to find the position of the specified packet.
+  ## Typically you will assign equal lengths to each packet in the transfer,
+  ## and hence the above method is sub-optimal. You may wish to use
+  ## `libusb_get_iso_packet_buffer_simple()` instead.
+  ##
+  ## ``transfer`` - A transfer.
+  ## ``packet`` - The packet to return the address of.
+  ##
+  ## Returns the base address of the packet buffer inside the transfer buffer,
+  ## or NULL if the packet does not exist
+  ## (see `libusb_get_iso_packet_buffer_simple()`).
+  var i: cint
+  var offset: csize = 0
+  var _packet: cint
+  # oops..slight bug in the API. packet is an unsigned int, but we use
+  #   signed integers almost everywhere else. range-check and convert to
+  #   signed to avoid compiler warnings. FIXME for libusb-2. 
+  if packet > INT_MAX: return nil
+  _packet = cast[cint](packet)
+  if _packet >= transfer.num_iso_packets: return nil
+  i = 0
+  while i < _packet:
+    inc(offset, transfer.iso_packet_desc[i].length)
+    inc(i)
+  return transfer.buffer + offset
+
+
+proc libusb_get_iso_packet_buffer_simple*(transfer: ptr libusb_transfer;
+    packet: cuint): ptr cuchar {.inline.} =
+  ## Convenience function to locate the position of an isochronous packet
+  ## within the buffer of an isochronous transfer, for transfers where each
+  ## packet is of identical size.
+  ##
+  ## This function relies on the assumption that every packet within the
+  ## transfer is of identical size to the first packet. Calculating the location
+  ## of the packet buffer is then just a simple calculation:
+  ##    <tt>buffer + (packet_size * packet)</tt>
+  ##
+  ## Do not use this function on transfers other than those that have identical
+  ## packet lengths for each packet.
+  ##
+  ## ``transfer`` - A transfer.
+  ## ``packet`` - The packet to return the address of.
+  ##
+  ## Returns the base address of the packet buffer inside the transfer buffer,
+  ## or nil if the packet does not exist (see `libusb_get_iso_packet_buffer()`).
+  var _packet: cint
+  # oops..slight bug in the API. packet is an unsigned int, but we use
+  #   signed integers almost everywhere else. range-check and convert to
+  #   signed to avoid compiler warnings. FIXME for libusb-2.
+  if packet > INT_MAX:
+    return nil
+  _packet = cast[cint](packet)
+  if _packet >= transfer.num_iso_packets:
+    return nil
+  return transfer.buffer + (cast[cint](transfer.iso_packet_desc[0].length * _packet))
+
+
+# Sync I/O #####################################################################
+
+proc libusb_control_transfer*(dev_handle: ptr libusb_device_handle;
+  request_type: uint8; bRequest: uint8; wValue: uint16; wIndex: uint16;
+  data: ptr cuchar; wLength: uint16; timeout: cuint): cint
+  ## Perform a USB control transfer.
+  ##
+  ## The direction of the transfer is inferred from the bmRequestType field of
+  ## the setup packet. The wValue, wIndex and wLength fields values should be
+  ## given in host-endian byte order.
+  ##
+  ## ``dev_handle`` - A handle for the device to communicate with.
+  ## ``bmRequestType`` - The request type field for the setup packet.
+  ## ``bRequest`` - The request field for the setup packet.
+  ## ``wValue`` - The value field for the setup packet.
+  ## ``wIndex`` - The index field for the setup packet.
+  ## ``data`` - A suitably-sized data buffer for either input or output
+  ##    (depending on direction bits within bmRequestType).
+  ## ``wLength`` - The length field for the setup packet. The data buffer should
+  ##    be at least this size.
+  ## ``timeout`` - Timeout (in millseconds) that this function should wait
+  ##    before giving up due to no response being received. For an unlimited
+  ##    timeout, use value 0.
+  ##
+  ## Returns
+  ##    on success, the number of bytes actually transferred,
+  ##    `LIBUSB_ERROR_TIMEOUT` if the transfer timed out,
+  ##    `LIBUSB_ERROR_PIPE` if the control request was not supported by the device,
+  ##    `LIBUSB_ERROR_NO_DEVICE` if the device has been disconnected,
+  ##    another LIBUSB_ERROR code on other failures.
+
+
+proc libusb_bulk_transfer*(dev_handle: ptr libusb_device_handle;
+  endpoint: cuchar; data: ptr cuchar; length: cint; actual_length: ptr cint;
+  timeout: cuint): cint
+  ## Perform a USB bulk transfer.
+  ##
+  ## The direction of the transfer is inferred from the direction bits of the
+  ## endpoint address. For bulk reads, the length field indicates the maximum
+  ## length of data you are expecting to receive. If less data arrives than
+  ## expected, this function will return that data, so be sure to check the
+  ## transferred output parameter.
+  ##
+  ## You should also check the transferred parameter for bulk writes. Not all of
+  ## the data may have been written. Also check transferred when dealing with a
+  ## timeout error code. libusb may have to split your transfer into a number of
+  ## chunks to satisfy underlying O/S requirements, meaning that the timeout may
+  ## expire after the first few chunks have completed. libusb is careful not to
+  ## lose any data that may have been transferred; do not assume that timeout
+  ## conditions indicate a complete lack of I/O.
+  ##
+  ## ``dev_handle`` - A handle for the device to communicate with.
+  ## ``endpoint`` - The address of a valid endpoint to communicate with.
+  ## ``data`` - A suitably-sized data buffer for either input or output
+  ##            (depending on endpoint).
+  ## ``length`` - For bulk writes, the number of bytes from data to be sent.
+  ##            For bulk reads, the maximum number of bytes to receive into the
+  ##            data buffer.
+  ## ``transferred`` - Output location for the number of bytes actually transferred.
+  ## ``timeout`` - Timeout (in millseconds) that this function should wait
+  ##            before giving up due to no response being received. For an
+  ##            unlimited timeout, use value 0.
+  ##
+  ## Returns
+  ##    0 on success (and populates transferred),
+  ##    `LIBUSB_ERROR_TIMEOUT` if the transfer timed out (and populates
+  ##            transferred),
+  ##    `LIBUSB_ERROR_PIPE` if the endpoint halted,
+  ##    `LIBUSB_ERROR_OVERFLOW` if the device offered more data, see Packets and
+  ##            overflows,
+  ##    `LIBUSB_ERROR_NO_DEVICE` if the device has been disconnected another
+  ##            `LIBUSB_ERROR` code on other failures.
+
+
+proc libusb_interrupt_transfer*(dev_handle: ptr libusb_device_handle;
+  endpoint: cuchar; data: ptr cuchar; length: cint; actual_length: ptr cint;
+  timeout: cuint): cint
+  ## Perform a USB interrupt transfer.
+  ##
+  ## The direction of the transfer is inferred from the direction bits of the
+  ## endpoint address. For interrupt reads, the length field indicates the
+  ## maximum length of data you are expecting to receive. If less data arrives
+  ## than expected, this function will return that data, so be sure to check the
+  ## transferred output parameter.
+  ##
+  ## You should also check the transferred parameter for interrupt writes.
+  ## Not all of the data may have been written. Also check transferred when
+  ## dealing with a timeout error code. libusb may have to split your transfer
+  ## into a number of chunks to satisfy underlying O/S requirements, meaning
+  ## that the timeout may expire after the first few chunks have completed.
+  ## libusb is careful not to lose any data that may have been transferred;
+  ## do not assume that timeout conditions indicate a complete lack of I/O.
+
+The default endpoint bInterval value is used as the polling interval.
+
+Parameters
+    dev_handle  a handle for the device to communicate with
+    endpoint    the address of a valid endpoint to communicate with
+    data        a suitably-sized data buffer for either input or output (depending on endpoint)
+    length      for bulk writes, the number of bytes from data to be sent. for bulk reads, the maximum number of bytes to receive into the data buffer.
+    transferred output location for the number of bytes actually transferred.
+    timeout     timeout (in millseconds) that this function should wait before giving up due to no response being received. For an unlimited timeout, use value 0.
+
+Returns
+    0 on success (and populates transferred) 
+    LIBUSB_ERROR_TIMEOUT if the transfer timed out 
+    LIBUSB_ERROR_PIPE if the endpoint halted 
+    LIBUSB_ERROR_OVERFLOW if the device offered more data, see Packets and overflows 
+    LIBUSB_ERROR_NO_DEVICE if the device has been disconnected 
+    another LIBUSB_ERROR code on other error 
 
 
 
 
+proc libusb_get_descriptor*(dev: ptr libusb_device_handle; desc_type: uint8;
+  desc_index: uint8_t; data: ptr cuchar;
+  length: cint): cint {.inline.} =
+  ## Retrieve a descriptor from the default control pipe. This is a convenience
+  ## function which formulates the appropriate control message to retrieve the
+  ## descriptor.
+  ##
+  ## ``dev`` - A device handle.
+  ## ``desc_type`` - The descriptor type, see `libusb_descriptor_type`.
+  ## ``desc_index`` - The index of the descriptor to retrieve.
+  ## ``data output`` - Buffer for descriptor.
+  ## ``length`` - Size of data buffer.
+  ##
+  ##  Returns number of bytes returned in data, or LIBUSB_ERROR code on failure.
+  return libusb_control_transfer(dev, LIBUSB_ENDPOINT_IN,
+    LIBUSB_REQUEST_GET_DESCRIPTOR, (uint16_t)((desc_type shl 8) or desc_index),
+    0, data, cast[uint16_t](length), 1000)
+
+#* \ingroup desc
+#  Retrieve a descriptor from a device.
+#  This is a convenience function which formulates the appropriate control
+#  message to retrieve the descriptor. The string returned is Unicode, as
+#  detailed in the USB specifications.
+# 
+#  ``dev`` - A device handle.
+#  ``desc_index`` - The index of the descriptor to retrieve.
+#  ``langid`` - The language ID for the string descriptor.
+#  ``data`` - Output buffer for descriptor.
+#  ``length`` - Size of data buffer.
+##
+#  Returns number of bytes returned in data, or LIBUSB_ERROR code on failure
+#  \see libusb_get_string_descriptor_ascii()
+# 
+proc libusb_get_string_descriptor*(dev: ptr libusb_device_handle; 
+                                    desc_index: uint8_t; langid: uint16_t; 
+                                    data: ptr cuchar; length: cint): cint {.
+    inline.} = 
+  return libusb_control_transfer(dev, LIBUSB_ENDPOINT_IN, 
+                                  LIBUSB_REQUEST_GET_DESCRIPTOR, (uint16_t)(
+      (LIBUSB_DT_STRING shl 8) or desc_index), langid, data, 
+                                  cast[uint16_t](length), 1000)
+
+proc libusb_get_string_descriptor_ascii*(dev: ptr libusb_device_handle; 
+    desc_index: uint8_t; data: ptr cuchar; length: cint): cint
+# polling and timeouts 
+proc libusb_try_lock_events*(ctx: ptr libusb_context): cint
+proc libusb_lock_events*(ctx: ptr libusb_context)
+proc libusb_unlock_events*(ctx: ptr libusb_context)
+proc libusb_event_handling_ok*(ctx: ptr libusb_context): cint
+proc libusb_event_handler_active*(ctx: ptr libusb_context): cint
+proc libusb_lock_event_waiters*(ctx: ptr libusb_context)
+proc libusb_unlock_event_waiters*(ctx: ptr libusb_context)
+proc libusb_wait_for_event*(ctx: ptr libusb_context; tv: ptr timeval): cint
+proc libusb_handle_events_timeout*(ctx: ptr libusb_context; tv: ptr timeval): cint
+proc libusb_handle_events_timeout_completed*(ctx: ptr libusb_context; 
+    tv: ptr timeval; completed: ptr cint): cint
+proc libusb_handle_events*(ctx: ptr libusb_context): cint
+proc libusb_handle_events_completed*(ctx: ptr libusb_context; 
+                                      completed: ptr cint): cint
+proc libusb_handle_events_locked*(ctx: ptr libusb_context; tv: ptr timeval): cint
+proc libusb_pollfds_handle_timeouts*(ctx: ptr libusb_context): cint
+proc libusb_get_next_timeout*(ctx: ptr libusb_context; tv: ptr timeval): cint
 
 
+type 
+  libusb_pollfd* = object
+    ## File descriptor for polling.
+    fd*: cint ## Numeric file descriptor 
+    events*: cshort ## Event flags to poll for from <poll.h>. POLLIN indicates
+    ## that you should monitor this file descriptor for becoming ready to read
+    ## from, and POLLOUT indicates that you should monitor this file descriptor
+    ## for nonblocking write readiness. 
 
 
+type 
+  libusb_pollfd_added_cb* = proc (fd: cint; events: cshort; user_data: pointer)
+  ## Callback function, invoked when a new file descriptor should be added to
+  ## the set of file descriptors monitored for events.
+  ##
+  ## ``fd`` - The new file descriptor.
+  ## ``events`` - Events to monitor for, see `libusb_pollfd` for a description.
+  ## ``user_data`` - User data pointer specified in the
+  ##    libusb_set_pollfd_notifiers() call.
 
 
+type 
+  libusb_pollfd_removed_cb* = proc (fd: cint; user_data: pointer)
+  ##  Callback function, invoked when a file descriptor should be removed from
+  ##  the set of file descriptors being monitored for events. After returning
+  ##  from this callback, do not use that file descriptor again.
+  ##
+  ##  ``fd`` - The file descriptor to stop monitoring.
+  ##  ``user_data`` - User data pointer specified in thei
+  ##    `libusb_set_pollfd_notifiers()` call.
 
 
+proc libusb_get_pollfds*(ctx: ptr libusb_context): ptr ptr libusb_pollfd
+  ## Retrieve a list of file descriptors that should be polled by your main loop
+  ## as libusb event sources. The returned list is NULL-terminated and should be
+  ## freed with free() when done. The actual list contents must not be touched.
+  ##
+  ## As file descriptors are a Unix-specific concept, this function is not
+  ## available on Windows and will always return nil.
+  ##
+  ## ``ctx`` - The context to operate on, or NULL for the default context.
+  ##
+  ## Returns
+  ##    a NULL-terminated list of libusb_pollfd structures,
+  ##    nil on error,
+  ##    nil on platforms where the functionality is not available.
 
 
+proc libusb_set_pollfd_notifiers*(ctx: ptr libusb_context;
+  added_cb: libusb_pollfd_added_cb; removed_cb: libusb_pollfd_removed_cb;
+  user_data: pointer)
+  ## Register notification functions for file descriptor additions/removals.
+  ##
+  ## These functions will be invoked for every new or removed file descriptor
+  ## that libusb uses as an event source. To remove notifiers, pass nil values
+  ## for the function pointers.
+  ##
+  ## Note that file descriptors may have been added even before you register
+  ## these notifiers (e.g. at `libusb_init()` time). Additionally, note that the
+  ## removal notifier may be called during `libusb_exit()` (e.g. when it is
+  ## closing file descriptors that were opened and added to the poll set at
+  ## `libusb_init()` time). If you don't want this, remove the notifiers
+  ## immediately before calling libusb_exit().
+  ##
+  ## ``ctx`` - The context to operate on, or NULL for the default context.
+  ## ``added_cb`` - Pointer to function for addition notifications.
+  ## ``removed_cb`` - Pointer to function for removal notifications.
+  ## ``user_data`` - User data to be passed back to callbacks (useful for
+  ##    passing context information).
 
 
+type 
+  libusb_hotplug_callback_handle* = cint
+  ## Callback handle.
+  ##
+  ## Callbacks handles are generated by libusb_hotplug_register_callback() and
+  ## can be used to deregister callbacks. Callback handles are unique per
+  ## `libusb_context` and it is safe to call
+  ## `libusb_hotplug_deregister_callback()` on an already deregisted callback.
 
 
+type
+  libusb_hotplug_flag* {.size: sizeof(cint).} = enum ## \
+    ## Enumerates flags for hotplug events.
+    LIBUSB_HOTPLUG_NO_FLAGS = 0, ## Default value when not using any flags.
+    LIBUSB_HOTPLUG_ENUMERATE = 1 shl 0 ## Arm the callback and fire it for all
+      ## matching currently attached devices.
 
 
+type
+  libusb_hotplug_event* {.size: sizeof(cint).} = enum ## \
+    ## Enumerates hot plug events.
+    LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED = 0x00000001, ## A device has been
+      ## plugged in and is ready to use.
+    LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT = 0x00000002 ## A device has left and is no
+      ## longer available. It is the user's responsibility to call `libusb_close`
+      ## on any handle associated with a disconnected device. It is safe to call
+      ## `libusb_get_device_descriptor` on a device that has left.
 
 
+const 
+  LIBUSB_HOTPLUG_MATCH_ANY* = - 1 ## Wildcard matching for hotplug events.
 
 
+type 
+  libusb_hotplug_callback_fn* = proc (ctx: ptr libusb_context;
+    device: ptr libusb_device; event: libusb_hotplug_event; user_data: pointer): cint
+  ## Hotplug callback function type. When requesting hotplug event notifications,
+  ## you pass a pointer to a callback function of this type.
+  ##
+  ## This callback may be called by an internal event thread and as such it is
+  ## recommended the callback do minimal processing before returning. libusb
+  ## will call this function later, when a matching event had happened on a
+  ## matching device.
+  ##
+  ## It is safe to call either libusb_hotplug_register_callback() or
+  ## libusb_hotplug_deregister_callback() from within a callback function.
+  ##
+  ## ``ctx`` - Context of this notification.
+  ## ``device`` - The `libusb_device` this event occurred on.
+  ## ``event`` - Event that occurred.
+  ## ``user_data`` - User data provided when this callback was registered.
+  ##
+  ## Returns bool whether this callback is finished processing events;
+  ## returning 1 will cause this callback to be deregistered.
 
 
+proc libusb_hotplug_register_callback*(ctx: ptr libusb_context; 
+    events: libusb_hotplug_event; flags: libusb_hotplug_flag; vendor_id: cint; 
+    product_id: cint; dev_class: cint; cb_fn: libusb_hotplug_callback_fn; 
+    user_data: pointer; handle: ptr libusb_hotplug_callback_handle): cint
+  ## Register a hotplug callback function.
+  ##
+  ## Register a callback with the libusb_context. The callback will fire when a
+  ## matching event occurs on a matching device. The callback is armed until
+  ## either it is deregistered with `libusb_hotplug_deregister_callback()` or
+  ## the supplied callback returns 1 to indicate it is finished processing events.
+  ##
+  ## If the `LIBUSB_HOTPLUG_ENUMERATE` is passed the callback will be called
+  ## with `LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED` for all devices already plugged
+  ## into the machine. Note that libusb modifies its internal device list from a
+  ## separate thread, while calling hotplug callbacks from `libusb_handle_events()`,
+  ## so it is possible for a device to already be present on, or removed from,
+  ## its internal device list, while the hotplug callbacks still need to be
+  ## dispatched. This means that when using `LIBUSB_HOTPLUG_ENUMERATE`, your
+  ## callback may be called twice for the arrival of the same device, once from
+  ## `libusb_hotplug_register_callback()` and once from `libusb_handle_events()`;
+  ## and/or your callback may be called for the removal of a device for which an
+  ## arrived call was never made.
+  ##
+  ## ``ctx`` - Context to register this callback with.
+  ## ``events`` - Bitwise or of events that will trigger this callback (see
+  ##              `libusb_hotplug_event`)
+  ## ``flags`` - Hotplug callback flags (see `libusb_hotplug_flag`).
+  ## ``vendor_id`` - The vendor id to match or `LIBUSB_HOTPLUG_MATCH_ANY`.
+  ## ``product_id`` - The product id to match or `LIBUSB_HOTPLUG_MATCH_ANY`.
+  ## ``dev_class`` - The device class to match or `LIBUSB_HOTPLUG_MATCH_ANY`.
+  ## ``cb_fn`` - The function to be invoked on a matching event/device.
+  ## ``user_data`` - User data to pass to the callback function.
+  ## ``handle`` - Pointer to store the handle of the allocated callback
+  ##      (can be nil).
+  ##
+  ## Returns `LIBUSB_SUCCESS` on success `LIBUSB_ERROR` code on failure.
 
 
-
-
-
-
-
-
-
+proc libusb_hotplug_deregister_callback*(ctx: ptr libusb_context;
+  handle: libusb_hotplug_callback_handle)
+  ## Deregisters a hotplug callback.
+  ##
+  ## Deregister a callback from a libusb_context. This function is safe to call
+  ## from within a hotplug callback.
+  ##
+  ## ``ctx`` - Context this callback is registered with.
+  ## ``handle`` - The handle of the callback to deregister.
