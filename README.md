@@ -14,16 +14,19 @@ USB protocol.
 
 ## Supported Platforms
 
-io-usb is still under development and does not work yet. So far, the
+io-usb is still under development and may not fully work yet. So far, the
 following platforms have been built and tested:
 
 - ~~Android~~
 - ~~FreeBSD~~
 - ~~iOS~~
-- ~~Linux~~
+- Linux
 - ~~Mac OSX~~
 - ~~OpenBSD~~
 - ~~Windows~~
+
+All APIs marked as deprecated or intended solely for backwards compatibility
+have been ommitted from these bindings.
 
 
 ## Prerequisites

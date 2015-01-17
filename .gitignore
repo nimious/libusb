@@ -1,7 +1,8 @@
 nimcache
+obsolete
 .directory
 *.dll
 *.exe
 .kate*
-examples/ovr_details_example
-examples/ovr_logger_example
+examples/list_devices_example
+examples/hotplug_example
