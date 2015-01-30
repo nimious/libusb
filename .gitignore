@@ -3,6 +3,6 @@ obsolete
 .directory
 *.dll
 *.exe
-.kate*
+*.sublime*
 examples/list_devices_example
 examples/hotplug_example
