@@ -7,9 +7,7 @@
 
 {.deadCodeElim: on.}
 
-import
-  endians,
-  unsigned
+import endians, unsigned
 
 
 when defined(linux):
@@ -19,11 +17,11 @@ elif defined(macos):
 elif defined(windows):
   const dllname = "libusb.dll"
 else:
-  {.error: "Platform does not support libspnav".}
+  {.error: "io-usb does not support this platform".}
 
 
 type
-  timeval* = object
+  libusbTimeval* = object
     ## Specifies a time interval.
     tvSec*: clong
     tvUsec*: clong
@@ -69,34 +67,34 @@ type
     storage = 8, ## Image class
     hub = 9, ## Hub class
     data = 10, ## Data class
-    smartCard = 0x0000000B, ## Smart Card
-    contentSecurity = 0x0000000D, ## Content Security
-    video = 0x0000000E, ## Video
-    healthcare = 0x0000000F, ## Personal Healthcare
-    device = 0x000000DC, ## Diagnostic Device
-    wireless = 0x000000E0, ## Wireless class
-    application = 0x000000FE, ## Application class
-    vendorSpec = 0x000000FF ## Class is vendor-specific
+    smartCard = 0x0B, ## Smart Card
+    contentSecurity = 0x0D, ## Content Security
+    video = 0x0E, ## Video
+    healthcare = 0x0F, ## Personal Healthcare
+    device = 0xDC, ## Diagnostic Device
+    wireless = 0xE0, ## Wireless class
+    application = 0xFE, ## Application class
+    vendorSpec = 0xFF ## Class is vendor-specific
 
   LibusbDescriptorType* {.pure.} = enum ## \
     ## Enumerates device descriptor types.
-    device = 0x00000001, ## Device descriptor
+    device = 0x01, ## Device descriptor
       ## (see `LibusbDeviceDescriptor <#LibusbDeviceDescriptor>`_)
-    config = 0x00000002, ## Configuration descriptor
+    config = 0x02, ## Configuration descriptor
       ## (see `LibusbConfigDescriptor <#LibusbConfigDescriptor>`_)
-    str = 0x00000003, ## String descriptor
-    interf = 0x00000004, ## Interface descriptor
+    str = 0x03, ## String descriptor
+    interf = 0x04, ## Interface descriptor
       ## (see `LibusbInterfaceDescriptor <#LibusbInterfaceDescriptor>`_)
-    endpoint = 0x00000005, ## Endpoint descriptor
+    endpoint = 0x05, ## Endpoint descriptor
       ## (see `LibusbEndpointDescriptor <#LibusbEndpointDescriptor>`_)
-    bos = 0x0000000F, ## BOS descriptor
-    deviceCapability = 0x00000010, ## Device capability descriptor
-    hid = 0x00000021, ## HID descriptor
-    report = 0x00000022, ## HID report descriptor
-    physical = 0x00000023, ## Physical descriptor
-    hub = 0x00000029, ## Hub descriptor
-    superspeedHub = 0x0000002A, ## SuperSpeed Hub descriptor
-    sSEndpointCompanion = 0x00000030 ## SuperSpeed Endpoint Companion descriptor
+    bos = 0x0F, ## BOS descriptor
+    deviceCapability = 0x10, ## Device capability descriptor
+    hid = 0x21, ## HID descriptor
+    report = 0x22, ## HID report descriptor
+    physical = 0x23, ## Physical descriptor
+    hub = 0x29, ## Hub descriptor
+    superspeedHub = 0x2A, ## SuperSpeed Hub descriptor
+    sSEndpointCompanion = 0x30 ## SuperSpeed Endpoint Companion descriptor
 
 
 const
@@ -129,15 +127,16 @@ const
 
 type
   LibusbEndpointDirection* {.pure.} = enum ## \
-    ## Enumerates available endpoint directions (bit 7 of the
+    ## Enumerates available endpoint directions (used in bit 7 of
     ## `LibusbEndpointDescriptor.endpointAddress <#LibusbEndpointDescriptor>`_
-    ## scheme)
+    ## and bit 7 of `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_)
     hostToDevice = 0x00000000, ## In: device-to-host
     deviceToHost = 0x00000080 ## Out: host-to-device
 
 
 const
-  libusbTransferTypeMask* = 0x00000003 ## Used in `bmAttributes` fields.
+  libusbTransferTypeMask* = 0x00000003 ## Used in
+    ## `LibusbEndpointDescriptor.bmAttributes <#LibusbEndpointDescriptor>`_
 
 
 type
@@ -175,7 +174,9 @@ type
 
 
   LibusbRequestType* {.pure.} = enum ## \
-    ## Enumerates standard requests, as defined in table 9-5 of the USB 3.0 spec.
+    ## Enumerates standard requests, as defined in table 9-5 of the USB 3.0
+    ## spec. Used in bits 5:6 of
+    ## `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_
     standard = (0x00000000 shl 5), ## Standard
     class = (0x00000001 shl 5), ## Class
     vendor = (0x00000002 shl 5), ## Vendor
@@ -221,18 +222,18 @@ type
     ## represented in host-endian format.
     length*: uint8 ## Size of this descriptor (in bytes)
     descriptorType*: uint8 ## Descriptor type
-      ## (`LibusbDescriptorType.device <#LibusbDescriptorType>`_).
+      ## (see `LibusbDescriptorType.device <#LibusbDescriptorType>`_).
     bcdUSB*: uint16 ## USB specification release number in binary-coded
       ## decimal. 0x0200 indicates USB 2.0, 0x0110 indicates USB 1.1, etc.
-    deviceClass*: uint8 ## USB-IF class code for the device.
-      ## See `LibusbClassCode <#LibusbClassCode>`_.
+    deviceClass*: uint8 ## USB-IF class code for the device
+      ## (see `LibusbClassCode <#LibusbClassCode>`_)
     deviceSubClass*: uint8 ## USB-IF subclass code for the device, qualified
       ## by the deviceClass value.
     deviceProtocol*: uint8 ## USB-IF protocol code for the device, qualified
       ## by the deviceClass and deviceSubClass values.
     maxPacketSize0*: uint8 ## Maximum packet size for endpoint 0
-    idVendor*: uint16 ## USB-IF vendor ID
-    idProduct*: uint16 ## USB-IF product ID
+    idVendor*: cint ## USB-IF vendor ID
+    idProduct*: cint ## USB-IF product ID
     bcdDevice*: uint16 ## Device release number in binary-coded decimal
     iManufacturer*: uint8 ## Index of string descriptor describing manufacturer
     iProduct*: uint8 ## Index of string descriptor describing product
@@ -419,7 +420,8 @@ type
   LibusbContainerIdDescriptor* = object
     ## A structure representing the Container ID descriptor. This descriptor is
     ## documented in section 9.6.2.3 of the USB 3.0 specification. All
-    ## multiple-byte fields, except UUIDs, are represented in host-endian format.
+    ## multiple-byte fields, except UUIDs, are represented in host-endian
+    ## format.
     length*: uint8 ## Size of this descriptor (in bytes).
     descriptorType*: uint8 ## Descriptor type
       ## (`LibusbDescriptorType.deviceCapability <#LibusbDescriptorType>`_).
@@ -435,9 +437,9 @@ type
       ## `LibusbRequestType`. Bit 7 determines data transfer direction, see
       ## `LibusbEndpointDirection <#LibusbEndpointDirection>`_.
     request*: uint8 ## Request. If the type bits of `bmRequestType` are equal
-      ## to `LIBUSB_REQUEST_TYPE_STANDARD` then this field refers to
-      ## `LibusbStandardRequest`. For other cases, use of this field is
-      ## application-specific.
+      ## to `LibusbRequestType.standard <#LibusbRequestType>`_ then this field
+      ## refers to `LibusbStandardRequest`. For other cases, use of this field
+      ## is application-specific.
     value*: uint16 ## Value. Varies according to request.
     index*: uint16 ## Index. Varies according to request, typically used to
       ## pass an index or offset
@@ -537,7 +539,7 @@ type
     ssUsbDeviceCapability = 3, ## SuperSpeed USB device capability.
     containerId = 4 ## Container ID type.
 
-  LibusbError* {.pure.} = enum ## \
+  LibusbError* {.pure, size: sizeof(cint).} = enum ## \
     ## Enumerates error codes.
     other = -99, ## Other error.
     notSupported = -12, ## Operation not supported or unimplemented on this \
@@ -605,7 +607,8 @@ type
       ##
       ## This flag is currently only supported on Linux. On other systems,
       ## `libusbSubmitTransfer <#libusbSubmitTransfer>`_ will return
-      ## `LibusbError.notSupported <#LibusbError>`_ for every transfer where this flag is set.
+      ## `LibusbError.notSupported <#LibusbError>`_ for every transfer where
+      ## this flag is set.
 
 
 type 
@@ -671,7 +674,7 @@ type
 
 
 type 
-  LibusbCapability* {.pure.} = enum ## \
+  LibusbCapability* {.pure, size: sizeof(uint32).} = enum ## \
     ## Enumerates capabilities supported by an instance of libusb on the current
     ## running platform. Test if the loaded library supports a given capability
     ## by calling `libusbHasCapability()`.
@@ -707,9 +710,9 @@ proc libusbInit*(ctx: ptr ptr LibusbContext): cint
   ##
   ## context
   ##   Optional output location for context pointer. Only valid on return code
-  ##   ``0``
+  ##   `LibusbError.success <#LibusbError>`_
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ code on failure
   ##
   ## This function must be called before calling any other libusb function.
@@ -766,7 +769,7 @@ proc libusbGetVersion*(): ptr LibusbVersion
   ##   An object containing the version number
 
 
-proc libusbHasCapability*(capability: uint32): cint
+proc libusbHasCapability*(capability: LibusbCapability): cint
   {.cdecl, dynlib: dllname, importc: "libusb_has_capability".}
   ## Checks at runtime if the loaded library has a given capability.
   ##
@@ -834,7 +837,7 @@ proc libusbSetLocale*(locale: cstring): cint
   ## after your app has done its locale setup.
 
 
-proc libusbStrError*(errcode: LibusbError): cstring
+proc libusbStrError*(errcode: cint): cstring
   {.cdecl, dynlib: dllname, importc: "libusb_strerror".}
   ## Get a constant string with a short description of the given error code.
   ##
@@ -921,9 +924,10 @@ proc libusbGetConfiguration*(dev: ptr LibusbDeviceHandle; config: ptr cint):
   ## config
   ##   Output location for the
   ##   `configurationValue <#LibusbConfigDescriptor>`_ of the active
-  ##   configuration (only valid for return code ``0``)
+  ##   configuration (only valid if ``LibusbError.success <#LibusbError>`_ was
+  ##   returned)
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
   ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes for other failures
@@ -948,7 +952,7 @@ proc libusbGetDeviceDescriptor*(dev: ptr LibusbDevice;
   ## desc
   ##   Output location for the descriptor data
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ code on failure
   ##
   ## This is a non-blocking function; the device descriptor is cached in memory.
@@ -965,11 +969,11 @@ proc libusbGetActiveConfigDescriptor*(dev: ptr LibusbDevice;
   ## dev
   ##   A device
   ## config
-  ##   Output location for the USB configuration descriptor. Only valid if ``0``
-  ##   was returned. Must be freed with
+  ##   Output location for the USB configuration descriptor. Only valid if
+  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with
   ##   `libusbFreeConfigDescriptor <#libusbFreeConfigDescriptor>`_ after use.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the device is in unconfigured
   ##     state
   ##   - `LibusbError <#LibusbError>`_ codes for other errors
@@ -988,11 +992,11 @@ proc libusbGetConfigDescriptor*(dev: ptr LibusbDevice;
   ## config_index
   ##   The index of the configuration you wish to retrieve
   ## config
-  ##   Output location for the USB configuration descriptor. Only valid if ``0``
-  ##   was returned. Must be freed with
+  ##   Output location for the USB configuration descriptor. Only valid if
+  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with
   ##   `libusbFreeConfigDescriptor <#libusbFreeConfigDescriptor>`_ after use.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the configuration does not
   ##     exist
   ##   - `LibusbError <#LibusbError>`_ codes for other errors
@@ -1012,11 +1016,11 @@ proc libusbGetConfigDescriptorByValue*(dev: ptr LibusbDevice;
   ##   The `configurationValue <#LibusbConfigDescriptor>`_ of the configuration
   ##   you wish to retrieve
   ## config
-  ##   Output location for the USB configuration descriptor. Only valid if ``0``
-  ##   was returned. Must be freed with
+  ##   Output location for the USB configuration descriptor. Only valid if
+  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with
   ##   `libusbFreeConfigDescriptor <#libusbFreeConfigDescriptor>`_ after use
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the configuration does not
   ##     exist
   ##   - `LibusbError <#LibusbError>`_ codes for other errors
@@ -1051,11 +1055,11 @@ proc libusbGetSsEndpointCompanionDescriptor*(ctx: ptr LibusbContext;
   ##   descriptor
   ## ep_comp
   ##   Output location for the superspeed endpoint companion descriptor. Only
-  ##   valid if ``0`` was returned. Must be freed with
-  ##   `libusbFreeSsEndpointCompanionDescriptor <#libusbFreeSsEndpointCompanionDescriptor>`_
-  ##   after use.
+  ##   valid if `LibusbError.success <#LibusbError>`_ was returned. Must be
+  ##   freed with after use with
+  ##   `libusbFreeSsEndpointCompanionDescriptor <#libusbFreeSsEndpointCompanionDescriptor>`_.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the configuration does not exist
   ##   - `LibusbError <#LibusbError>`_ codes for other errors
 
@@ -1081,11 +1085,12 @@ proc libusbGetBosDescriptor*(handle: ptr LibusbDeviceHandle;
   ## handle
   ##   The handle of an open libusb device
   ## bos
-  ##   Output location for the BOS descriptor. Only valid if ``0`` was returned.
+  ##   Output location for the BOS descriptor. Only valid if
+  ##   `LibusbError.success <#LibusbError>`_ was returned.
   ##   Must be freed with `libusbFreeBosDescriptor <#libusbFreeBosDescriptor>`_
   ##   after use.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the device doesn't have a BOS
   ##     descriptor
   ##   - `LibusbError <#LibusbError>`_ codes for other errors
@@ -1117,11 +1122,11 @@ proc libusbGetUsb20ExtensionDescriptor*(ctx: ptr LibusbContext;
   ##   ``libusb_capability_type.extension``
   ## usb20Extension
   ##   Output location for the USB 2.0 Extension descriptor. Only valid if
-  ##   ``0`` was returned. Must be freed with 
+  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with 
   ##   `libusbFreeUsb20ExtensionDescriptor <#libusbFreeUsb20ExtensionDescriptor>`_
   ##   after use.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ code on error
 
 
@@ -1150,12 +1155,13 @@ proc libusbGetSsUsbDeviceCapabilityDescriptor*(ctx: ptr LibusbContext;
   ##   Device Capability descriptor with a `devCapabilityType` of
   ##   `LibusbBosType.ssUsbDeviceCapability <#LibusbBosType>`_
   ## ssUsbDeviceCap
-  ##   Output location for the SuperSpeed USB Device Capability descriptor. Only
-  ##   valid if 0 was returned. Must be freed with
+  ##   Output location for the SuperSpeed USB Device Capability descriptor.
+  ##   Only valid if `LibusbError.success <#LibusbError>`_ was returned. Must be
+  ##   freed with
   ##   `libusbFreeSsUsbDeviceCapabilityDescriptor <#libusbFreeSsUsbDeviceCapabilityDescriptor>`_
   ##   after use.
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ code on error
 
 
@@ -1189,7 +1195,7 @@ proc libusbGetContainerIdDescriptor*(ctx: ptr LibusbContext;
   ##   `libusbFreeContainerIdDescriptor <#libusbFreeContainerIdDescriptor>`_
   ##   after use
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ code on error
 
 
@@ -1353,9 +1359,9 @@ proc libusbOpen*(dev: ptr LibusbDevice; handle: ptr ptr LibusbDeviceHandle):
   ##   The device to open
   ## handle
   ##   Output location for the returned device handle pointer. Only populated
-  ##   when the return code is ``0``
+  ##   when the return code is `LibusbError.success <#LibusbError>`_
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.noMemory <#LibusbError>`_ on memory allocation failure
   ##   - `LibusbError.access <#LibusbError>`_ if the user has insufficient
   ##     permissions
@@ -1408,9 +1414,10 @@ proc libusbSetConfiguration*(dev: ptr LibusbDeviceHandle;
   ## config
   ##   Output location for the
   ##   `configurationValue <#LibusbConfigDescriptor>`_ of the active
-  ##   configuration (only valid for return code ``0``).
+  ##   configuration (only valid if `LibusbError.success <#LibusbError>`_ is
+  ##   returned).
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
   ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
@@ -1435,7 +1442,7 @@ proc libusbClaimInterface*(dev: ptr LibusbDeviceHandle;
   ## interfaceNumber
   ##   The interface number of the interface you wish to claim
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the requested interface does
   ##     not exist
   ##   - `LibusbError.busy <#LibusbError>`_ if another program or driver has
@@ -1473,9 +1480,11 @@ proc libusbReleaseInterface*(dev: ptr LibusbDeviceHandle;
   ## interfaceNumber
   ##   The interface number of the previously-claimed interface
   ## result
-  ##   - ``0`` on success
-  ##   - `LibusbError.notFound <#LibusbError>`_ if the interface was not claimed
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
+  ##   - `LibusbError.success <#LibusbError>`_ on success
+  ##   - `LibusbError.notFound <#LibusbError>`_ if the interface was not
+  ##     claimed
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
   ## You should release all claimed interfaces before closing a device handle.
@@ -1489,7 +1498,7 @@ proc libusbReleaseInterface*(dev: ptr LibusbDeviceHandle;
 
 
 proc libusbOpenDeviceWithVidPid*(ctx: ptr LibusbContext;
-  vendorId: uint16; product_id: uint16): ptr LibusbDeviceHandle
+  vendorId: cshort; productId: cshort): ptr LibusbDeviceHandle
   {.cdecl, dynlib: dllname, importc: "libusb_open_device_with_vid_pid".}
   ## Convenience function for finding a device with a particular idVendor /
   ## idProduct combination.
@@ -1525,10 +1534,11 @@ proc libusbSetInterfaceAltSetting*(dev: ptr LibusbDeviceHandle;
   ## alternate_setting
   ##   The ``alternateSetting`` of the alternate setting to activate
   ## result
-  ##   - ``0`` on success
-  ##   - `LibusbError.notFound <#LibusbError>`_ if the interface was not claimed, or the
-  ##     requested alternate setting does not exist
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
+  ##   - `LibusbError.success <#LibusbError>`_ on success
+  ##   - `LibusbError.notFound <#LibusbError>`_ if the interface was not
+  ##     claimed, or the requested alternate setting does not exist
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
   ## The interface must have been previously claimed with
@@ -1549,7 +1559,7 @@ proc libusbClearHalt*(dev: ptr LibusbDeviceHandle; endpoint: cuchar): cint
   ## endpoint
   ##   The endpoint to clear halt status
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if the endpoint does not exist
   ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
   ##     disconnected
@@ -1569,7 +1579,7 @@ proc libusbResetDevice*(dev: ptr LibusbDeviceHandle): cint
   ## dev
   ##   A handle of the device to reset
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if re-enumeration is required,
   ##     or if the device has been disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
@@ -1643,9 +1653,10 @@ proc libusbKernelDriverActive*(dev: ptr LibusbDeviceHandle;
   ## result
   ##   - ``0`` if no kernel driver is active
   ##   - ``1`` if a kernel driver is active
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
-  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the functionality
-  ##     is not available
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
+  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the
+  ##     functionality is not available
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
   ## If a kernel driver is active, you cannot claim the interface, and libusb
@@ -1663,12 +1674,14 @@ proc libusbDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
   ## interface_number
   ##   The interface to detach the driver from
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if no kernel driver was active
-  ##   - `LibusbError.invalidParam <#LibusbError>`_ if the interface does not exist
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
-  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the functionality
-  ##     is not available,
+  ##   - `LibusbError.invalidParam <#LibusbError>`_ if the interface does not
+  ##     exist
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
+  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the
+  ##     functionality is not available,
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
   ## If successful, you will then be able to claim the interface and perform
@@ -1689,19 +1702,22 @@ proc libusbAttachIKernelDriver*(dev: ptr LibusbDeviceHandle;
   ## interface_number
   ##   The interface to attach the driver from
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError.notFound <#LibusbError>`_ if no kernel driver was active
-  ##   - `LibusbError.invalidParam <#LibusbError>`_ if the interface does not exist
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
-  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the functionality
-  ##     is not available
-  ##   - `LibusbError.busy <#LibusbError>`_ if the driver cannot be attached because the
+  ##   - `LibusbError.invalidParam <#LibusbError>`_ if the interface does not
+  ##     exist
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
+  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the
+  ##     functionality is not available
+  ##   - `LibusbError.busy <#LibusbError>`_ if the driver cannot be attached
+  ##     because the
   ##     interface is claimed by a program or driver
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
-  ## This call is only effective on Linux and returns `LibusbError.notSupported <#LibusbError>`_
-  ## on all other platforms. This functionality is not available on Darwin or
-  ## Windows.
+  ## This call is only effective on Linux and returns
+  ## `LibusbError.notSupported <#LibusbError>`_ on all other platforms. This
+  ## functionality is not available on Darwin or Windows.
 
 
 proc libusbSetAutoDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
@@ -1714,9 +1730,10 @@ proc libusbSetAutoDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
   ## interface. Automatic kernel driver detachment is disabled on newly opened
   ## device handles by default.
   ##
-  ## On platforms which do not have `LibusbCapability.supportsDetachKernelDriver <#LibusbCapability>`_
-  ## this function will return `LibusbError.notSupported <#LibusbError>`_, and libusb will
-  ## continue as if this function was never called.
+  ## On platforms which do not have
+  ## `LibusbCapability.supportsDetachKernelDriver <#LibusbCapability>`_ this
+  ## function will return `LibusbError.notSupported <#LibusbError>`_, and libusb
+  ## will continue as if this function was never called.
   ##
   ## dev
   ##   A device handle
@@ -1724,8 +1741,8 @@ proc libusbSetAutoDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
   ##   Whether to enable or disable auto kernel driver detachment
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
-  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the functionality
-  ##     is not available.
+  ##   - `LibusbError.notSupported <#LibusbError>`_ on platforms where the
+  ##     functionality is not available.
 
 
 # Async I/O ####################################################################
@@ -1830,10 +1847,13 @@ proc libusbSubmitTransfer*(transfer: ptr LibusbTransfer): cint
   ## transfer
   ##   The transfer to submit
   ## result
-  ##   - ``0`` on success,
-  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been disconnected
-  ##   - `LibusbError.busy <#LibusbError>`_ if the transfer has already been submitted
-  ##   - `LibusbError.notSupported <#LibusbError>`_ if the transfer flags are not supported
+  ##   - `LibusbError.success <#LibusbError>`_ on success,
+  ##   - `LibusbError.noDevice <#LibusbError>`_ if the device has been
+  ##     disconnected
+  ##   - `LibusbError.busy <#LibusbError>`_ if the transfer has already been
+  ##     submitted
+  ##   - `LibusbError.notSupported <#LibusbError>`_ if the transfer flags are
+  ##     not supported
   ##     by the operating system
   ##   - `LibusbError <#LibusbError>`_ codes for other failures
   ##
@@ -1852,9 +1872,10 @@ proc libusbCancelTransfer*(transfer: ptr LibusbTransfer): cint
   ##     complete or cancelled
   ##   - `LibusbError <#LibusbError>`_ codes for other failures
   ##
-  ## This function returns immediately, but this does not indicate cancellation
-  ## is complete. Your callback function will be invoked at some later time with
-  ## a transfer status of `LibusbTransferStatus.cancelled <#LibusbTransferStatus>`_.
+  ## This function returns immediately, but this does not indicate that
+  ## cancellation is complete. Your callback function will be invoked at some
+  ## later time with a transfer status of
+  ## `LibusbTransferStatus.cancelled <#LibusbTransferStatus>`_.
 
 
 proc libusbFreeTransfer*(transfer: ptr LibusbTransfer)
@@ -2232,7 +2253,8 @@ proc libusbBulkTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##   Timeout (in millseconds) that this function should wait before giving up
   ##   due to no response being received. For an unlimited timeout, use ``0``
   ## result
-  ##   - ``0`` on success (and populates transferred)
+  ##   - `LibusbError.success <#LibusbError>`_ on success (and populates
+  ##     transferred data)
   ##   - `LibusbError.timeout <#LibusbError>`_ if the transfer timed out (and
   ##     populates transferred)
   ##   - `LibusbError.pipe <#LibusbError>`_ if the endpoint halted
@@ -2279,7 +2301,8 @@ proc libusbInterruptTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##   Timeout (in millseconds) that this function should wait before giving up
   ##   due to no response being received. For an unlimited timeout, use ``0``
   ## result
-  ##   - ``0`` on success (and populates transferred)
+  ##   - `LibusbError.success <#LibusbError>`_ on success (and populates
+  ##     transferred data)
   ##   - `LibusbError.timeout <#LibusbError>`_ if the transfer timed out
   ##   - `LibusbError.pipe <#LibusbError>`_ if the endpoint halted
   ##   - `LibusbError.overflow <#LibusbError>`_ if the device offered more data,
@@ -2305,15 +2328,15 @@ proc libusbInterruptTransfer*(devHandle: ptr LibusbDeviceHandle;
   ## The default endpoint interval value is used as the polling interval.
 
 
-proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; desc_type: uint8;
-  desc_index: uint8; data: ptr cuchar; length: cint): cint {.inline.} =
+proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; descType: uint8;
+  descIndex: uint8; data: ptr cuchar; length: cint): cint {.inline.} =
   ## Retrieve a descriptor from the default control pipe.
   ##
   ## dev
   ##   A device handle
-  ## desc_type
+  ## descType
   ##   The descriptor type, see `LibusbDescriptorType <#LibusbDescriptorType>`_
-  ## desc_index
+  ## descIndex
   ##    The index of the descriptor to retrieve
   ## data
   ##   Output buffer for descriptor
@@ -2336,13 +2359,13 @@ proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; desc_type: uint8;
     1000)
 
 
-proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; desc_index: uint8;
+proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; descIndex: uint8;
   langid: uint16; data: ptr cuchar; length: cint): cint {.inline.} =
   ## Retrieve a descriptor from a device.
   ##
   ## dev
   ##   A device handle
-  ## desc_index
+  ## descIndex
   ##   The index of the descriptor to retrieve
   ## langid
   ##   The language ID for the string descriptor
@@ -2368,13 +2391,13 @@ proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; desc_index: uint8;
 
 
 proc libusbGetStringDescriptorAscii*(dev: ptr LibusbDeviceHandle;
-  desc_index: uint8; data: ptr cuchar; length: cint): cint
+  descIndex: uint8; data: ptr cuchar; length: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_string_descriptor_ascii".}
   ## Retrieve a string descriptor in C style ASCII.
   ##
   ## dev
   ##   A device handle
-  ## desc_index
+  ## descIndex
   ##   The index of the descriptor to retrieve
   ## data
   ##   Output buffer for ASCII string descriptor
@@ -2507,7 +2530,7 @@ proc libusbUnlockEventWaiters*(ctx: ptr LibusbContext)
   ##   The context to operate on, or ``nil`` for the default context
 
 
-proc libusbWaitForEvent*(ctx: ptr LibusbContext; tv: ptr timeval): cint
+proc libusbWaitForEvent*(ctx: ptr LibusbContext; tv: ptr libusbTimeval): cint
   {.cdecl, dynlib: dllname, importc: "libusb_wait_for_event".}
   ## Wait for another thread to signal completion of an event.
   ##
@@ -2540,13 +2563,13 @@ proc libusbWaitForEvent*(ctx: ptr LibusbContext; tv: ptr timeval): cint
 
 
 proc libusbHandleEvents*(ctx: ptr LibusbContext): cint
-  {.cdecl, deprecated, dynlib: dllname, importc: "libusb_handle_events".}
+  {.cdecl, dynlib: dllname, importc: "libusb_handle_events".}
   ## Handle any pending events in blocking mode.
   ##
   ## ctx
   ##   The context to operate on, or ``nil`` for the default context
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ codes on failure
   ##
   ## There is currently a timeout hardcoded at 60 seconds but we plan to make it
@@ -2562,27 +2585,27 @@ proc libusbHandleEvents*(ctx: ptr LibusbContext): cint
 
 
 proc libusbHandleEventsTimeoutCompleted*(ctx: ptr LibusbContext;
-  tv: ptr timeval; completed: ptr cint): cint
+  tv: ptr libusbTimeval; completed: ptr cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_handle_events_timeout_completed".}
   ## Handle any pending events.
   ##
   ## ctx
   ##   The context to operate on, or ``nil`` for the default context
   ## tv
-  ##   The maximum time to block waiting for events, or an all zero timeval
-  ##   struct for non-blocking mode
+  ##   The maximum time to block waiting for events, or an all zero
+  ##   `libusbTimeval <#libusbTimeval>`_ struct for non-blocking mode
   ## completed
   ##   Pointer to completion integer to check, or ``nil``
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ codes on failure
   ##
   ## libusb determines "pending events" by checking if any timeouts have expired
   ## and by checking the set of file descriptors for activity.
   ##
-  ## If a zero timeval is passed, this function will handle any already-pending
+  ## If a zero `tv` is passed, this function will handle any already-pending
   ## events and then immediately return in non-blocking style. If a non-zero
-  ## timeval is passed and no events are currently pending, this function will
+  ## `tv` is passed and no events are currently pending, this function will
   ## block waiting for events to handle up until the specified timeout.
   ##
   ## If an event arrives or a signal is raised, this function will return early.
@@ -2601,7 +2624,7 @@ proc libusbHandleEventsCompleted*(ctx: ptr LibusbContext; completed: ptr cint):
   ## completed
   ##   Pointer to completion integer to check, or nil
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ codec on failure
   ##
   ## Like `libusbHandleEvents <#libusbHandleEvents>`_, with the addition of
@@ -2611,8 +2634,8 @@ proc libusbHandleEventsCompleted*(ctx: ptr LibusbContext; completed: ptr cint):
   ## for details on the completed parameter.
 
 
-proc libusbHandleEventsLocked*(ctx: ptr LibusbContext; tv: ptr timeval): cint
-  {.cdecl, dynlib: dllname, importc: "libusb_handle_events_locked".}
+proc libusbHandleEventsLocked*(ctx: ptr LibusbContext; tv: ptr libusbTimeval):
+  cint {.cdecl, dynlib: dllname, importc: "libusb_handle_events_locked".}
   ## Handle any pending events by polling file descriptors, without checking if
   ## any other threads are already doing so.
   ##
@@ -2622,7 +2645,7 @@ proc libusbHandleEventsLocked*(ctx: ptr LibusbContext; tv: ptr timeval): cint
   ##   The maximum time to block waiting for events, or zero for non-blocking
   ##   mode
   ## result
-  ##   - ``0`` on success
+  ##   - `LibusbError.success <#LibusbError>`_ on success
   ##   - `LibusbError <#LibusbError>`_ codes on failure
   ##
   ## Must be called with the event lock held, see
@@ -2665,7 +2688,7 @@ proc libusbPollfdsHandleTimeouts*(ctx: ptr LibusbContext): cint
   ## running on such a platform.
 
 
-proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr timeval): cint
+proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr libusbTimeval): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_next_timeout".}
   ## Determine the next internal timeout that libusb needs to handle.
   ##
@@ -2692,7 +2715,7 @@ proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr timeval): cint
   ## When the timeout has expired, call into `libusb_handle_events_timeout()`
   ## (perhaps in non-blocking mode) so that libusb can handle the timeout.
   ##
-  ## This function may return ``1`` (success) and an all-zero timeval. If this
+  ## This function may return ``1`` (success) and an all-zero `tv`. If this
   ## is the case, it indicates that libusb has a timeout that has already
   ## expired so you should call libusb_handle_events_timeout() or similar
   ## immediately. A return code of ``0`` indicates that there are no pending
@@ -2758,16 +2781,16 @@ proc libusbGetPollfds*(ctx: ptr LibusbContext): ptr ptr LibusbPollfd
 
 
 proc libusbSetPollfdNotifiers*(ctx: ptr LibusbContext;
-  added_cb: LibusbPollfdAddedCb; removed_cb: LibusbPollfdRemovedCb;
+  addedCb: LibusbPollfdAddedCb; removedCb: LibusbPollfdRemovedCb;
   userData: pointer)
   {.cdecl, dynlib: dllname, importc: "libusb_set_pollfd_notifiers".}
   ## Register notification functions for file descriptor additions/removals.
   ##
   ## ctx
   ##   The context to operate on, or ``nil`` for the default context
-  ## added_cb
+  ## addedCb
   ##   Pointer to function for addition notifications
-  ## removed_cb
+  ## removedCb
   ##    Pointer to function for removal notifications
   ## userData
   ##    User data to be passed back to callbacks (useful for passing context
@@ -2806,16 +2829,15 @@ type
       ## matching currently attached devices.
 
 
-type
-  LibusbHotplugEvent* {.pure, size: sizeof(cint).} = enum ## \
-    ## Enumerates hot plug events.
-    deviceArrived = 0x00000001, ## A device has been plugged in and is ready to
-      ## use.
-    deviceLeft = 0x00000002 ## A device has left and is no longer available. It
-      ## is the user's responsibility to call `libusbClose <#libusbClose>`_ on
-      ## any handle associated with a disconnected device. It is safe to call
-      ## `libusbGetDeviceDescriptor <#libusbGetDeviceDescriptor>`_ on a device
-      ## that has left.
+const
+  libusbHotplugDeviceArrived* = 0x00000001 ## A device has been plugged in and
+    ## is ready to use.
+  libusbHotplugDeviceLeft* = 0x00000002 ## A device has left and is no longer
+    ## available. It is the user's responsibility to call
+    ## `libusbClose <#libusbClose>`_ on any handle associated with a
+    ## disconnected device. It is safe to call
+    ## `libusbGetDeviceDescriptor <#libusbGetDeviceDescriptor>`_ on a device
+    ## that has left.
 
 
 const
@@ -2824,7 +2846,7 @@ const
 
 type
   LibusbHotplugCallbackFn* = proc (ctx: ptr LibusbContext;
-    device: ptr LibusbDevice; event: LibusbHotplugEvent; userData: pointer): cint
+    device: ptr LibusbDevice; event: cint; userData: pointer): cint
     ## Hotplug callback function type. When requesting hotplug event
     ## notifications, you pass a pointer to a callback function of this type.
     ##
@@ -2851,30 +2873,30 @@ type
     ## from within a callback function.
 
 
-proc libusbHotplugRegisterCallback*(ctx: ptr LibusbContext;
-  events: LibusbHotplugEvent; flags: LibusbHotplugFlag; vendor_id: cint;
-  product_id: cint; dev_class: cint; cb_fn: LibusbHotplugCallbackFn;
-  userData: pointer; handle: ptr LibusbHotplugCallbackHandle): cint
+proc libusbHotplugRegisterCallback*(ctx: ptr LibusbContext; events: cint;
+  flags: LibusbHotplugFlag; vendorId: cint; productId: cint; devClass: cint;
+  cbFn: LibusbHotplugCallbackFn; userData: pointer;
+  handle: ptr LibusbHotplugCallbackHandle): cint
   {.cdecl, dynlib: dllname, importc: "libusb_hotplug_register_callback".}
   ## Register a hotplug callback function.
   ##
   ## ctx
   ##   Context to register this callback with
   ## events
-  ##   Bitwise or of events that will trigger this callback
-  ##   (see `LibusbHotplugEvent <#LibusbHotplugEvent>`_)
+  ##   Bitwise or of events that will trigger this callback (see
+  ##   `libusbHotplugDeviceXXX <#libusbHotplugDeviceArrived>`_ flags)
   ## flags
   ##   Hotplug callback flags (see `LibusbHotplugFlag`)
-  ## vendor_id
+  ## vendorId
   ##   The vendor id to match, or
   ##   `libusbHotplugMatchAny <#libusbHotplugMatchAny>`_
-  ## product_id
+  ## productId
   ##   The product id to match, or
   ##   `libusbHotplugMatchAny <#libusbHotplugMatchAny>`_
-  ## dev_class
+  ## devClass
   ##   The device class to match, or
   ##   `libusbHotplugMatchAny <#libusbHotplugMatchAny>`_
-  ## cb_fn
+  ## cbFn
   ##   The function to be invoked on a matching event/device
   ## userData
   ##   User data to pass to the callback function
@@ -2890,7 +2912,7 @@ proc libusbHotplugRegisterCallback*(ctx: ptr LibusbContext;
   ## the supplied callback returns ``1`` to indicate that it is finished
   ## processing events. If the `LibusbHotplugFlag.enumerate
   ## <#LibusbHotplugFlag>`_ flag is passed, the callback will be called with
-  ## `LibusbHotplugEvent.deviceArrived <#LibusbHotplugEvent>`_ for all devices
+  ## `libusbHotplugDeviceArrived <#libusbHotplugDeviceArrived>`_ for all devices
   ## already plugged into the machine.
   ##
   ## Note that libusb modifies its internal device list from a separate thread,

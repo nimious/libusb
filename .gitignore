@@ -1,4 +1,5 @@
 nimcache
+libusb
 obsolete
 .directory
 *.dll
