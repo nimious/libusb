@@ -12,7 +12,7 @@ import endians, unsigned
 
 when defined(linux):
   const dllname = "libusb.so"
-elif defined(macos):
+elif defined(macosx):
   const dllname = "libusb.dylib"
 elif defined(windows):
   const dllname = "libusb.dll"

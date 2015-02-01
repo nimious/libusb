@@ -21,7 +21,7 @@ following platforms have been built and tested:
 - ~~FreeBSD~~
 - ~~iOS~~
 - Linux
-- ~~Mac OSX~~
+- Mac OSX
 - ~~OpenBSD~~
 - ~~Windows~~
 
@@ -31,8 +31,8 @@ have been ommitted from these bindings.
 
 ## Prerequisites
 
-To compile the bindings in this package you must have **libusb** installed on
-your computer.
+To run programs compiled with the bindings in this package you must have
+**libusb** installed on your computer.
 
 ### Android
 
@@ -61,7 +61,21 @@ repository and compile the library yourself.
 
 ### Mac OSX
 
-TODO
+The easiest way to install pre-compiled binaries is through Macports:
+
+`sudo port install libusb`
+
+Another option is to use Homebrew:
+
+`brew install libusb`
+
+You may have to add a symbolic link to the installed library, so that your
+program is able to load it at run-time, for example:
+
+`sudo ln -s /opt/local/lib/libusb-1.0.dylib /usr/lib/libusb.dylib`
+
+Alternatively, you can download the latest source code from the libusb GitHub
+repository and compile the library yourself. An Xcode project is included.
 
 ### OpenBSD
 
@@ -78,17 +92,25 @@ io-usb does not have any dependencies to other Nim packages at this time.
 
 ## Usage
 
+Import the *libusb* module from this package to make the bindings available
+in your project:
+
+```nimrod
+import libusb
+```
+
 
 ## Support
 
 Please [file an issue](https://github.com/nimious/io-usb/issues), submit a
 [pull request](https://github.com/nimious/io-usb/pulls?q=is%3Aopen+is%3Apr)
 or email us at info@nimio.us if this package is out of date or contains bugs.
-For all other issues related to Oculus devices or the device driver software
-visit the Oculus web sites below.
+For all other issues related to USB devices visit the libusb web site below.
 
 
 ## References
 
 - [libusb Homepage](http://libusb.info/)
 - [libusb GitHub Repository](https://github.com/libusb/libusb)
+- [Homebrew Homepage](http://brew.sh)
+- [Macports Homepage](http://www.macports.org)
