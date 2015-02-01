@@ -14,7 +14,7 @@ import libusb
 var devices: ptr LibusbDeviceArray
 
 
-## initialize library
+# initialize library
 let r = libusbInit(nil)
 
 if r < 0:
@@ -22,11 +22,11 @@ if r < 0:
 else:
   echo "Success: Initialized libusb"
 
-  ## detect available USB devices
+  # detect available USB devices
   let cnt = libusbGetDeviceList(nil, addr devices)
   echo "Number of detected USB devices: ", cnt
 
-  ## print device details
+  # print device details
   for i in 0..high(devices[]):
     echo "Details for device #", i
     let device = devices[i]
@@ -57,10 +57,10 @@ else:
         echo "    Vendor: ", desc.idVendor
         echo "    Device: ", desc.bcdDevice
 
-  ## free list of devices
+  # free list of devices
   libusbFreeDeviceList(devices, 1)
 
-  ## shut down library
+  # shut down library
   libusbExit(nil)
 
 echo "Exiting."

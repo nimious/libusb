@@ -13,7 +13,7 @@ var done = 0
 
 proc hotplugCallback(ctx: ptr LibusbContext; device: ptr LibusbDevice;
   event: cint; userData: pointer): cint =
-  ## Hotplug callback function
+  # Hotplug callback function
   var desc: LibusbDeviceDescriptor
   let rc = libusbGetDeviceDescriptor(device, addr(desc))
   if rc != (cint)LibusbError.success:
@@ -28,7 +28,7 @@ proc hotplugCallback(ctx: ptr LibusbContext; device: ptr LibusbDevice;
   result = 0
 
 
-## initialize library
+# initialize library
 let r = libusbInit(nil)
 
 if r < 0:
@@ -62,7 +62,7 @@ else:
         if rc < (cint)LibusbError.success:
           echo "Warning: libusbHandleEvents failed: ", libusbErrorName(rc)
 
-  ## shut down library
+  # shut down library
   libusbExit(nil)
 
 echo "Exiting."
