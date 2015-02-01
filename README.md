@@ -112,5 +112,6 @@ For all other issues related to USB devices visit the libusb web site below.
 
 - [libusb Homepage](http://libusb.info/)
 - [libusb GitHub Repository](https://github.com/libusb/libusb)
+- [libusb API Documentation](http://libusb.sourceforge.net/api-1.0/index.html)
 - [Homebrew Homepage](http://brew.sh)
 - [Macports Homepage](http://www.macports.org)
