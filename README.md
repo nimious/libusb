@@ -23,7 +23,7 @@ following platforms have been built and tested:
 - Linux
 - Mac OSX
 - ~~OpenBSD~~
-- ~~Windows~~
+- Windows
 
 All APIs marked as deprecated or intended solely for backwards compatibility
 have been ommitted from these bindings.
@@ -83,7 +83,9 @@ TODO
 
 ### Windows
 
-TODO
+Download the latest Windows Binaries snapshot from the `libusb` web site, copy the
+``libusb-1.0.dll`` file into your program's folder and rename it to `libusb.dll`. Alternatively, you can
+download and compile the DLL from the source code in the `libusb` GitHub repository.
 
 ## Dependencies
 

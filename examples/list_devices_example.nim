@@ -5,7 +5,7 @@
 ## See the file LICENSE included in this distribution for licensing details.
 ## GitHub pull requests are encouraged. (c) 2015 Headcrash Industries LLC.
 
-import libusb
+import libusb, strutils
 
 
 # The following program is a basic example of using `libusb` to print out the
@@ -54,7 +54,8 @@ else:
       if (r < 0):
         echo "    Error: Failed to get descriptor"
       else:
-        echo "    Vendor: ", desc.idVendor
+        echo "    Vendor: ", toHex(desc.idVendor, 4)
+        echo "    Product: ", toHex(desc.idProduct, 4)
         echo "    Device: ", desc.bcdDevice
 
   # free list of devices
