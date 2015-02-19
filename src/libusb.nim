@@ -664,7 +664,6 @@ type
       ## Not valid for isochronous endpoint transfers.
     callback*: LibusbTransferCbFn ## Callback function. This will be invoked
       ## when the transfer completes, fails, or is cancelled.
-      ## TODO: convert this to Nim
     userData*: pointer ## User context data to pass to the callback function.
     buffer*: cstring ## Data buffer.
     numIsoPackets*: cint ## Number of isochronous packets. Only used for I/O
