@@ -83,9 +83,10 @@ TODO
 
 ### Windows
 
-Download the latest Windows Binaries snapshot from the `libusb` web site, copy the
-``libusb-1.0.dll`` file into your program's folder and rename it to `libusb.dll`. Alternatively, you can
-download and compile the DLL from the source code in the `libusb` GitHub repository.
+Download the latest Windows Binaries snapshot from the *libusb* web site, copy
+the ``libusb-1.0.dll`` file into your program's folder and rename it to
+`libusb.dll`. Alternatively, you can download and compile the DLL from the
+source code in the *libusb* GitHub repository.
 
 ## Dependencies
 
