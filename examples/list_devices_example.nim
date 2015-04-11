@@ -28,11 +28,10 @@ else:
 
   # print device details
   for i in 0..high(devices[]):
-    echo "Details for device #", i
     let device = devices[i]
     if device == nil:
       break
-
+    echo "Details for device #", i
     block:
       echo "  Details:"
       echo "    Bus: ", libusbGetBusNumber(device),
