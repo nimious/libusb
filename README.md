@@ -15,7 +15,7 @@ USB protocol.
 ## Supported Platforms
 
 io-usb is still under development and may not fully work yet. So far, the
-following platforms have been built and tested:
+following platforms have been built and tested with **libusb 1.0.19**:
 
 - ~~Android~~
 - ~~FreeBSD~~
