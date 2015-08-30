@@ -2193,7 +2193,7 @@ proc libusbGetIsoPacketBufferSimple*(transfer: ptr LibusbTransfer;
 # Sync I/O #####################################################################
 
 proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
-  request_type: LibusbEndpointDirection; request: LibusbStandardRequest;
+  request_type: uint8; request: LibusbStandardRequest;
   value: uint16; index: uint16; data: ptr cuchar; length: uint16;
   timeout: cuint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_control_transfer".}
@@ -2351,7 +2351,7 @@ proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; descType: uint8;
   ## message to retrieve the descriptor.
   return libusbControlTransfer(
     dev,
-    LibusbEndpointDirection.hostToDevice,
+    uint8(LibusbEndpointDirection.hostToDevice) or uint8(LibusbRequestType.class) or uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
     (uint16)((desc_type shl 8) or desc_index),
     0,
@@ -2383,7 +2383,7 @@ proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; descIndex: uint8;
   ## detailed in the USB specifications.
   return libusbControlTransfer(
     dev,
-    LibusbEndpointDirection.hostToDevice,
+    uint8(LibusbEndpointDirection.hostToDevice) or uint8(LibusbRequestType.class) or uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
     (uint16)((((int16)LibusbDescriptorType.str) shl 8) or (int16)desc_index),
     langid,
