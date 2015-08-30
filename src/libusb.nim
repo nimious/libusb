@@ -12,6 +12,8 @@ import endians, unsigned
 
 when defined(linux):
   const dllname = "libusb.so"
+elif defined(freebsd):
+  const dllname = "libusb.so"
 elif defined(macosx):
   const dllname = "libusb.dylib"
 elif defined(windows):
@@ -27,7 +29,7 @@ type
     tvUsec*: clong
 
 
-const 
+const
   libusbApiVersion* = 0x01000103  # libusb API version
 
 
@@ -54,7 +56,7 @@ template libusbLe16ToCpu*(x: uint16): uint16 =
   libusbCpuToLe16(x)
 
 
-type 
+type
   LibusbClassCode* {.pure.} = enum ## \
     ## Enumerates USB device class codes.
     perInterface = 0, ## each interface has its own class
@@ -278,7 +280,7 @@ type
     ## A structure representing the standard USB interface descriptor. This
     ## descriptor is documented in section 9.6.5 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 #* Size of this descriptor (in bytes) 
+    length*: uint8 #* Size of this descriptor (in bytes)
     descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_INTERFACE).
     interfaceNumber*: uint8 ## Number of this interface.
     alternateSetting*: uint8 ## Value used to select this alternate setting for
@@ -313,7 +315,7 @@ type
     ## A structure representing the standard USB configuration descriptor. This
     ## descriptor is documented in section 9.6.3 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes) 
+    length*: uint8 ## Size of this descriptor (in bytes)
     descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_CONFIG).
     totalLength*: uint16 ## Total length of data returned for this
       ## configuration.
@@ -357,7 +359,7 @@ type
     ## advised to check `devCapabilityType` and call the matching
     ## `libusbGetXXXDescriptor` function to get a structure fully matching
     ## the type.
-    length*: uint8 ## Size of this descriptor (in bytes) 
+    length*: uint8 ## Size of this descriptor (in bytes)
     descriptorType*: uint8 ## Descriptor type
       ## (`LibusbDescriptorType.device <#LibusbDescriptorType>`_).
     devCapabilityType*: uint8 ## Device Capability type.
@@ -369,7 +371,7 @@ type
     ## Binary Device Object Store (BOS) descriptor. This descriptor is
     ## documented in section 9.6.2 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes) 
+    length*: uint8 ## Size of this descriptor (in bytes)
     descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_BOS).
     totalLength*: uint16 ## Length of this descriptor and all of its sub
       ## descriptors.
@@ -545,7 +547,7 @@ type
     notSupported = -12, ## Operation not supported or unimplemented on this \
       ## platform.
     noMemory = -11, ## Insufficient memory.
-    interrupted = -10, ## System call interrupted (perhaps due to signal) 
+    interrupted = -10, ## System call interrupted (perhaps due to signal)
     pipe = -9, ## Pipe error.
     overflow = -8, ## Overflow.
     timeout = -7, ## Operation timed out.
@@ -562,7 +564,7 @@ const
     ## `libusb_error <#LibusbError>`_.
 
 
-type 
+type
   LibusbTransferStatus* {.pure.} = enum ## \
     ## Enumerats transfer status codes.
     completed, ## Transfer completed without error. Note that this does not
@@ -597,7 +599,7 @@ type
       ## This flag only affects host-to-device transfers to bulk and interrupt
       ## endpoints. In other situations, it is ignored.
       ##
-      ## This flag only affects transfers with a length that is a multiple of 
+      ## This flag only affects transfers with a length that is a multiple of
       ## the endpoint's `maxPacketSize <#LibusbEndpointDescriptor>`_. On
       ## transfers of other lengths, this flag has no effect. Therefore, if you
       ## are working with a device that needs a ZLP whenever the end of the
@@ -611,7 +613,7 @@ type
       ## this flag is set.
 
 
-type 
+type
   LibusbIsoPacketDescriptor* = object
     ## Isochronous packet descriptor.
     length*: cuint ## Length of data to request in this packet.
@@ -672,7 +674,7 @@ type
       ## descriptors, for isochronous transfers only.
 
 
-type 
+type
   LibusbCapability* {.pure, size: sizeof(uint32).} = enum ## \
     ## Enumerates capabilities supported by an instance of libusb on the current
     ## running platform. Test if the loaded library supports a given capability
@@ -1121,7 +1123,7 @@ proc libusbGetUsb20ExtensionDescriptor*(ctx: ptr LibusbContext;
   ##   ``libusb_capability_type.extension``
   ## usb20Extension
   ##   Output location for the USB 2.0 Extension descriptor. Only valid if
-  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with 
+  ##   `LibusbError.success <#LibusbError>`_ was returned. Must be freed with
   ##   `libusbFreeUsb20ExtensionDescriptor <#libusbFreeUsb20ExtensionDescriptor>`_
   ##   after use.
   ## result
@@ -1518,10 +1520,10 @@ proc libusbOpenDeviceWithVidPid*(ctx: ptr LibusbContext;
   ## or freeing the list. This function has limitations and is hence not
   ## intended for use in real applications: if multiple devices have the same
   ## IDs it will only give you the first one, etc.
-  
 
 
-proc libusbSetInterfaceAltSetting*(dev: ptr LibusbDeviceHandle; 
+
+proc libusbSetInterfaceAltSetting*(dev: ptr LibusbDeviceHandle;
   interface_number: cint; alternate_setting: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_set_interface_alt_setting".}
   ## Activate an alternate setting for an interface.
@@ -1593,7 +1595,7 @@ proc libusbResetDevice*(dev: ptr LibusbDeviceHandle): cint
   ## This is a blocking function which usually incurs a noticeable delay.
 
 
-proc libusbAllocStreams*(dev: ptr LibusbDeviceHandle; 
+proc libusbAllocStreams*(dev: ptr LibusbDeviceHandle;
   num_streams: uint32; endpoints: ptr cuchar; num_endpoints: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_alloc_streams".}
   ## Allocate up to num_streams usb bulk streams on the specified endpoints.
@@ -1621,7 +1623,7 @@ proc libusbAllocStreams*(dev: ptr LibusbDeviceHandle;
   ## value of ``N``, you may use stream ids ``1`` to ``N``.
 
 
-proc libusbFreeStreams*(dev: ptr LibusbDeviceHandle; 
+proc libusbFreeStreams*(dev: ptr LibusbDeviceHandle;
   endpoints: ptr cuchar; num_endpoints: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_free_streams".}
   ## Free usb bulk streams allocated with
@@ -1663,7 +1665,7 @@ proc libusbKernelDriverActive*(dev: ptr LibusbDeviceHandle;
   ## Windows.
 
 
-proc libusbDetachKernelDriver*(dev: ptr LibusbDeviceHandle; 
+proc libusbDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
   interface_number: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_detach_kernel_driver".}
   ## Detach a kernel driver from an interface.
@@ -2025,13 +2027,13 @@ proc libusbFillBulkStreamTransfer*(transfer: ptr LibusbTransfer;
   ##   User data to pass to callback function
   ## timeout
   ##   Timeout for the transfer in milliseconds
-  libusbFillBulkTransfer(transfer, devHandle, endpoint, buffer, length, 
+  libusbFillBulkTransfer(transfer, devHandle, endpoint, buffer, length,
                             callback, userData, timeout)
   transfer.transferType = LibusbTransferType.bulkStream
   libusbTransferSetStreamId(transfer, stream_id)
 
 
-proc libusbFillInterruptTransfer*(transfer: ptr LibusbTransfer; 
+proc libusbFillInterruptTransfer*(transfer: ptr LibusbTransfer;
   devHandle: ptr LibusbDeviceHandle; endpoint: cuchar; buffer: ptr cuchar;
   length: cint; callback: LibusbTransferCbFn; userData: pointer;
   timeout: cuint) {.inline.} =
@@ -2134,14 +2136,14 @@ proc libusbGetIsoPacketBuffer*(transfer: ptr LibusbTransfer; packet: cuint):
   ## accumulating their lengths to find the position of the specified packet.
   ## Typically you will assign equal lengths to each packet in the transfer,
   ## and hence the above method is sub-optimal. Consider using
-  ## `libusbGetIsoPacketBufferSimple <#libusbGetIsoPacketBufferSimple>`_ 
+  ## `libusbGetIsoPacketBufferSimple <#libusbGetIsoPacketBufferSimple>`_
   ## instead.
   var i: cint
   var offset: cuint = 0
   var p: cint
   # oops..slight bug in the API. packet is an unsigned int, but we use
   #   signed integers almost everywhere else. range-check and convert to
-  #   signed to avoid compiler warnings. FIXME for libusb-2. 
+  #   signed to avoid compiler warnings. FIXME for libusb-2.
   if packet > (cuint)int32.high: return nil
   p = cast[cint](packet)
   if p >= transfer.numIsoPackets: return nil
@@ -2727,11 +2729,11 @@ proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr libusbTimeval): cint
 type
   LibusbPollfd* = object
     ## File descriptor for polling.
-    fd*: cint ## Numeric file descriptor 
+    fd*: cint ## Numeric file descriptor
     events*: cshort ## Event flags to poll for from <poll.h>. POLLIN indicates
       ## that you should monitor this file descriptor for becoming ready to read
       ## from, and POLLOUT indicates that you should monitor this file
-      ## descriptor for nonblocking write readiness. 
+      ## descriptor for nonblocking write readiness.
 
 
 type
