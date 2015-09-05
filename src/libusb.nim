@@ -131,7 +131,7 @@ type
   LibusbEndpointDirection* {.pure.} = enum ## \
     ## Enumerates available endpoint directions (used in bit 7 of
     ## `LibusbEndpointDescriptor.endpointAddress <#LibusbEndpointDescriptor>`_
-    ## and bit 7 of `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_)
+    ## and bit 7 of `LibusbControlSetup.requestType <#LibusbControlSetup>`_)
     hostToDevice = 0x00000000, ## In: device-to-host
     deviceToHost = 0x00000080 ## Out: host-to-device
 
@@ -178,7 +178,7 @@ type
   LibusbRequestType* {.pure.} = enum ## \
     ## Enumerates standard requests, as defined in table 9-5 of the USB 3.0
     ## spec. Used in bits 5:6 of
-    ## `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_
+    ## `LibusbControlSetup.requestType <#LibusbControlSetup>`_
     standard = (0x00000000 shl 5), ## Standard
     class = (0x00000001 shl 5), ## Class
     vendor = (0x00000002 shl 5), ## Vendor
@@ -186,8 +186,9 @@ type
 
 
   LibusbRequestRecipient* {.pure.} = enum ## \
-    ## Enumerates recipient bits in the LibusbControlSetup.bmRequestType \
-    ## field. Values 4 through 31 are reserved.
+    ## Enumerates recipient bits in the
+    ## `LibusbControlSetup.requestType <#LibusbControlSetup>`_ field. Values 4
+    ## through 31 are reserved.
     device = 0x00000000, ## Device
     interf = 0x00000001, ## Interface
     endpoint = 0x00000002, ## Endpoint
@@ -434,11 +435,11 @@ type
 
   LibusbControlSetup* = object
     ## Setup packet for control transfers.
-    bmRequestType*: uint8 ## Request type. Bits 0:4 determine recipient, see
+    requestType*: uint8 ## Request type. Bits 0:4 determine recipient, see
       ## `LibusbRequestRecipient`. Bits 5:6 determine type, see
       ## `LibusbRequestType`. Bit 7 determines data transfer direction, see
       ## `LibusbEndpointDirection <#LibusbEndpointDirection>`_.
-    request*: uint8 ## Request. If the type bits of `bmRequestType` are equal
+    request*: uint8 ## Request. If the type bits of `requestType` are equal
       ## to `LibusbRequestType.standard <#LibusbRequestType>`_ then this field
       ## refers to `LibusbStandardRequest`. For other cases, use of this field
       ## is application-specific.
@@ -1782,7 +1783,7 @@ proc libusbControlTransferGetSetup*(transfer: ptr LibusbTransfer):
   return cast[ptr LibusbControlSetup](transfer.buffer)
 
 
-proc libusbFillControlSetup*(buffer: ptr cuchar; bmRequestType: uint8;
+proc libusbFillControlSetup*(buffer: ptr cuchar; requestType: uint8;
   request: uint8; value: uint16; index: uint16; length: uint16) {.inline.} =
   ## Helper function to populate the setup packet (first 8 bytes of the data
   ## buffer) for a control transfer.
@@ -1790,8 +1791,8 @@ proc libusbFillControlSetup*(buffer: ptr cuchar; bmRequestType: uint8;
   ## buffer
   ##   Buffer to output the setup packet into. This pointer must be aligned to
   ##   at least 2 bytes boundary
-  ## bmRequestType
-  ##   See the `bmRequestType` field of
+  ## requestType
+  ##   See the `requestType` field of
   ##   `LibusbControlSetup <#LibusbControlSetup>`_
   ## request
   ##   See the `request` field of `LibusbControlSetup <#LibusbControlSetup>`_
@@ -1806,7 +1807,7 @@ proc libusbFillControlSetup*(buffer: ptr cuchar; bmRequestType: uint8;
   ## byte order.
   var setup: ptr LibusbControlSetup =
     cast[ptr LibusbControlSetup](cast[pointer](buffer))
-  setup.bmRequestType = bmRequestType
+  setup.requestType = requestType
   setup.request = request
   setup.value = libusbCpuToLe16(value)
   setup.index = libusbCpuToLe16(index)
@@ -2028,7 +2029,7 @@ proc libusbFillBulkStreamTransfer*(transfer: ptr LibusbTransfer;
   ## timeout
   ##   Timeout for the transfer in milliseconds
   libusbFillBulkTransfer(transfer, devHandle, endpoint, buffer, length,
-                            callback, userData, timeout)
+    callback, userData, timeout)
   transfer.transferType = LibusbTransferType.bulkStream
   libusbTransferSetStreamId(transfer, stream_id)
 
@@ -2193,7 +2194,7 @@ proc libusbGetIsoPacketBufferSimple*(transfer: ptr LibusbTransfer;
 # Sync I/O #####################################################################
 
 proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
-  request_type: LibusbEndpointDirection; request: LibusbStandardRequest;
+  requestType: LibusbEndpointDirection; request: LibusbStandardRequest;
   value: uint16; index: uint16; data: ptr cuchar; length: uint16;
   timeout: cuint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_control_transfer".}
@@ -2201,7 +2202,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##
   ## devHandle
   ##   A handle for the device to communicate with
-  ## bmRequestType
+  ## requestType
   ##   The request type field for the setup packet
   ## request
   ##   The request field for the setup packet
@@ -2211,7 +2212,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##   The index field for the setup packet
   ## data
   ##   A suitably-sized data buffer for either input or output (depending on
-  ##   direction bits within bmRequestType)
+  ##   direction bits within `requestType`)
   ## length
   ##   The length field for the setup packet. The data buffer should be at least
   ##   this size
@@ -2227,7 +2228,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
-  ## The direction of the transfer is inferred from the bmRequestType field of
+  ## The direction of the transfer is inferred from the `requestType` field of
   ## the setup packet. The `value`, `index` and `length` fields values should
   ## be given in host-endian byte order.
 
