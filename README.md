@@ -18,7 +18,7 @@ io-usb is still under development and may not fully work yet. So far, the
 following platforms have been built and tested with **libusb 1.0.19**:
 
 - ~~Android~~
-- ~~FreeBSD~~
+- FreeBSD
 - ~~iOS~~
 - Linux
 - Mac OSX
@@ -40,7 +40,8 @@ TODO
 
 ### FreeBSD
 
-TODO
+If you are using FreeBSD then libusb is most likely already installed on your
+computer. You can find it in the Ports tree.
 
 ### iOS
 
