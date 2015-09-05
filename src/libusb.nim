@@ -12,6 +12,8 @@ import endians, unsigned
 
 when defined(linux):
   const dllname = "libusb.so"
+elif defined(freebsd):
+  const dllname = "libusb.so"
 elif defined(macosx):
   const dllname = "libusb.dylib"
 elif defined(windows):
