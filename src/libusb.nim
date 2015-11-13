@@ -7,7 +7,7 @@
 
 {.deadCodeElim: on.}
 
-import endians, unsigned
+import endians
 
 
 when defined(linux):
@@ -17,7 +17,7 @@ elif defined(freebsd):
 elif defined(macosx):
   const dllname = "libusb.dylib"
 elif defined(windows):
-  const dllname = "libusb.dll"
+  const dllname = "libusb-1.0.dll"
 else:
   {.error: "io-usb does not support this platform".}
 
@@ -40,10 +40,9 @@ proc libusbCpuToLe16*(x: uint16): uint16 {.inline.} =
   ##   The value to convert
   ## result
   ##   The converted value
-  var result: uint16
+  result = 0
   var tmp = x
   littleEndian16(addr result, addr tmp)
-  return result
 
 
 template libusbLe16ToCpu*(x: uint16): uint16 =
@@ -57,46 +56,77 @@ template libusbLe16ToCpu*(x: uint16): uint16 =
 
 
 type
-  LibusbClassCode* {.pure.} = enum ## \
+  LibusbClassCode* {.pure.} = enum
     ## Enumerates USB device class codes.
-    perInterface = 0, ## each interface has its own class
-    audio = 1, ## Audio class
-    comm = 2, ## Communications class
-    hid = 3, ## Human Interface Device class
-    physical = 5, ## Physical
-    image = 6, ## Image class
-    printer = 7, ## Printer class
-    storage = 8, ## Image class
-    hub = 9, ## Hub class
-    data = 10, ## Data class
-    smartCard = 0x0B, ## Smart Card
-    contentSecurity = 0x0D, ## Content Security
-    video = 0x0E, ## Video
-    healthcare = 0x0F, ## Personal Healthcare
-    device = 0xDC, ## Diagnostic Device
-    wireless = 0xE0, ## Wireless class
-    application = 0xFE, ## Application class
-    vendorSpec = 0xFF ## Class is vendor-specific
+    perInterface = 0,
+      ## each interface has its own class
+    audio = 1,
+      ## Audio class
+    comm = 2,
+      ## Communications class
+    hid = 3,
+      ## Human Interface Device class
+    physical = 5,
+      ## Physical
+    image = 6,
+      ## Image class
+    printer = 7,
+      ## Printer class
+    storage = 8,
+      ## Image class
+    hub = 9,
+      ## Hub class
+    data = 10,
+      ## Data class
+    smartCard = 0x0B,
+      ## Smart Card
+    contentSecurity = 0x0D,
+      ## Content Security
+    video = 0x0E,
+      ## Video
+    healthcare = 0x0F,
+      ## Personal Healthcare
+    device = 0xDC,
+      ## Diagnostic Device
+    wireless = 0xE0,
+      ## Wireless class
+    application = 0xFE,
+      ## Application class
+    vendorSpec = 0xFF
+      ## Class is vendor-specific
 
-  LibusbDescriptorType* {.pure.} = enum ## \
+  LibusbDescriptorType* {.pure, size: sizeof(uint8).} = enum
     ## Enumerates device descriptor types.
-    device = 0x01, ## Device descriptor
+    device = 0x01,
+      ## Device descriptor
       ## (see `LibusbDeviceDescriptor <#LibusbDeviceDescriptor>`_)
-    config = 0x02, ## Configuration descriptor
+    config = 0x02,
+      ## Configuration descriptor
       ## (see `LibusbConfigDescriptor <#LibusbConfigDescriptor>`_)
-    str = 0x03, ## String descriptor
-    interf = 0x04, ## Interface descriptor
+    str = 0x03,
+      ## String descriptor
+    interf = 0x04,
+      ## Interface descriptor
       ## (see `LibusbInterfaceDescriptor <#LibusbInterfaceDescriptor>`_)
-    endpoint = 0x05, ## Endpoint descriptor
+    endpoint = 0x05,
+      ## Endpoint descriptor
       ## (see `LibusbEndpointDescriptor <#LibusbEndpointDescriptor>`_)
-    bos = 0x0F, ## BOS descriptor
-    deviceCapability = 0x10, ## Device capability descriptor
-    hid = 0x21, ## HID descriptor
-    report = 0x22, ## HID report descriptor
-    physical = 0x23, ## Physical descriptor
-    hub = 0x29, ## Hub descriptor
-    superspeedHub = 0x2A, ## SuperSpeed Hub descriptor
-    sSEndpointCompanion = 0x30 ## SuperSpeed Endpoint Companion descriptor
+    bos = 0x0F,
+      ## BOS descriptor
+    deviceCapability = 0x10,
+      ## Device capability descriptor
+    hid = 0x21,
+      ## HID descriptor
+    report = 0x22,
+      ## HID report descriptor
+    physical = 0x23,
+      ## Physical descriptor
+    hub = 0x29,
+      ## Hub descriptor
+    superspeedHub = 0x2A,
+      ## SuperSpeed Hub descriptor
+    sSEndpointCompanion = 0x30
+      ## SuperSpeed Endpoint Companion descriptor
 
 
 const
@@ -128,94 +158,127 @@ const
 
 
 type
-  LibusbEndpointDirection* {.pure.} = enum ## \
+  LibusbEndpointDirection* {.pure.} = enum
     ## Enumerates available endpoint directions (used in bit 7 of
     ## `LibusbEndpointDescriptor.endpointAddress <#LibusbEndpointDescriptor>`_
-    ## and bit 7 of `LibusbControlSetup.requestType <#LibusbControlSetup>`_)
-    hostToDevice = 0x00000000, ## In: device-to-host
-    deviceToHost = 0x00000080 ## Out: host-to-device
+    ## and bit 7 of `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_)
+    hostToDevice = 0x00000000,
+      ## In: device-to-host
+    deviceToHost = 0x00000080
+      ## Out: host-to-device
 
 
 const
-  libusbTransferTypeMask* = 0x00000003 ## Used in
+  libusbTransferTypeMask* = 0x00000003
+    ## Used in
     ## `LibusbEndpointDescriptor.bmAttributes <#LibusbEndpointDescriptor>`_
 
 
 type
-  LibusbTransferType* {.pure.} = enum ## \
+  LibusbTransferType* {.pure.} = enum
     ## Enumerates endpoint transfer types.
-    control = 0, # Control endpoint
-    isochronous = 1, ## Isochronous endpoint
-    bulk = 2, ## Bulk endpoint
-    interrupt = 3, ## Interrupt endpoint
-    bulkStream = 4 ## Stream endpoint
+    control = 0,
+      ## Control endpoint
+    isochronous = 1,
+      ## Isochronous endpoint
+    bulk = 2,
+      ## Bulk endpoint
+    interrupt = 3,
+      ## Interrupt endpoint
+    bulkStream = 4
+      ## Stream endpoint
 
 
-  LibusbStandardRequest* {.pure.} = enum ## \
+  LibusbStandardRequest* {.pure.} = enum
     ## Enumerates standard requests as defined in table 9-5 of the USB 3.0 spec.
-    getStatus = 0x00000000, ## Request status of the specific recipient
-    clearFeature = 0x00000001, ## Clear or disable a specific feature
-    reserved2 = 0x00000002, ## Reserved for future use
-    setFeature = 0x00000003, ## Set or enable a specific feature
-    reserved4 = 0x00000004 ## Reserved for future use
-    setAddress = 0x00000005, ## Set device address for all future accesses
-    getDescriptor = 0x00000006, ## Get the specified descriptor
-    setDescriptor = 0x00000007, ## Used to update existing descriptors or add
-      ## new descriptors
-    getConfiguration = 0x00000008, ## Get the current device configuration value
-    setConfiguration = 0x00000009, ## Set device configuration
-    getInterface = 0x0000000A, ## Return the selected alternate setting for the
-      ## specified interface
-    setInterface = 0x0000000B, ## Select an alternate interface for the
-      ## specified interface
-    synchFrame = 0x0000000C, ## Set then report an endpoint's synchronization
-      ## frame
-    setSel = 0x00000030, ## Sets both the U1 and U2 Exit Latency
-    isochDelay = 0x00000031 ## Delay from the time a host transmits a packet to
-      ## the time it is received by the device
+    getStatus = 0x00000000,
+      ## Request status of the specific recipient
+    clearFeature = 0x00000001,
+      ## Clear or disable a specific feature
+    reserved2 = 0x00000002,
+      ## Reserved for future use
+    setFeature = 0x00000003,
+      ## Set or enable a specific feature
+    reserved4 = 0x00000004
+      ## Reserved for future use
+    setAddress = 0x00000005,
+      ## Set device address for all future accesses
+    getDescriptor = 0x00000006,
+      ## Get the specified descriptor
+    setDescriptor = 0x00000007,
+      ## Used to update existing descriptors or add new descriptors
+    getConfiguration = 0x00000008,
+      ## Get the current device configuration value
+    setConfiguration = 0x00000009,
+      ## Set device configuration
+    getInterface = 0x0000000A,
+      ## Return the selected alternate setting for the specified interface
+    setInterface = 0x0000000B,
+      ## Select an alternate interface for the specified interface
+    synchFrame = 0x0000000C,
+      ## Set then report an endpoint's synchronization frame
+    setSel = 0x00000030,
+      ## Sets both the U1 and U2 Exit Latency
+    isochDelay = 0x00000031
+      ## Delay from the time a host transmits a packet to the time it is
+      ## received by the device
 
 
-  LibusbRequestType* {.pure.} = enum ## \
+  LibusbRequestType* {.pure.} = enum
     ## Enumerates standard requests, as defined in table 9-5 of the USB 3.0
     ## spec. Used in bits 5:6 of
-    ## `LibusbControlSetup.requestType <#LibusbControlSetup>`_
-    standard = (0x00000000 shl 5), ## Standard
-    class = (0x00000001 shl 5), ## Class
-    vendor = (0x00000002 shl 5), ## Vendor
-    reserved = (0x00000003 shl 5) ## Reserved
+    ## `LibusbControlSetup.bmRequestType <#LibusbControlSetup>`_
+    standard = (0x00000000 shl 5),
+      ## Standard
+    class = (0x00000001 shl 5),
+      ## Class
+    vendor = (0x00000002 shl 5),
+      ## Vendor
+    reserved = (0x00000003 shl 5)
+      ## Reserved
 
 
-  LibusbRequestRecipient* {.pure.} = enum ## \
-    ## Enumerates recipient bits in the
-    ## `LibusbControlSetup.requestType <#LibusbControlSetup>`_ field. Values 4
-    ## through 31 are reserved.
-    device = 0x00000000, ## Device
-    interf = 0x00000001, ## Interface
-    endpoint = 0x00000002, ## Endpoint
-    other = 0x00000003 ## Other recipient
+  LibusbRequestRecipient* {.pure.} = enum
+    ## Enumerates recipient bits in the `LibusbControlSetup.bmRequestType`
+    ## field. Values 4 through 31 are reserved.
+    device = 0x00000000,
+      ## Device
+    interf = 0x00000001,
+      ## Interface
+    endpoint = 0x00000002,
+      ## Endpoint
+    other = 0x00000003
+      ## Other recipient
 
 const
   libusbIsoSyncTypeMask* = 0x0000000C
 
 
 type
-  LibusbIsoSyncType* {.pure.} = enum ## \
+  LibusbIsoSyncType* {.pure.} = enum
     ## Enumerates synchronization types for isochronous endpoints.
-    none = 0, ## No synchronization
-    async = 1, ## Asynchronous
-    adaptive = 2, ## Adaptive
-    sync = 3 ## Synchronous
+    none = 0,
+      ## No synchronization
+    async = 1,
+      ## Asynchronous
+    adaptive = 2,
+      ## Adaptive
+    sync = 3
+      ## Synchronous
 
 const
   libusbIsoUsageTypeMask* = 0x00000030
 
 
 type
-  LibusbIsoUsageType* {.pure.} = enum ## \
+  LibusbIsoUsageType* {.pure.} = enum
     ## Enumerates usage types for isochronous endpoints.
-    data = 0, ## Data endpoint
-    feedback = 1, ## Feedback endpoint
-    implicit = 2 ## Implicit feedback Data endpoint
+    data = 0,
+      ## Data endpoint
+    feedback = 1,
+      ## Feedback endpoint
+    implicit = 2
+      ## Implicit feedback Data endpoint
 
 
 type
@@ -223,119 +286,151 @@ type
     ## Standard USB device descriptor. This descriptor is documented in section
     ## 9.6.1 of the USB 3.0 specification. All multiple-byte fields are
     ## represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes)
-    descriptorType*: uint8 ## Descriptor type
-      ## (see `LibusbDescriptorType.device <#LibusbDescriptorType>`_).
-    bcdUSB*: uint16 ## USB specification release number in binary-coded
-      ## decimal. 0x0200 indicates USB 2.0, 0x0110 indicates USB 1.1, etc.
-    deviceClass*: uint8 ## USB-IF class code for the device
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.device`).
+    bcdUSB*: uint16
+      ## USB specification release number in binary-coded decimal.
+      ## 0x0200 indicates USB 2.0, 0x0110 indicates USB 1.1, etc.
+    deviceClass*: uint8
+      ## USB-IF class code for the device
       ## (see `LibusbClassCode <#LibusbClassCode>`_)
-    deviceSubClass*: uint8 ## USB-IF subclass code for the device, qualified
-      ## by the deviceClass value.
-    deviceProtocol*: uint8 ## USB-IF protocol code for the device, qualified
-      ## by the deviceClass and deviceSubClass values.
-    maxPacketSize0*: uint8 ## Maximum packet size for endpoint 0
-    idVendor*: cint ## USB-IF vendor ID
-    idProduct*: cint ## USB-IF product ID
-    bcdDevice*: uint16 ## Device release number in binary-coded decimal
-    iManufacturer*: uint8 ## Index of string descriptor describing manufacturer
-    iProduct*: uint8 ## Index of string descriptor describing product
-    iSerialNumber*: uint8 ## Index of string descriptor containing device
-      ## serial number
-    numConfigurations*: uint8 ## Number of possible configurations
+    deviceSubClass*: uint8
+      ## USB-IF subclass code for the device, qualified by `deviceClass` value.
+    deviceProtocol*: uint8
+      ## USB-IF protocol code for the device, qualified by the deviceClass and
+      ## deviceSubClass values.
+    maxPacketSize0*: uint8
+      ## Maximum packet size for endpoint 0
+    idVendor*: cshort
+      ## USB-IF vendor ID
+    idProduct*: cshort
+      ## USB-IF product ID
+    bcdDevice*: uint16
+      ## Device release number in binary-coded decimal
+    iManufacturer*: uint8
+      ## Index of string descriptor describing manufacturer
+    iProduct*: uint8
+      ## Index of string descriptor describing product
+    iSerialNumber*: uint8
+      ## Index of string descriptor containing device serial number
+    numConfigurations*: uint8
+      ## Number of possible configurations
 
 
   LibusbEndpointDescriptor* = object
     ## Standard USB endpoint descriptor. This descriptor is documented in
     ## section 9.6.6 of the USB 3.0 specification. All multiple-byte fields are
     ## represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes).
-    descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_ENDPOINT).
-    endpointAddress*: uint8 ## The address of the endpoint described by this
-      ## descriptor. Bits 0:3 are the endpoint number. Bits 4:6 are reserved.
-      ## Bit 7 indicates direction, see
-      ## `LibusbEndpointDirection <#LibusbEndpointDirection>`_.
-    bmAttributes*: uint8 ## Attributes which apply to the endpoint when it is
-      ## configured using the
-      ## `configurationValue <#LibusbConfigDescriptor`_.
-      ## Bits 0:1 determine the transfer type and correspond to
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.endpoint`)
+    endpointAddress*: uint8
+      ## The address of the endpoint described by this descriptor. Bits 0:3 are
+      ## the endpoint number. Bits 4:6 are reserved. Bit 7 indicates direction,
+      ## see `LibusbEndpointDirection <#LibusbEndpointDirection>`_
+    bmAttributes*: uint8
+      ## Attributes which apply to the endpoint when it is configured using the
+      ## `configurationValue <#LibusbConfigDescriptor`_. Bits 0:1 determine the
+      ## transfer type and correspond to
       ## `LibusbTransferType <#LibusbTransferType>`_. Bits 2:3 are only used for
       ## isochronous endpoints and correspond to
       ## `LibusbIsoSyncType <#LibusbIsoSyncType>`_. Bits 4:5 are also only used
       ## for isochronous endpoints and correspond to
       ## `LibusbIsoUsageType <#LibusbIsoUsageType>`_. Bits 6:7 are reserved.
-    maxPacketSize*: uint16 ## Maximum packet size this endpoint is capable of
-      ## sending/receiving.
-    interval*: uint8 ## Interval for polling endpoint for data transfers.
-    refresh*: uint8 ## For audio devices only: the rate at which
-      ## synchronization feedback is provided.
-    synchAddress*: uint8 ## For audio devices only: the address if the synch
-      ## endpoint
-    extra*: cstring ## Extra descriptors. If libusb encounters unknown
-      ## endpoint descriptors, it will store them here, should you wish to parse
-      ## them.
-    extraLength*: cint ## Length of the extra descriptors, in bytes
+    maxPacketSize*: uint16
+      ## Maximum packet size this endpoint is capable of sending/receiving
+    interval*: uint8
+      ## Interval for polling endpoint for data transfers.
+    refresh*: uint8
+      ## For audio devices only: the rate at which synchronization feedback is
+      ## provided
+    synchAddress*: uint8
+      ## For audio devices only: the address if the synch endpoint
+    extra*: cstring
+      ## Extra descriptors. If libusb encounters unknown endpoint descriptors,
+      ## it will store them here, should you wish to parse them
+    extraLength*: cint
+      ## Length of the extra descriptors, in bytes
 
 
   LibusbInterfaceDescriptor* = object
     ## A structure representing the standard USB interface descriptor. This
     ## descriptor is documented in section 9.6.5 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 #* Size of this descriptor (in bytes)
-    descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_INTERFACE).
-    interfaceNumber*: uint8 ## Number of this interface.
-    alternateSetting*: uint8 ## Value used to select this alternate setting for
-      ## this interface
-    numEndpoints*: uint8 ## Number of endpoints used by this interface
-      ## (excluding the control endpoint).
-    interfaceClass*: uint8 ## USB-IF class code for this interface
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.interface`)
+    interfaceNumber*: uint8
+      ## Number of this interface
+    alternateSetting*: uint8
+      ## Value used to select this alternate setting for this interface
+    numEndpoints*: uint8
+      ## Number of endpoints used by this interface (excluding the control
+      ## endpoint)
+    interfaceClass*: uint8
+      ## USB-IF class code for this interface
       ## (see `LibusbClassCode <#LibusbClassCode>`_)
-    interfaceSubClass*: uint8 ## USB-IF subclass code for this interface,
-      ## qualified by the ``interfaceClass`` value.
-    interfaceProtocol*: uint8 ## USB-IF protocol code for this interface,
-      ## qualified by the ``interfaceClass`` and ``interfaceSubClass`` values.
-    iInterface*: uint8 ## Index of string descriptor describing this interface.
-    endpoint*: ptr LibusbEndpointDescriptor ## Array of endpoint descriptors.
-      ## This length of this array is determined by the ``numEndpoints`` field.
-    extra*: cstring ## Extra descriptors. If libusb encounters unknown
-      ## interface descriptors, it will store them here, should you wish to
-      ## parse them.
-    extraLength*: cint ## Length of the extra descriptors, in bytes.
+    interfaceSubClass*: uint8
+      ## USB-IF subclass code for this interface, qualified by the
+      ## ``interfaceClass`` value
+    interfaceProtocol*: uint8
+      ## USB-IF protocol code for this interface, qualified by the
+      ## ``interfaceClass`` and ``interfaceSubClass`` values
+    iInterface*: uint8
+      ## Index of string descriptor describing this interface
+    endpoint*: ptr LibusbEndpointDescriptor
+      ## Array of endpoint descriptors. This length of this array is determined
+      ## by the ``numEndpoints`` field
+    extra*: cstring
+      ## Extra descriptors. If libusb encounters unknown interface descriptors,
+      ## it will store them here, should you wish to parse them.
+    extraLength*: cint
+      ## Length of the extra descriptors, in bytes
 
 
   LibusbInterface* = object
     ## Collection of alternate settings for a particular USB interface.
-    altsetting*: ptr LibusbInterfaceDescriptor ## Array of interface
-      ## descriptors. The length of this array is determined by the
-      ## ``numAltsetting`` field.
-    numAltsetting*: cint ## The number of alternate settings that belong to
-      ## this interface.
+    altsetting*: ptr LibusbInterfaceDescriptor
+      ## Array of interface descriptors. The length of this array is determined
+      ## by the ``numAltsetting`` field.
+    numAltsetting*: cint
+      ## The number of alternate settings that belong to this interface
 
 
   LibusbConfigDescriptor* = object
     ## A structure representing the standard USB configuration descriptor. This
     ## descriptor is documented in section 9.6.3 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes)
-    descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_CONFIG).
-    totalLength*: uint16 ## Total length of data returned for this
-      ## configuration.
-    numInterfaces*: uint8 ## Number of interfaces supported by this
-      ## configuration.
-    configurationValue*: uint8 ## Identifier value for this configuration.
-    iConfiguration*: uint8 ## Index of string descriptor describing this
-      ## configuration.
-    bmAttributes*: uint8 ## Configuration characteristics
-    maxPower*: uint8 ## Maximum power consumption of the USB device from this
-      ## bus in this configuration when the device is fully opreation.
-      ## Expressed in units of 2 mA.
-    interfaces*: ptr LibusbInterface ## Array of interfaces supported by this
-      ## configuration. The length of this array is determined by the
-      ## ``numInterfaces`` field.
-    extra*: cstring ## Extra descriptors. If libusb encounters unknown
-      ## configuration descriptors, it will store them here, should you wish to
-      ## parse them.
-    extraLength*: cint ## Length of the extra descriptors, in bytes.
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.config`)
+    totalLength*: uint16
+      ## Total length of data returned for this configuration
+    numInterfaces*: uint8
+      ## Number of interfaces supported by this configuration
+    configurationValue*: uint8
+      ## Identifier value for this configuration
+    iConfiguration*: uint8
+      ## Index of string descriptor describing this configuration
+    bmAttributes*: uint8
+      ## Configuration characteristics
+    maxPower*: uint8
+      ## Maximum power consumption of the USB device from this bus in this
+      ## configuration when the device is fully opreation. Expressed in units of
+      ## 2 mA.
+    interfaces*: ptr LibusbInterface
+      ## Array of interfaces supported by this configuration. The length of this
+      ## array is determined by the ``numInterfaces`` field.
+    extra*: cstring
+      ## Extra descriptors. If libusb encounters unknown configuration
+      ## descriptors, it will store them here, should you wish to parse them.
+    extraLength*: cint
+      ## Length of the extra descriptors, in bytes
 
 
   LibusbSsEndpointCompanionDescriptor* = object
@@ -343,16 +438,21 @@ type
     ## This descriptor is documented in section 9.6.7 of the USB 3.0
     ## specification. All multiple-byte fields are represented in host-endian
     ## format.
-    length*: uint8 ## Size of this descriptor.
-    descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_SS_ENDPOINT_COMPANION).
-    maxBurst*: uint8 ## The maximum number of packets the endpoint can send or
-      ## recieve as part of a burst.
-    bmAttributes*: uint8 ## In bulk EP: bits 4:0 represents the maximum number
-      ## of streams the EP supports. In isochronous EP: bits 1:0 represents the
-      ## Mult - a zero based value that determines the maximum number of packets
-      ## within a service interval.
-    bytesPerInterval*: uint16 ## The total number of bytes this EP will
-      ## transfer every service interval. valid only for periodic EPs.
+    length*: uint8
+      ## Size of this descriptor
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.endpointCompanion`)
+    maxBurst*: uint8
+      ## The maximum number of packets the endpoint can send or recieve as part
+      ## of a burst
+    bmAttributes*: uint8
+      ## In bulk EP: bits 4:0 represents the maximum number of streams the EP
+      ## supports. In isochronous EP: bits 1:0 represents the Mult - a zero
+      ## based value that determines the maximum number of packets within a
+      ## service interval.
+    bytesPerInterval*: uint16
+      ## The total number of bytes this EP will transfer every service interval.
+      ## valid only for periodic EPs.
 
 
   LibusbBosDevCapabilityDescriptor* = object
@@ -360,39 +460,46 @@ type
     ## advised to check `devCapabilityType` and call the matching
     ## `libusbGetXXXDescriptor` function to get a structure fully matching
     ## the type.
-    length*: uint8 ## Size of this descriptor (in bytes)
-    descriptorType*: uint8 ## Descriptor type
-      ## (`LibusbDescriptorType.device <#LibusbDescriptorType>`_).
-    devCapabilityType*: uint8 ## Device Capability type.
-    devCapabilityData*: array[0, uint8] ## Device Capability data
-      ## (`length` - 3 bytes).
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.device`)
+    devCapabilityType*: uint8
+      ## Device Capability type
+    devCapabilityData*: array[0, uint8]
+      ## Device Capability data (`length` - 3 bytes)
 
 
   LibusbBosDescriptor* = object
     ## Binary Device Object Store (BOS) descriptor. This descriptor is
     ## documented in section 9.6.2 of the USB 3.0 specification.
     ## All multiple-byte fields are represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes)
-    descriptorType*: uint8 ## Descriptor type (LIBUSB_DT_BOS).
-    totalLength*: uint16 ## Length of this descriptor and all of its sub
-      ## descriptors.
-    numDeviceCaps*: uint8 ## The number of separate device capability
-      ## descriptors in the BOS.
-    devCapability*: array[0, ptr LibusbBosDevCapabilityDescriptor] ## \
-      ## `bNumDeviceCap` Device Capability Descriptors.
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.bos`)
+    totalLength*: uint16
+      ## Length of this descriptor and all of its sub descriptors
+    numDeviceCaps*: uint8
+      ## The number of separate device capability descriptors in the BOS
+    devCapability*: array[0, ptr LibusbBosDevCapabilityDescriptor]
+      ## `bNumDeviceCap` Device Capability Descriptors
 
 
-  LibusbUsb20extensionDescriptor* = object
+  LibusbUsb20ExtensionDescriptor* = object
     ## USB 2.0 Extension descriptor. This descriptor is documented in section
     ## 9.6.2.1 of the USB 3.0 specification. All multiple-byte fields are
     ## represented in host-endian format.
-    length*: uint8 ## Size of this descriptor (in bytes).
-    descriptorType*: uint8 ## Descriptor type
-      ## (`LibusbDescriptorType.deviceCapability <#LibusbDescriptorType>`_).
-    devCapabilityType*: uint8 ## Capability type (LIBUSB_BT_USB_2_0_EXTENSION).
-    bmAttributes*: uint32 ## Bitmap encoding of supported device level
-      ## features. A value of one in a bit location indicates a feature is
-      ## supported; a  value of zero indicates it is not supported. See
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.deviceCapability`)
+    devCapabilityType*: uint8
+      ## Capability type (`libusbBtUsb20Extension <#libusbBtUsb20Extension>`_)
+    bmAttributes*: uint32
+      ## Bitmap encoding of supported device level features. A value of one in a
+      ## bit location indicates a feature is supported; a value of zero
+      ## indicates it is not supported. See
       ## `LibusbUsb20ExtensionAttributes <#LibusbUsb20ExtensionAttributes>`_.
 
 
@@ -400,24 +507,29 @@ type
     ## Container ID descriptor. This descriptor is documented in section 9.6.2.3
     ## of the USB 3.0 specification. All multiple-byte fields, except UUIDs, are
     ## represented in host-endian format.
-    length*: uint8  ## Size of this descriptor (in bytes).
-    descriptorType*: uint8 ## Descriptor type
-      ## (`LibusbDescriptorType.deviceCapability <#LibusbDescriptorType>`_).
-    devCapabilityType*: uint8 ## Capability type
-      ## (LIBUSB_BT_SS_USB_DEVICE_CAPABILITY).
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.deviceCapability`)
+    devCapabilityType*: uint8
+      ## Capability type
+      ## (`libusbBtSsUsbDeviceCapability <#libusbBtSsUsbDeviceCapability>`_)
     bmAttributes*: uint8 ## Bitmap encoding of supported device level features.
       ## A value of one in a bit location indicates a feature is supported; a
       ## value of zero indicates it is not supported. See
       ## `LibusbSsUsbDeviceCapabilityAttributes <#LibusbSsUsbDeviceCapabilityAttributes>`_.
-    speedSupported*: uint16 ## Bitmap encoding of the speed supported by this
-      ## device when operating in SuperSpeed mode. See
-      ## `LibusbSupportedSpeed <#LibusbSupportedSpeed>`_.
-    functionalitySupport*: uint8 ## The lowest speed at which all the
-      ## functionality supported by the device is available to the user.
-      ## For example if the device supports all its functionality when connected
-      ## at full speed and above then it sets this value to 1.
-    u1DevExitLat*: uint8 ## U1 Device Exit Latency.
-    u2DevExitLat*: uint16 ## U2 Device Exit Latency.
+    speedSupported*: uint16
+      ## Bitmap encoding of the speed supported by this device when operating in
+      ## SuperSpeed mode. See `LibusbSupportedSpeed <#LibusbSupportedSpeed>`_.
+    functionalitySupport*: uint8
+      ## The lowest speed at which all the functionality supported by the device
+      ## is available to the user. For example if the device supports all its
+      ## functionality when connected at full speed and above then it sets this
+      ## value to 1.
+    u1DevExitLat*: uint8
+      ## U1 Device Exit Latency
+    u2DevExitLat*: uint16
+      ## U2 Device Exit Latency
 
 
   LibusbContainerIdDescriptor* = object
@@ -425,39 +537,54 @@ type
     ## documented in section 9.6.2.3 of the USB 3.0 specification. All
     ## multiple-byte fields, except UUIDs, are represented in host-endian
     ## format.
-    length*: uint8 ## Size of this descriptor (in bytes).
-    descriptorType*: uint8 ## Descriptor type
-      ## (`LibusbDescriptorType.deviceCapability <#LibusbDescriptorType>`_).
-    devCapabilityType*: uint8 ## Capability type (LIBUSB_BT_CONTAINER_ID).
-    reserved*: uint8 ## Reserved for future use.
-    containerID*: array[16, uint8] ## 128 bit UUID.
+    length*: uint8
+      ## Size of this descriptor (in bytes)
+    descriptorType*: LibusbDescriptorType
+      ## Descriptor type (set to `LibusbDescriptorType.deviceCapability`)
+    devCapabilityType*: uint8
+      ## Capability type (set to `LibusbBosType.containerId`)
+    reserved*: uint8
+      ## Reserved for future use
+    containerID*: array[16, uint8]
+      ## 128 bit UUID
 
 
   LibusbControlSetup* = object
     ## Setup packet for control transfers.
-    requestType*: uint8 ## Request type. Bits 0:4 determine recipient, see
+    bmRequestType*: uint8
+      ## Request type. Bits 0:4 determine recipient, see
       ## `LibusbRequestRecipient`. Bits 5:6 determine type, see
       ## `LibusbRequestType`. Bit 7 determines data transfer direction, see
       ## `LibusbEndpointDirection <#LibusbEndpointDirection>`_.
-    request*: uint8 ## Request. If the type bits of `requestType` are equal
-      ## to `LibusbRequestType.standard <#LibusbRequestType>`_ then this field
+    request*: uint8
+      ## Request. If the type bits of `bmRequestType` are equal to
+      ## `LibusbRequestType.standard <#LibusbRequestType>`_ then this field
       ## refers to `LibusbStandardRequest`. For other cases, use of this field
       ## is application-specific.
-    value*: uint16 ## Value. Varies according to request.
-    index*: uint16 ## Index. Varies according to request, typically used to
-      ## pass an index or offset
-    length*: uint16 ## Number of bytes to transfer.
+    value*: uint16
+      ## Value. Varies according to request
+    index*: uint16
+      ## Index. Varies according to request, typically used to pass an index or
+      ## offset
+    length*: uint16
+      ## Number of bytes to transfer
 
 
 type
   LibusbVersion* = object
     ## Provides the version of the libusb runtime.
-    major*: uint16 ## Library major version.
-    minor*: uint16 ## Library minor version.
-    micro*: uint16 ## Library micro version.
-    nano*: uint16 ## Library nano version.
-    rc*: cstring ## Library release candidate suffix string, e.g. "-rc4".
-    describe*: cstring ## For ABI compatibility only.
+    major*: uint16
+      ## Library major version
+    minor*: uint16
+      ## Library minor version
+    micro*: uint16
+      ## Library micro version
+    nano*: uint16
+      ## Library nano version
+    rc*: cstring
+      ## Library release candidate suffix string, e.g. "-rc4"
+    describe*: cstring
+      ## For ABI compatibility only
 
 
   LibusbContext* = object
@@ -497,6 +624,7 @@ type
   LibusbDeviceArray* {.unchecked.} = array[10_000, ptr LibusbDevice]
     ## Unchecked array of pointers to USB devices.
 
+
   LibusbDeviceHandle* = object
     ## Represents USB device handle. This is an opaque type for which you are
     ## only ever provided with a pointer, usually originating from
@@ -506,96 +634,134 @@ type
 
 
 type
-  LibusbSpeed* {.pure.} = enum ## \
+  LibusbSpeed* {.pure.} = enum
     ## Enumerates speed codes to indicate the speed of devices.
-    unknown = 0, ## The OS doesn't report or know the device speed.
-    lowSpeed = 1, ## The device is operating at low speed (1.5MBit/s).
-    fullSpeed = 2, ## The device is operating at full speed (12MBit/s).
-    highSpeed = 3, ## The device is operating at high speed (480MBit/s).
-    superSpeed = 4 ##The device is operating at super speed (5000MBit/s).
+    unknown = 0,
+      ## The OS doesn't report or know the device speed
+    lowSpeed = 1,
+      ## The device is operating at low speed (1.5MBit/s)
+    fullSpeed = 2,
+      ## The device is operating at full speed (12MBit/s)
+    highSpeed = 3,
+      ## The device is operating at high speed (480MBit/s)
+    superSpeed = 4
+      ##The device is operating at super speed (5000MBit/s)
 
 
-  LibusbSupportedSpeed* {.pure.} = enum ## \
+  LibusbSupportedSpeed* {.pure.} = enum
     ## Enumerates supported speeds in the ``speedSupported`` bit field.
-    lowSpeed = 1, ## Low speed operation supported (1.5MBit/s).
-    fullSpeed = 2, ## Full speed operation supported (12MBit/s).
-    highSpeed = 4, ## High speed operation supported (480MBit/s).
-    superSpeed = 8 ## Superspeed operation supported (5000MBit/s).
+    lowSpeed = 1,
+      ## Low speed operation supported (1.5MBit/s)
+    fullSpeed = 2,
+      ## Full speed operation supported (12MBit/s)
+    highSpeed = 4,
+      ## High speed operation supported (480MBit/s)
+    superSpeed = 8
+      ## Superspeed operation supported (5000MBit/s)
 
 
-  LibusbUsb20ExtensionAttributes* {.pure.} = enum ## \
+  LibusbUsb20ExtensionAttributes* {.pure.} = enum
     ## Masks for the bits of the `bmAttributes` field in
-    ## `LibusbUsb20extensionDescriptor <#LibusbUsb20extensionDescriptor>`_.`.
-    linkPowerMngmt = 2 ## Supports Link Power Management (LPM).
+    ## `LibusbUsb20ExtensionDescriptor <#LibusbUsb20ExtensionDescriptor>`_.
+    linkPowerMngmt = 2
+      ## Supports Link Power Management (LPM)
 
 
-  LibusbSsUsbDeviceCapabilityAttributes* {.pure.} = enum ## \
+  LibusbSsUsbDeviceCapabilityAttributes* {.pure.} = enum
     ## Masks for the bits of the `bmAttributes` field in
     ## `LibusbSsUsbDeviceCapabilityDescriptor <#LibusbSsUsbDeviceCapabilityDescriptor>`_.
-    latencyToleranceMsg = 2 ## Supports Latency Tolerance Messages (LTM).
+    latencyToleranceMsg = 2
+      ## Supports Latency Tolerance Messages (LTM)
 
 
-  LibusbBosType* {.pure.} = enum ## \
+  LibusbBosType* {.pure.} = enum
     ## Enumerates USB capability types.
-    wirelessUsbDeviceCapability = 1, ## Wireless USB device capability.
-    usb20Extension = 2, ## USB 2.0 extensions.
-    ssUsbDeviceCapability = 3, ## SuperSpeed USB device capability.
-    containerId = 4 ## Container ID type.
+    wirelessUsbDeviceCapability = 1,
+      ## Wireless USB device capability
+    usb20Extension = 2,
+      ## USB 2.0 extensions.
+    ssUsbDeviceCapability = 3,
+      ## SuperSpeed USB device capability
+    containerId = 4
+      ## Container ID type
 
-  LibusbError* {.pure, size: sizeof(cint).} = enum ## \
+
+  LibusbError* {.pure, size: sizeof(cint).} = enum
     ## Enumerates error codes.
-    other = -99, ## Other error.
-    notSupported = -12, ## Operation not supported or unimplemented on this \
-      ## platform.
-    noMemory = -11, ## Insufficient memory.
-    interrupted = -10, ## System call interrupted (perhaps due to signal)
-    pipe = -9, ## Pipe error.
-    overflow = -8, ## Overflow.
-    timeout = -7, ## Operation timed out.
-    busy = -6, ## Resource busy.
-    notFound = -5, ## Entity not found.
-    noDevice = -4, ## No such device (it may have been disconnected).
-    access = -3, ## Access denied (insufficient permissions)
-    invalidParam = -2, ## Invalid parameter.
-    io = -1, ## Input/output error.
-    success = 0 ## Success (no error).
+    other = -99,
+      ## Other error
+    notSupported = -12,
+      ## Operation not supported or unimplemented on this platform
+    noMemory = -11,
+      ## Insufficient memory.
+    interrupted = -10,
+      ## System call interrupted (perhaps due to signal)
+    pipe = -9,
+      ## Pipe error
+    overflow = -8,
+      ## Overflow.
+    timeout = -7,
+      ## Operation timed out
+    busy = -6,
+      ## Resource busy
+    notFound = -5,
+      ## Entity not found
+    noDevice = -4,
+      ## No such device (it may have been disconnected)
+    access = -3,
+      ## Access denied (insufficient permissions)
+    invalidParam = -2,
+      ## Invalid parameter
+    io = -1,
+      ## Input/output error
+    success = 0
+      ## Success (no error)
 
 const
-  libusbErrorCount* = 14 ## Total number of error codes in \
-    ## `libusb_error <#LibusbError>`_.
+  libusbErrorCount* = 14
+    ## Total number of error codes in `libusbError <#LibusbError>`_.
 
 
 type
-  LibusbTransferStatus* {.pure.} = enum ## \
+  LibusbTransferStatus* {.pure.} = enum
     ## Enumerats transfer status codes.
-    completed, ## Transfer completed without error. Note that this does not
-      ## indicate that the entire amount of requested data was transferred.
-    error, ## Transfer failed.
-    timedOut, ## Transfer timed out.
-    cancelled, ## Transfer was cancelled.
-    stall, ## For bulk/interrupt endpoints: halt condition detected
-      ## (endpoint stalled). For control endpoints: control request not
-      ## supported.
-    noDevice, ## Device was disconnected.
-    overflow ## Device sent more data than requested.
+    completed,
+      ## Transfer completed without error. Note that this does not indicate that
+      ## the entire amount of requested data was transferred.
+    error,
+      ## Transfer failed
+    timedOut,
+      ## Transfer timed out
+    cancelled,
+      ## Transfer was cancelled
+    stall,
+      ## For bulk/interrupt endpoints: halt condition detected (endpoint
+      ## stalled). For control endpoints: control request not supported.
+    noDevice,
+      ## Device was disconnected
+    overflow
+      ## Device sent more data than requested
 
 
-  LibusbTransferFlags* {.pure.} = enum ## \
-    ## Enumerates `libusb_transfer.flags` values.
-    shortNotOk = 1 shl 0, ## Report short frames as errors.
-    freeBuffer = 1 shl 1, ## Automatically `free()` transfer
-      ## buffer during `libusbFreeTransfer <#libusbFreeTransfer>`_
-    freeTransfer = 1 shl 2, ## Automatically call
-      ## `libusbFreeTransfer <#libusbFreeTransfer>`_ after callback returns.
-      ## If this flag is set, it is illegal to call
+  LibusbTransferFlags* {.pure.} = enum
+    ## Enumerates `LibusbTransfer.flags <#LibusbTransfer.flags>`_ values.
+    shortNotOk = 1 shl 0,
+      ## Report short frames as errors
+    freeBuffer = 1 shl 1,
+      ## Automatically `free()` transfer buffer during
+      ## `libusbFreeTransfer <#libusbFreeTransfer>`_
+    freeTransfer = 1 shl 2,
+      ## Automatically call `libusbFreeTransfer <#libusbFreeTransfer>`_ after
+      ## callback returns. If this flag is set, it is illegal to call
       ## `libusbFreeTransfer <#libusbFreeTransfer>`_ from your transfer
       ## callback, as this will result in a double-free when this flag is acted
       ## upon.
-    addZeroPacket = 1 shl 3 ## Terminate transfers that are a multiple of the
-      ## endpoint's `maxPacketSize <#LibusbEndpointDescriptor>`_ with an extra
-      ## zero length packet. This is useful when a device protocol mandates that
-      ## each logical request is terminated by an incomplete packet (i.e. the
-      ## logical requests are not separated by other means).
+    addZeroPacket = 1 shl 3
+      ## Terminate transfers that are a multiple of the endpoint's
+      ## `maxPacketSize <#LibusbEndpointDescriptor>`_ with an extra zero length
+      ## packet. This is useful when a device protocol mandates that each
+      ## logical request is terminated by an incomplete packet (i.e. the logical
+      ## requests are not separated by other means).
       ##
       ## This flag only affects host-to-device transfers to bulk and interrupt
       ## endpoints. In other situations, it is ignored.
@@ -617,9 +783,12 @@ type
 type
   LibusbIsoPacketDescriptor* = object
     ## Isochronous packet descriptor.
-    length*: cuint ## Length of data to request in this packet.
-    actualLength*: cuint   ## Amount of data that was actually transferred.
-    status*: LibusbTransferStatus ## Status code for this packet.
+    length*: cuint
+      ## Length of data to request in this packet
+    actualLength*: cuint
+      ## Amount of data that was actually transferred
+    status*: LibusbTransferStatus
+      ## Status code for this packet
 
 
   LibusbIsoPacketDescriptorArray {.unchecked.} = array[0..0, LibusbIsoPacketDescriptor]
@@ -645,65 +814,80 @@ type
     ## then submits it in order to request a transfer. After the transfer has
     ## completed, the library populates the transfer with the results and passes
     ## it back to the user.
-    devHandle*: ptr LibusbDeviceHandle ## Handle of the device that this
-      ## transfer will be submitted to.
-    flags*: uint8 ## A bitwise OR combination of
-      ## `LibusbTransferFlags <#LibusbTransferFlags>`_.
-    endpoint*: cuchar ## Address of the endpoint where this transfer will be sent.
-    transferType*: LibusbTransferType ## Type of the endpoint from
-      ## `LibusbTransferType <#LibusbTransferType>`_.
-    timeout*: cuint ## Timeout for this transfer in millseconds. A value of 0
-      ## indicates no timeout.
-    status*: LibusbTransferStatus ## The status of the transfer. Read-only,
-      ## and only for use within transfer callback function.
+    devHandle*: ptr LibusbDeviceHandle
+      ## Handle of the device that this transfer will be submitted to
+    flags*: uint8
+      ## A bitwise OR combination of
+      ## `LibusbTransferFlags <#LibusbTransferFlags>`_
+    endpoint*: cuchar
+      ## Address of the endpoint where this transfer will be sent
+    transferType*: LibusbTransferType
+      ## Type of the endpoint from `LibusbTransferType <#LibusbTransferType>`_.
+    timeout*: cuint
+      ## Timeout for this transfer in millseconds. A value of `0` indicates no
+      ## timeout.
+    status*: LibusbTransferStatus
+      ## The status of the transfer. Read-only, and only for use within transfer
+      ## callback function.
       ##
       ## If this is an isochronous transfer, this field may read COMPLETED even
       ## if there were errors in the frames. Use the
       ## `LibusbIsoPacketDescriptor.status` field in each packet to determine
       ## if errors occurred.
-    length*: cint ## Length of the data buffer.
-    actualLength*: cint ## Actual length of data that was transferred.
-      ## Read-only, and only for use within transfer callback function.
-      ## Not valid for isochronous endpoint transfers.
-    callback*: LibusbTransferCbFn ## Callback function. This will be invoked
-      ## when the transfer completes, fails, or is cancelled.
-    userData*: pointer ## User context data to pass to the callback function.
-    buffer*: cstring ## Data buffer.
-    numIsoPackets*: cint ## Number of isochronous packets. Only used for I/O
-      ## with isochronous endpoints.
-    isoPacketDesc*: LibusbIsoPacketDescriptorArray ## Isochronous packet
-      ## descriptors, for isochronous transfers only.
+    length*: cint
+      ## Length of the data buffer
+    actualLength*: cint
+      ## Actual length of data that was transferred. Read-only, and only for use
+      ## within transfer callback function. Not valid for isochronous endpoint
+      ## transfers.
+    callback*: LibusbTransferCbFn
+      ## Callback function. This will be invoked when the transfer completes,
+      ## fails, or is cancelled.
+    userData*: pointer
+      ## User context data to pass to the callback function
+    buffer*: cstring
+      ## Data buffer
+    numIsoPackets*: cint
+      ## Number of isochronous packets. Only used for I/O with isochronous
+      ## endpoints
+    isoPacketDesc*: LibusbIsoPacketDescriptorArray
+      ## Isochronous packet descriptors, for isochronous transfers only
 
 
 type
-  LibusbCapability* {.pure, size: sizeof(uint32).} = enum ## \
+  LibusbCapability* {.pure, size: sizeof(uint32).} = enum
     ## Enumerates capabilities supported by an instance of libusb on the current
     ## running platform. Test if the loaded library supports a given capability
     ## by calling `libusbHasCapability()`.
-    hasCapability = 0x00000000, ## The libusbHasCapability() API
-      ## is available.
-    hasHotplug = 0x00000001, ## Hotplug support is available on this
-      ## platform.
-    hasHidAccess = 0x00000100, ## The library can access HID
-      ## devices without requiring user intervention. Note that before being
-      ## able to actually access an HID device, you may still have to call
-      ## additional libusb functions such as
+    hasCapability = 0x00000000,
+      ## The `libusbHasCapability <#libusbHasCapability>`_ API is available
+    hasHotplug = 0x00000001,
+      ## Hotplug support is available on this platform
+    hasHidAccess = 0x00000100,
+      ## The library can access HID devices without requiring user intervention.
+      ## Note that before being able to actually access an HID device, you may
+      ## still have to call additional libusb functions such as
       ## `libusbDetachKernelDriver <#libusbDetachKernelDriver>`_.
-    supportsDetachKernelDriver = 0x00000101 ## The library
-      ## supports detaching of the default USB driver, using
+    supportsDetachKernelDriver = 0x00000101
+      ## The library supports detaching of the default USB driver, using
       ## `libusbDetachKernelDriver <#libusbDetachKernelDriver>`_, if one is set
       ## by the OS kernel.
 
 
-  LibusbLogLevel* {.pure.} = enum ## \
+  LibusbLogLevel* {.pure.} = enum
     ## Enumerates log message levels.
-    none = 0, ## No messages ever printed by the library (default)
-    error, ## Error messages are printed to stderr
-    warning, ## Warning and error messages are printed to stderr
-    info, ## Informational messages are printed to stdout, warning and error
+    none = 0,
+      ## No messages ever printed by the library (default)
+    error,
+      ## Error messages are printed to stderr
+    warning,
+      ## Warning and error messages are printed to stderr
+    info,
+      ## Informational messages are printed to stdout, warning and error
       ## messages are printed to stderr
-    debug ## Debug and informational messages are printed to stdout, warnings
-      ## and errors to stderr
+    debug
+      ## Debug and informational messages are printed to stdout, warnings and
+      ## errors to stderr
 
 
 proc libusbInit*(ctx: ptr ptr LibusbContext): cint
@@ -926,7 +1110,7 @@ proc libusbGetConfiguration*(dev: ptr LibusbDeviceHandle; config: ptr cint):
   ## config
   ##   Output location for the
   ##   `configurationValue <#LibusbConfigDescriptor>`_ of the active
-  ##   configuration (only valid if ``LibusbError.success <#LibusbError>`_ was
+  ##   configuration (only valid if `LibusbError.success <#LibusbError>`_ was
   ##   returned)
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
@@ -1046,7 +1230,7 @@ proc libusbFreeConfigDescriptor*(config: ptr LibusbConfigDescriptor)
 
 proc libusbGetSsEndpointCompanionDescriptor*(ctx: ptr LibusbContext;
   endpoint: ptr LibusbEndpointDescriptor;
-  ep_comp: ptr ptr LibusbSsEndpointCompanionDescriptor): cint
+  epComp: ptr ptr LibusbSsEndpointCompanionDescriptor): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_ss_endpoint_companion_descriptor".}
   ## Gets an endpoints superspeed endpoint companion descriptor (if any).
   ##
@@ -1055,7 +1239,7 @@ proc libusbGetSsEndpointCompanionDescriptor*(ctx: ptr LibusbContext;
   ## endpoint
   ##   Endpoint descriptor from which to get the superspeed endpoint companion
   ##   descriptor
-  ## ep_comp
+  ## epComp
   ##   Output location for the superspeed endpoint companion descriptor. Only
   ##   valid if `LibusbError.success <#LibusbError>`_ was returned. Must be
   ##   freed with after use with
@@ -1067,15 +1251,15 @@ proc libusbGetSsEndpointCompanionDescriptor*(ctx: ptr LibusbContext;
 
 
 proc libusbFreeSsEndpointCompanionDescriptor*(
-  ep_comp: ptr LibusbSsEndpointCompanionDescriptor)
+  epComp: ptr LibusbSsEndpointCompanionDescriptor)
   {.cdecl, dynlib: dllname, importc: "libusb_free_ss_endpoint_companion_descriptor".}
   ## Free a superspeed endpoint companion descriptor obtained from
   ## `libusbGetSsEndpointCompanionDescriptor <#libusbGetSsEndpointCompanionDescriptor>`_.
   ##
-  ## ep_comp
+  ## epComp
   ##   The superspeed endpoint companion descriptor to free
   ##
-  ## It is safe to call this function with a ``nil`` `ep_comp` parameter, in
+  ## It is safe to call this function with a ``nil`` `epComp` parameter, in
   ## which case the function simply returns.
 
 
@@ -1113,7 +1297,7 @@ proc libusbFreeBosDescriptor*(bos: ptr LibusbBosDescriptor)
 
 proc libusbGetUsb20ExtensionDescriptor*(ctx: ptr LibusbContext;
   devCap: ptr LibusbBosDevCapabilityDescriptor;
-  usb20Extension: ptr ptr LibusbUsb20extensionDescriptor): cint
+  usb20Extension: ptr ptr LibusbUsb20ExtensionDescriptor): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_usb_2_0_extension_descriptor".}
   ## Gets an USB 2.0 Extension descriptor.
   ##
@@ -1133,7 +1317,7 @@ proc libusbGetUsb20ExtensionDescriptor*(ctx: ptr LibusbContext;
 
 
 proc libusbFreeUsb20ExtensionDescriptor*(
-  usb20Extension: ptr LibusbUsb20extensionDescriptor)
+  usb20Extension: ptr LibusbUsb20ExtensionDescriptor)
   {.cdecl, dynlib: dllname, importc: "libusb_free_usb_2_0_extension_descriptor".}
   ## Frees a USB 2.0 Extension descriptor obtained from
   ## `libusbGetUsb20ExtensionDescriptor <#libusbGetUsb20ExtensionDescriptor>`_.
@@ -1244,15 +1428,15 @@ proc libusbGetPortNumber*(dev: ptr LibusbDevice): uint8
 
 
 proc libusbGetPortNumbers*(dev: ptr LibusbDevice;
-  port_numbers: ptr uint8; port_numbers_len: cint): cint
+  portNumbers: ptr uint8; portNumbersLen: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_port_numbers".}
   ## Get the list of all port numbers from root for the specified device.
   ##
   ## dev
   ##   A device
-  ## port_numbers
+  ## portNumbers
   ##   The array that should contain the port numbers
-  ## port_numbers_len
+  ## portNumbersLen
   ##   The maximum length of the array. As per the USB 3.0 specs, the current
   ##   maximum limit for the depth is 7
   ## result
@@ -1525,15 +1709,15 @@ proc libusbOpenDeviceWithVidPid*(ctx: ptr LibusbContext;
 
 
 proc libusbSetInterfaceAltSetting*(dev: ptr LibusbDeviceHandle;
-  interface_number: cint; alternate_setting: cint): cint
+  interfaceNumber: cint; alternateSetting: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_set_interface_alt_setting".}
   ## Activate an alternate setting for an interface.
   ##
   ## dev
   ##   A device handle
-  ## interface_number
+  ## interfaceNumber
   ##   The ``interfaceNumber`` of the previously-claimed interface
-  ## alternate_setting
+  ## alternateSetting
   ##   The ``alternateSetting`` of the alternate setting to activate
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
@@ -1597,17 +1781,17 @@ proc libusbResetDevice*(dev: ptr LibusbDeviceHandle): cint
 
 
 proc libusbAllocStreams*(dev: ptr LibusbDeviceHandle;
-  num_streams: uint32; endpoints: ptr cuchar; num_endpoints: cint): cint
+  numStreams: uint32; endpoints: ptr cuchar; numEndpoints: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_alloc_streams".}
-  ## Allocate up to num_streams usb bulk streams on the specified endpoints.
+  ## Allocate up to ``numStreams`` usb bulk streams on the specified endpoints.
   ##
   ## dev
   ##   A device handle
-  ## num_streams
+  ## numStreams
   ##   Number of streams to try to allocate
   ## endpoints
   ##   Array of endpoints to allocate streams on
-  ## num_endpoints
+  ## numEndpoints
   ##   Length of the endpoints array
   ## result
   ##   - number of streams allocated
@@ -1625,7 +1809,7 @@ proc libusbAllocStreams*(dev: ptr LibusbDeviceHandle;
 
 
 proc libusbFreeStreams*(dev: ptr LibusbDeviceHandle;
-  endpoints: ptr cuchar; num_endpoints: cint): cint
+  endpoints: ptr cuchar; numEndpoints: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_free_streams".}
   ## Free usb bulk streams allocated with
   ## `libusbAllocStreams <#libusbAllocStreams>`_.
@@ -1634,7 +1818,7 @@ proc libusbFreeStreams*(dev: ptr LibusbDeviceHandle;
   ##   A device handle
   ## endpoints
   ##   Array of endpoints to free streams on
-  ## num_endpoints
+  ## numEndpoints
   ##   Length of the endpoints array
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
@@ -1644,13 +1828,13 @@ proc libusbFreeStreams*(dev: ptr LibusbDeviceHandle;
 
 
 proc libusbKernelDriverActive*(dev: ptr LibusbDeviceHandle;
-  interface_number: cint): cint
+  interfaceNumber: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_kernel_driver_active".}
   ## Determine if a kernel driver is active on an interface.
   ##
   ## dev
   ##   A device handle
-  ## interface_number
+  ## interfaceNumber
   ##   The interface to check
   ## result
   ##   - ``0`` if no kernel driver is active
@@ -1667,13 +1851,13 @@ proc libusbKernelDriverActive*(dev: ptr LibusbDeviceHandle;
 
 
 proc libusbDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
-  interface_number: cint): cint
+  interfaceNumber: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_detach_kernel_driver".}
   ## Detach a kernel driver from an interface.
   ##
   ## dev
   ##   A device handle
-  ## interface_number
+  ## interfaceNumber
   ##   The interface to detach the driver from
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
@@ -1694,14 +1878,14 @@ proc libusbDetachKernelDriver*(dev: ptr LibusbDeviceHandle;
 
 
 proc libusbAttachIKernelDriver*(dev: ptr LibusbDeviceHandle;
-  interface_number: cint): cint
+  interfaceNumber: cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_attach_kernel_driver".}
   ## Re-attach an interface's kernel driver, which was previously detached using
   ## `libusbDetachKernelDriver <#libusbDetachKernelDriver>`_.
   ##
   ## dev
   ##   A device handle
-  ## interface_number
+  ## interfaceNumber
   ##   The interface to attach the driver from
   ## result
   ##   - `LibusbError.success <#LibusbError>`_ on success
@@ -1783,7 +1967,7 @@ proc libusbControlTransferGetSetup*(transfer: ptr LibusbTransfer):
   return cast[ptr LibusbControlSetup](transfer.buffer)
 
 
-proc libusbFillControlSetup*(buffer: ptr cuchar; requestType: uint8;
+proc libusbFillControlSetup*(buffer: ptr cuchar; bmRequestType: uint8;
   request: uint8; value: uint16; index: uint16; length: uint16) {.inline.} =
   ## Helper function to populate the setup packet (first 8 bytes of the data
   ## buffer) for a control transfer.
@@ -1791,8 +1975,8 @@ proc libusbFillControlSetup*(buffer: ptr cuchar; requestType: uint8;
   ## buffer
   ##   Buffer to output the setup packet into. This pointer must be aligned to
   ##   at least 2 bytes boundary
-  ## requestType
-  ##   See the `requestType` field of
+  ## bmRequestType
+  ##   See the `bmRequestType` field of
   ##   `LibusbControlSetup <#LibusbControlSetup>`_
   ## request
   ##   See the `request` field of `LibusbControlSetup <#LibusbControlSetup>`_
@@ -1807,19 +1991,19 @@ proc libusbFillControlSetup*(buffer: ptr cuchar; requestType: uint8;
   ## byte order.
   var setup: ptr LibusbControlSetup =
     cast[ptr LibusbControlSetup](cast[pointer](buffer))
-  setup.requestType = requestType
+  setup.bmRequestType = bmRequestType
   setup.request = request
   setup.value = libusbCpuToLe16(value)
   setup.index = libusbCpuToLe16(index)
   setup.length = libusbCpuToLe16(length)
 
 
-proc libusbAllocTransfer*(iso_packets: cint): ptr LibusbTransfer
+proc libusbAllocTransfer*(isoPackets: cint): ptr LibusbTransfer
   {.cdecl, dynlib: dllname, importc: "libusb_alloc_transfer".}
   ## Allocate a libusb transfer with a specified number of isochronous packet
   ## descriptors.
   ##
-  ## iso_packets
+  ## isoPackets
   ##   Number of isochronous packet descriptors to allocate
   ## result
   ##   A newly allocated transfer, or ``nil`` on error
@@ -1828,7 +2012,7 @@ proc libusbAllocTransfer*(iso_packets: cint): ptr LibusbTransfer
   ## no longer needed, it should be freed with
   ## `libusbFreeTransfer <#libusbFreeTransfer>`_. Transfers intended for
   ## non-isochronous endpoints (e.g. control, bulk, interrupt) should specify an
-  ## iso_packets count of zero.
+  ## ``isoPackets`` count of zero.
   ##
   ## For transfers intended for isochronous endpoints, specify an appropriate
   ## number of packet descriptors to be allocated as part of the transfer. The
@@ -1899,13 +2083,13 @@ proc libusbFreeTransfer*(transfer: ptr LibusbTransfer)
 
 
 proc libusbTransferSetStreamId*(transfer: ptr LibusbTransfer;
-  stream_id: uint32)
+  streamId: uint32)
   {.cdecl, dynlib: dllname, importc: "libusb_transfer_set_stream_id".}
   ## Set a transfers bulk stream id.
   ##
   ## transfer
   ##   The transfer to set the stream id for
-  ## stream_id
+  ## streamId
   ##   The stream id to set
   ##
   ## Note users are advised to use
@@ -2004,7 +2188,7 @@ proc libusbFillBulkTransfer*(transfer: ptr LibusbTransfer;
 
 
 proc libusbFillBulkStreamTransfer*(transfer: ptr LibusbTransfer;
-  devHandle: ptr LibusbDeviceHandle; endpoint: cuchar; stream_id: uint32;
+  devHandle: ptr LibusbDeviceHandle; endpoint: cuchar; streamId: uint32;
   buffer: ptr cuchar; length: cint; callback: LibusbTransferCbFn;
   userData: pointer; timeout: cuint) {.inline.} =
   ## Helper function to populate the `LibusbTransfer <#LibusbTransfer>`_ fields
@@ -2016,7 +2200,7 @@ proc libusbFillBulkStreamTransfer*(transfer: ptr LibusbTransfer;
   ##   Handle of the device that will handle the transfer
   ## endpoint
   ##   Address of the endpoint where this transfer will be sent
-  ## stream_id
+  ## streamId
   ##   Bulk stream id for this transfer
   ## buffer
   ##   Data buffer
@@ -2031,7 +2215,7 @@ proc libusbFillBulkStreamTransfer*(transfer: ptr LibusbTransfer;
   libusbFillBulkTransfer(transfer, devHandle, endpoint, buffer, length,
     callback, userData, timeout)
   transfer.transferType = LibusbTransferType.bulkStream
-  libusbTransferSetStreamId(transfer, stream_id)
+  libusbTransferSetStreamId(transfer, streamId)
 
 
 proc libusbFillInterruptTransfer*(transfer: ptr LibusbTransfer;
@@ -2194,7 +2378,7 @@ proc libusbGetIsoPacketBufferSimple*(transfer: ptr LibusbTransfer;
 # Sync I/O #####################################################################
 
 proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
-  requestType: uint8; request: LibusbStandardRequest;
+  bmRequestType: uint8; request: LibusbStandardRequest;
   value: uint16; index: uint16; data: ptr cuchar; length: uint16;
   timeout: cuint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_control_transfer".}
@@ -2202,7 +2386,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##
   ## devHandle
   ##   A handle for the device to communicate with
-  ## requestType
+  ## bmRequestType
   ##   The request type field for the setup packet
   ## request
   ##   The request field for the setup packet
@@ -2212,7 +2396,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##   The index field for the setup packet
   ## data
   ##   A suitably-sized data buffer for either input or output (depending on
-  ##   direction bits within `requestType`)
+  ##   direction bits within bmRequestType)
   ## length
   ##   The length field for the setup packet. The data buffer should be at least
   ##   this size
@@ -2228,7 +2412,7 @@ proc libusbControlTransfer*(devHandle: ptr LibusbDeviceHandle;
   ##     disconnected
   ##   - `LibusbError <#LibusbError>`_ codes on other failures
   ##
-  ## The direction of the transfer is inferred from the `requestType` field of
+  ## The direction of the transfer is inferred from the bmRequestType field of
   ## the setup packet. The `value`, `index` and `length` fields values should
   ## be given in host-endian byte order.
 
@@ -2828,7 +3012,7 @@ type
 
 
 type
-  LibusbHotplugFlag* {.pure, size: sizeof(cint).} = enum ## \
+  LibusbHotplugFlag* {.pure, size: sizeof(cint).} = enum
     ## Enumerates flags for hotplug events.
     noFlags = 0, ## Default value when not using any flags.
     enumerate = 1 shl 0 ## Arm the callback and fire it for all

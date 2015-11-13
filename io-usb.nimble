@@ -7,4 +7,4 @@ license: "MIT"
 srcDir: "src"
 
 [Deps]
-requires: "nimrod > 0.9.2"
+requires: "nimrod >= 0.12.0"

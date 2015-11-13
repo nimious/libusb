@@ -15,7 +15,7 @@ USB protocol.
 ## Supported Platforms
 
 io-usb is still under development and may not fully work yet. So far, the
-following platforms have been built and tested with **libusb 1.0.19**:
+following platforms have been built and tested with **libusb 1.0.20**:
 
 - ~~Android~~
 - FreeBSD
@@ -85,9 +85,8 @@ TODO
 ### Windows
 
 Download the latest Windows Binaries snapshot from the *libusb* web site, copy
-the ``libusb-1.0.dll`` file into your program's folder and rename it to
-`libusb.dll`. Alternatively, you can download and compile the DLL from the
-source code in the *libusb* GitHub repository.
+the ``libusb-1.0.dll`` file into your program's folder. Alternatively, you can
+download and compile the DLL from the code in the *libusb* GitHub repository.
 
 ## Dependencies
 

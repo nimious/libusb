@@ -11,7 +11,26 @@ import libusb, strutils
 # The following program is a basic example of using `libusb` to print out the
 # list of available USB devices.
 
-var devices: ptr LibusbDeviceArray
+
+proc printDevice(device: ptr LibusbDevice) =
+  # Print information about the given USB device
+  var desc: LibusbDeviceDescriptor
+  let r = libusbGetDeviceDescriptor(device, addr desc)
+  if (r < 0):
+    echo "Error: Failed to get device descriptor"
+  else:
+    var p = ""
+    var path: array[8, uint8]
+    let n = libusbGetPortNumbers(device, addr path[0], (cint)sizeof(path))
+    if n > 0:
+      p = " path: "
+      p.add($path[0])
+      for i in 1.. <n:
+        p.add(".")
+        p.add($path[i])
+    echo toHex(desc.idVendor, 4), ":", toHex(desc.idProduct, 4),
+      " (bus ", libusbGetBusNumber(device),
+      ", device ", libusbGetDeviceAddress(device), ")", p
 
 
 # initialize library
@@ -23,39 +42,15 @@ else:
   echo "Success: Initialized libusb"
 
   # detect available USB devices
+  var devices: ptr LibusbDeviceArray
   let cnt = libusbGetDeviceList(nil, addr devices)
   echo "Number of detected USB devices: ", cnt
 
   # print device details
   for i in 0..high(devices[]):
-    let device = devices[i]
-    if device == nil:
+    if devices[i] == nil:
       break
-    echo "Details for device #", i
-    block:
-      echo "  Details:"
-      echo "    Bus: ", libusbGetBusNumber(device),
-        ", Address: ", libusbGetDeviceAddress(device)
-      var path: array[8, uint8]
-      let r = libusbGetPortNumbers(device, addr path[0], (cint)sizeof(path))
-      if (r > 0):
-        var s = "    Path: "
-        s.add($path[0])
-        for i in 1..(r - 1):
-          s.add(".")
-          s.add($path[i])
-        echo s
-
-    block:
-      echo "  Descriptor:"
-      var desc: LibusbDeviceDescriptor
-      let r = libusbGetDeviceDescriptor(device, addr desc)
-      if (r < 0):
-        echo "    Error: Failed to get descriptor"
-      else:
-        echo "    Vendor: ", toHex(desc.idVendor, 4)
-        echo "    Product: ", toHex(desc.idProduct, 4)
-        echo "    Device: ", desc.bcdDevice
+    printDevice(devices[i])
 
   # free list of devices
   libusbFreeDeviceList(devices, 1)
