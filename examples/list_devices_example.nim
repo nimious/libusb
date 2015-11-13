@@ -42,7 +42,7 @@ else:
   echo "Success: Initialized libusb"
 
   # detect available USB devices
-  var devices: ptr LibusbDeviceArray
+  var devices: ptr LibusbDeviceArray = nil
   let cnt = libusbGetDeviceList(nil, addr devices)
   echo "Number of detected USB devices: ", cnt
 
