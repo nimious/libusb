@@ -14,7 +14,7 @@ var done = 0
 proc hotplugCallback(ctx: ptr LibusbContext; device: ptr LibusbDevice;
   event: cint; userData: pointer): cint =
   # Hotplug callback function
-  var desc: LibusbDeviceDescriptor
+  var desc = LibusbDeviceDescriptor(descriptorType: LibusbDescriptorType.device)
   let rc = libusbGetDeviceDescriptor(device, addr(desc))
   if rc != (cint)LibusbError.success:
     echo "Warning: Failed to get device descriptor", libusbErrorName(rc)
