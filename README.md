@@ -1,21 +1,20 @@
-# io-usb
+# libusb
 
 Nim bindings for libusb, the cross-platform user library to access USB devices.
-![io-usb Logo](logo.png)
+![libusb Logo](docs/logo.png)
 
 
 ## About
 
-io-usb contains binding to libusb for the [Nim](http://nim-lang.org) programming
-language. libusb provides generic access to USB devices. It is portable,
-requires no special privileges or elevation and supports all versions of the
-USB protocol.
+This package contains binding to *libusb* for the [Nim](http://nim-lang.org)
+programming language. libusb provides generic access to USB devices. It is
+portable, requires no special privileges or elevation and supports all versions
+of the USB protocol.
 
 
 ## Supported Platforms
 
-io-usb is still under development and may not fully work yet. So far, the
-following platforms have been built and tested with **libusb 1.0.20**:
+The following platforms have been built and tested with **libusb 1.0.20**:
 
 - ~~Android~~
 - FreeBSD
@@ -90,7 +89,7 @@ download and compile the DLL from the code in the *libusb* GitHub repository.
 
 ## Dependencies
 
-io-usb does not have any dependencies to other Nim packages at this time.
+This package does not have any dependencies to other Nim packages at this time.
 
 
 ## Usage
@@ -105,8 +104,8 @@ import libusb
 
 ## Support
 
-Please [file an issue](https://github.com/nimious/io-usb/issues), submit a
-[pull request](https://github.com/nimious/io-usb/pulls?q=is%3Aopen+is%3Apr)
+Please [file an issue](https://github.com/nimious/libusb/issues), submit a
+[pull request](https://github.com/nimious/libusb/pulls?q=is%3Aopen+is%3Apr)
 or email us at info@nimio.us if this package is out of date or contains bugs.
 For all other issues related to USB devices visit the libusb web site below.
 

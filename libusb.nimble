@@ -1,6 +1,6 @@
 [Package]
-name: "io-usb"
-version: "0.2"
+name: "libusb"
+version: "1.0"
 author: "Gerke Max Preussner <info@nimio.us>"
 description: "Bindings for libusb, the cross-platform user library to access USB devices."
 license: "MIT"

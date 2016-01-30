@@ -1,4 +1,4 @@
-## *io-usb* - Nim bindings for libusb, the cross-platform user library to access
+## *libusb* - Nim bindings for libusb, the cross-platform user library to access
 ## USB devices.
 ##
 ## This file is part of the `Nim I/O <http://nimio.us>`_ package collection.
@@ -19,7 +19,7 @@ elif defined(macosx):
 elif defined(windows):
   const dllname = "libusb-1.0.dll"
 else:
-  {.error: "io-usb does not support this platform".}
+  {.error: "libusb does not support this platform".}
 
 
 type

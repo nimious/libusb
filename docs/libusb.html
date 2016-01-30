@@ -10,8 +10,8 @@
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAUAAAAF////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAIAAABbAAAAlQAAAKIAAACbAAAAmwAAAKIAAACVAAAAWwAAAAL///8A////AP///wD///8A////AAAAABQAAADAAAAAYwAAAA3///8A////AP///wD///8AAAAADQAAAGMAAADAAAAAFP///wD///8A////AP///wAAAACdAAAAOv///wD///8A////AP///wD///8A////AP///wD///8AAAAAOgAAAJ3///8A////AP///wAAAAAnAAAAcP///wAAAAAoAAAASv///wD///8A////AP///wAAAABKAAAAKP///wAAAABwAAAAJ////wD///8AAAAAgQAAABwAAACIAAAAkAAAAJMAAACtAAAAFQAAABUAAACtAAAAkwAAAJAAAACIAAAAHAAAAIH///8A////AAAAAKQAAACrAAAAaP///wD///8AAAAARQAAANIAAADSAAAARf///wD///8AAAAAaAAAAKsAAACk////AAAAADMAAACcAAAAnQAAABj///8A////AP///wAAAAAYAAAAGP///wD///8A////AAAAABgAAACdAAAAnAAAADMAAAB1AAAAwwAAAP8AAADpAAAAsQAAAE4AAAAb////AP///wAAAAAbAAAATgAAALEAAADpAAAA/wAAAMMAAAB1AAAAtwAAAOkAAAD/AAAA/wAAAP8AAADvAAAA3gAAAN4AAADeAAAA3gAAAO8AAAD/AAAA/wAAAP8AAADpAAAAtwAAAGUAAAA/AAAA3wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADfAAAAPwAAAGX///8A////AAAAAEgAAADtAAAAvwAAAL0AAADGAAAA7wAAAO8AAADGAAAAvQAAAL8AAADtAAAASP///wD///8A////AP///wD///8AAAAAO////wD///8A////AAAAAIcAAACH////AP///wD///8AAAAAO////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A//8AAP//AAD4HwAA7/cAAN/7AAD//wAAoYUAAJ55AACf+QAAh+EAAAAAAADAAwAA4AcAAP5/AAD//wAA//8AAA=="/>
 
 <!-- Google fonts -->
-<link href='http://fonts.googleapis.com/css?family=Raleway:400,600,900' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,600,900' rel='stylesheet' type='text/css'/>
+<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600' rel='stylesheet' type='text/css'/>
 
 <!-- CSS -->
 <title>Module libusb</title>
@@ -1436,7 +1436,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
   lowSpeed = 1,                 ## The device is operating at low speed (1.5MBit&#x2F;s)
   fullSpeed = 2,                ## The device is operating at full speed (12MBit&#x2F;s)
   highSpeed = 3,                ## The device is operating at high speed (480MBit&#x2F;s)
-  superSpeed = 4                ##The device is operating at super speed (5000MBit&#x2F;s)"><wbr />Libusb<wbr />Speed</a></li>
+  superSpeed = 4                ## The device is operating at super speed (5000MBit&#x2F;s)"><wbr />Libusb<wbr />Speed</a></li>
   <li><a class="reference" href="#LibusbSupportedSpeed"
     title="LibusbSupportedSpeed = enum
   lowSpeed = 1,                 ## Low speed operation supported (1.5MBit&#x2F;s)
@@ -1497,10 +1497,10 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
                      ## packet. This is useful when a device protocol mandates that each
                      ## logical request is terminated by an incomplete packet (i.e. the logical
                      ## requests are not separated by other means).
-                     ##
+                     ## 
                      ## This flag only affects host-to-device transfers to bulk and interrupt
                      ## endpoints. In other situations, it is ignored.
-                     ##
+                     ## 
                      ## This flag only affects transfers with a length that is a multiple of
                      ## the endpoint&#x27;s `maxPacketSize &lt;#LibusbEndpointDescriptor&gt;`_. On
                      ## transfers of other lengths, this flag has no effect. Therefore, if you
@@ -1508,7 +1508,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
                      ## logical request falls on a packet boundary, then it is sensible to set
                      ## this flag on every transfer (you do not have to worry about only
                      ## setting it on transfers that end on the boundary).
-                     ##
+                     ## 
                      ## This flag is currently only supported on Linux. On other systems,
                      ## `libusbSubmitTransfer &lt;#libusbSubmitTransfer&gt;`_ will return
                      ## `LibusbError.notSupported &lt;#LibusbError&gt;`_ for every transfer where
@@ -1531,7 +1531,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
                 ## timeout.
   status*: LibusbTransferStatus ## The status of the transfer. Read-only, and only for use within transfer
                               ## callback function.
-                              ##
+                              ## 
                               ## If this is an isochronous transfer, this field may read COMPLETED even
                               ## if there were errors in the frames. Use the
                               ## `LibusbIsoPacketDescriptor.status` field in each packet to determine
@@ -1892,7 +1892,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
   </ul>
 </li>
 <li>
-  <a class="reference reference-toplevel" href="#18" id="68">Templates</a>
+  <a class="reference reference-toplevel" href="#17" id="67">Templates</a>
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#libusbLe16ToCpu.t,uint16"
     title="libusbLe16ToCpu(x: uint16): uint16"><wbr />libusb<wbr />Le16To<wbr />Cpu</a></li>
@@ -1904,7 +1904,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
 
   </div>
   <div class="nine columns" id="content">
-  <p class="module-desc"><p><em>io-usb</em> - Nim bindings for libusb, the cross-platform user library to access USB devices.</p>
+  <p class="module-desc"><p><em>libusb</em> - Nim bindings for libusb, the cross-platform user library to access USB devices.</p>
 <p>This file is part of the <a class="reference external" href="http://nimio.us">Nim I/O</a> package collection. See the file LICENSE included in this distribution for licensing details. GitHub pull requests are encouraged. (c) 2015 Headcrash Industries LLC.</p>
 </p>
   <div class="section" id="6">
@@ -1922,7 +1922,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
 <dd>
 Specifies a time interval.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L26"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L26"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbClassCode"><a name="LibusbClassCode"></a><pre><span class="Identifier">LibusbClassCode</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -1947,7 +1947,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates USB device class codes.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L59"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L59"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbDescriptorType"><a name="LibusbDescriptorType"></a><pre><span class="Identifier">LibusbDescriptorType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -1971,7 +1971,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates device descriptor types.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L98"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L98"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbEndpointDirection"><a name="LibusbEndpointDirection"></a><pre><span class="Identifier">LibusbEndpointDirection</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -1980,7 +1980,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates available endpoint directions (used in bit 7 of <a class="reference external" href="#LibusbEndpointDescriptor">LibusbEndpointDescriptor.endpointAddress</a> and bit 7 of <a class="reference external" href="#LibusbControlSetup">LibusbControlSetup.bmRequestType</a>)
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L161"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L161"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbTransferType"><a name="LibusbTransferType"></a><pre><span class="Identifier">LibusbTransferType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -1992,7 +1992,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates endpoint transfer types.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L178"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L178"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbStandardRequest"><a name="LibusbStandardRequest"></a><pre><span class="Identifier">LibusbStandardRequest</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2015,7 +2015,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates standard requests as defined in table 9-5 of the USB 3.0 spec.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L192"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L192"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbRequestType"><a name="LibusbRequestType"></a><pre><span class="Identifier">LibusbRequestType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2026,7 +2026,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates standard requests, as defined in table 9-5 of the USB 3.0 spec. Used in bits 5:6 of <a class="reference external" href="#LibusbControlSetup">LibusbControlSetup.bmRequestType</a>
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L227"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L227"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbRequestRecipient"><a name="LibusbRequestRecipient"></a><pre><span class="Identifier">LibusbRequestRecipient</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2035,10 +2035,9 @@ class="link-seesrc" target="_blank">Source</a>
   <span class="Identifier">endpoint</span> <span class="Other">=</span> <span class="DecNumber">0x00000002</span><span class="Other">,</span>        <span class="Comment">## Endpoint</span>
   <span class="Identifier">other</span> <span class="Other">=</span> <span class="DecNumber">0x00000003</span>            <span class="Comment">## Other recipient</span></pre></dt>
 <dd>
-Enumerates recipient bits in the LibusbControlSetup.bmRequestType 
-field. Values 4 through 31 are reserved.
+Enumerates recipient bits in the <cite>LibusbControlSetup.bmRequestType</cite> field. Values 4 through 31 are reserved.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L241"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L241"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbIsoSyncType"><a name="LibusbIsoSyncType"></a><pre><span class="Identifier">LibusbIsoSyncType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2049,7 +2048,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates synchronization types for isochronous endpoints.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L258"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L258"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbIsoUsageType"><a name="LibusbIsoUsageType"></a><pre><span class="Identifier">LibusbIsoUsageType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2059,7 +2058,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates usage types for isochronous endpoints.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L274"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L274"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbDeviceDescriptor"><a name="LibusbDeviceDescriptor"></a><pre><span class="Identifier">LibusbDeviceDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2084,7 +2083,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Standard USB device descriptor. This descriptor is documented in section 9.6.1 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L285"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L285"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbEndpointDescriptor"><a name="LibusbEndpointDescriptor"></a><pre><span class="Identifier">LibusbEndpointDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2113,7 +2112,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Standard USB endpoint descriptor. This descriptor is documented in section 9.6.6 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L322"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L322"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbInterfaceDescriptor"><a name="LibusbInterfaceDescriptor"></a><pre><span class="Identifier">LibusbInterfaceDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2139,7 +2138,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 A structure representing the standard USB interface descriptor. This descriptor is documented in section 9.6.5 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L359"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L359"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbInterface"><a name="LibusbInterface"></a><pre><span class="Identifier">LibusbInterface</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2150,7 +2149,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Collection of alternate settings for a particular USB interface.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L395"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L395"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbConfigDescriptor"><a name="LibusbConfigDescriptor"></a><pre><span class="Identifier">LibusbConfigDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2173,7 +2172,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 A structure representing the standard USB configuration descriptor. This descriptor is documented in section 9.6.3 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L404"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L404"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbSsEndpointCompanionDescriptor"><a name="LibusbSsEndpointCompanionDescriptor"></a><pre><span class="Identifier">LibusbSsEndpointCompanionDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2191,7 +2190,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 A structure representing the superspeed endpoint companion descriptor. This descriptor is documented in section 9.6.7 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L436"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L436"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbBosDevCapabilityDescriptor"><a name="LibusbBosDevCapabilityDescriptor"></a><pre><span class="Identifier">LibusbBosDevCapabilityDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2203,7 +2202,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Generic representation of a BOS Device Capability descriptor. It is advised to check <cite>devCapabilityType</cite> and call the matching <cite>libusbGetXXXDescriptor</cite> function to get a structure fully matching the type.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L458"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L458"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbBosDescriptor"><a name="LibusbBosDescriptor"></a><pre><span class="Identifier">LibusbBosDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2216,7 +2215,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Binary Device Object Store (BOS) descriptor. This descriptor is documented in section 9.6.2 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L473"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L473"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbUsb20ExtensionDescriptor"><a name="LibusbUsb20ExtensionDescriptor"></a><pre><span class="Identifier">LibusbUsb20ExtensionDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2231,7 +2230,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 USB 2.0 Extension descriptor. This descriptor is documented in section 9.6.2.1 of the USB 3.0 specification. All multiple-byte fields are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L489"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L489"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbSsUsbDeviceCapabilityDescriptor"><a name="LibusbSsUsbDeviceCapabilityDescriptor"></a><pre><span class="Identifier">LibusbSsUsbDeviceCapabilityDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2255,7 +2254,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Container ID descriptor. This descriptor is documented in section 9.6.2.3 of the USB 3.0 specification. All multiple-byte fields, except UUIDs, are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L506"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L506"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbContainerIdDescriptor"><a name="LibusbContainerIdDescriptor"></a><pre><span class="Identifier">LibusbContainerIdDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2268,7 +2267,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 A structure representing the Container ID descriptor. This descriptor is documented in section 9.6.2.3 of the USB 3.0 specification. All multiple-byte fields, except UUIDs, are represented in host-endian format.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L535"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L535"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbControlSetup"><a name="LibusbControlSetup"></a><pre><span class="Identifier">LibusbControlSetup</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2288,7 +2287,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Setup packet for control transfers.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L552"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L552"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbVersion"><a name="LibusbVersion"></a><pre><span class="Identifier">LibusbVersion</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2302,7 +2301,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Provides the version of the libusb runtime.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L574"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L574"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbContext"><a name="LibusbContext"></a><pre><span class="Identifier">LibusbContext</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2312,7 +2311,7 @@ class="link-seesrc" target="_blank">Source</a>
 <p>Sessions are created by <a class="reference external" href="#libusbInit">libusbInit</a> and destroyed through <a class="reference external" href="#libusbExit">libusbExit</a>. If your application is guaranteed to only ever include a single libusb user (i.e. you), you do not have to worry about contexts: pass <tt class="docutils literal"><span class="pre">nil</span></tt> in every function call where a context is required. The default context will be used.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L590"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L590"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbDevice"><a name="LibusbDevice"></a><pre><span class="Identifier">LibusbDevice</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2323,14 +2322,14 @@ class="link-seesrc" target="_blank">Source</a>
 <p>Devices are reference counted with <cite>libusbRefDevice()</cite> and <a class="reference external" href="#libusbUnrefDevice">libusbUnrefDevice</a>, and are freed when the reference count reaches <tt class="docutils literal"><span class="pre">0</span></tt>. New devices presented by <a class="reference external" href="#libusbGetDeviceList">libusbGetDeviceList</a> have a reference count of <tt class="docutils literal"><span class="pre">1</span></tt>, and <a class="reference external" href="#libusbFreeDeviceList">libusbFreeDeviceList</a> can optionally decrease the reference count on all devices in the list. <a class="reference external" href="#libusbOpen">libusbOpen</a> adds another reference which is later destroyed by <a class="reference external" href="#libusbClose">libusbClose</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L606"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L606"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbDeviceArray"><a name="LibusbDeviceArray"></a><pre><span class="Identifier">LibusbDeviceArray</span> <span class="Other">=</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">10000</span><span class="Other">,</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">]</span></pre></dt>
 <dd>
 Unchecked array of pointers to USB devices.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L624"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L624"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbDeviceHandle"><a name="LibusbDeviceHandle"></a><pre><span class="Identifier">LibusbDeviceHandle</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2338,7 +2337,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Represents USB device handle. This is an opaque type for which you are only ever provided with a pointer, usually originating from <cite>libusbOpen()</cite>. A device handle is used to perform I/O and other operations. When finished with a device handle, you should call <a class="reference external" href="#libusbClose">libusbClose</a>.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L628"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L628"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbSpeed"><a name="LibusbSpeed"></a><pre><span class="Identifier">LibusbSpeed</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2346,11 +2345,11 @@ class="link-seesrc" target="_blank">Source</a>
   <span class="Identifier">lowSpeed</span> <span class="Other">=</span> <span class="DecNumber">1</span><span class="Other">,</span>                 <span class="Comment">## The device is operating at low speed (1.5MBit/s)</span>
   <span class="Identifier">fullSpeed</span> <span class="Other">=</span> <span class="DecNumber">2</span><span class="Other">,</span>                <span class="Comment">## The device is operating at full speed (12MBit/s)</span>
   <span class="Identifier">highSpeed</span> <span class="Other">=</span> <span class="DecNumber">3</span><span class="Other">,</span>                <span class="Comment">## The device is operating at high speed (480MBit/s)</span>
-  <span class="Identifier">superSpeed</span> <span class="Other">=</span> <span class="DecNumber">4</span>                <span class="Comment">##The device is operating at super speed (5000MBit/s)</span></pre></dt>
+  <span class="Identifier">superSpeed</span> <span class="Other">=</span> <span class="DecNumber">4</span>                <span class="Comment">## The device is operating at super speed (5000MBit/s)</span></pre></dt>
 <dd>
 Enumerates speed codes to indicate the speed of devices.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L637"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L637"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbSupportedSpeed"><a name="LibusbSupportedSpeed"></a><pre><span class="Identifier">LibusbSupportedSpeed</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2361,7 +2360,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates supported speeds in the <tt class="docutils literal"><span class="pre">speedSupported</span></tt> bit field.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L651"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L651"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbUsb20ExtensionAttributes"><a name="LibusbUsb20ExtensionAttributes"></a><pre><span class="Identifier">LibusbUsb20ExtensionAttributes</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2369,7 +2368,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Masks for the bits of the <cite>bmAttributes</cite> field in <a class="reference external" href="#LibusbUsb20ExtensionDescriptor">LibusbUsb20ExtensionDescriptor</a>.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L663"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L663"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbSsUsbDeviceCapabilityAttributes"><a name="LibusbSsUsbDeviceCapabilityAttributes"></a><pre><span class="Identifier">LibusbSsUsbDeviceCapabilityAttributes</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2377,7 +2376,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Masks for the bits of the <cite>bmAttributes</cite> field in <a class="reference external" href="#LibusbSsUsbDeviceCapabilityDescriptor">LibusbSsUsbDeviceCapabilityDescriptor</a>.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L670"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L670"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbBosType"><a name="LibusbBosType"></a><pre><span class="Identifier">LibusbBosType</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2388,7 +2387,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates USB capability types.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L677"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L677"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbError"><a name="LibusbError"></a><pre><span class="Identifier">LibusbError</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2409,7 +2408,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates error codes.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L689"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L689"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbTransferStatus"><a name="LibusbTransferStatus"></a><pre><span class="Identifier">LibusbTransferStatus</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2425,7 +2424,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerats transfer status codes.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L726"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L726"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbTransferFlags"><a name="LibusbTransferFlags"></a><pre><span class="Identifier">LibusbTransferFlags</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2442,10 +2441,10 @@ class="link-seesrc" target="_blank">Source</a>
                      <span class="Comment">## packet. This is useful when a device protocol mandates that each</span>
                      <span class="Comment">## logical request is terminated by an incomplete packet (i.e. the logical</span>
                      <span class="Comment">## requests are not separated by other means).</span>
-                     <span class="Comment">##</span>
+                     <span class="Comment">## </span>
                      <span class="Comment">## This flag only affects host-to-device transfers to bulk and interrupt</span>
                      <span class="Comment">## endpoints. In other situations, it is ignored.</span>
-                     <span class="Comment">##</span>
+                     <span class="Comment">## </span>
                      <span class="Comment">## This flag only affects transfers with a length that is a multiple of</span>
                      <span class="Comment">## the endpoint's `maxPacketSize &lt;#LibusbEndpointDescriptor&gt;`_. On</span>
                      <span class="Comment">## transfers of other lengths, this flag has no effect. Therefore, if you</span>
@@ -2453,7 +2452,7 @@ class="link-seesrc" target="_blank">Source</a>
                      <span class="Comment">## logical request falls on a packet boundary, then it is sensible to set</span>
                      <span class="Comment">## this flag on every transfer (you do not have to worry about only</span>
                      <span class="Comment">## setting it on transfers that end on the boundary).</span>
-                     <span class="Comment">##</span>
+                     <span class="Comment">## </span>
                      <span class="Comment">## This flag is currently only supported on Linux. On other systems,</span>
                      <span class="Comment">## `libusbSubmitTransfer &lt;#libusbSubmitTransfer&gt;`_ will return</span>
                      <span class="Comment">## `LibusbError.notSupported &lt;#LibusbError&gt;`_ for every transfer where</span>
@@ -2461,7 +2460,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates <a class="reference external" href="#LibusbTransfer.flags">LibusbTransfer.flags</a> values.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L746"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L746"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbIsoPacketDescriptor"><a name="LibusbIsoPacketDescriptor"></a><pre><span class="Identifier">LibusbIsoPacketDescriptor</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2472,7 +2471,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Isochronous packet descriptor.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L784"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L784"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbTransferCbFn"><a name="LibusbTransferCbFn"></a><pre><span class="Identifier">LibusbTransferCbFn</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">fastcall</span><span class="Other">.}</span></pre></dt>
@@ -2482,7 +2481,7 @@ Asynchronous transfer callback function type. When submitting asynchronous trans
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L800"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L800"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbTransfer"><a name="LibusbTransfer"></a><pre><span class="Identifier">LibusbTransfer</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2495,7 +2494,7 @@ class="link-seesrc" target="_blank">Source</a>
                 <span class="Comment">## timeout.</span>
   <span class="Identifier">status</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">LibusbTransferStatus</span> <span class="Comment">## The status of the transfer. Read-only, and only for use within transfer</span>
                               <span class="Comment">## callback function.</span>
-                              <span class="Comment">##</span>
+                              <span class="Comment">## </span>
                               <span class="Comment">## If this is an isochronous transfer, this field may read COMPLETED even</span>
                               <span class="Comment">## if there were errors in the frames. Use the</span>
                               <span class="Comment">## `LibusbIsoPacketDescriptor.status` field in each packet to determine</span>
@@ -2515,7 +2514,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Generic USB transfer structure. The user populates this structure and then submits it in order to request a transfer. After the transfer has completed, the library populates the transfer with the results and passes it back to the user.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L812"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L812"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbCapability"><a name="LibusbCapability"></a><pre><span class="Identifier">LibusbCapability</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2531,7 +2530,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates capabilities supported by an instance of libusb on the current running platform. Test if the loaded library supports a given capability by calling <cite>libusbHasCapability()</cite>.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L858"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L858"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbLogLevel"><a name="LibusbLogLevel"></a><pre><span class="Identifier">LibusbLogLevel</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2545,7 +2544,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates log message levels.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L877"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L877"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbPollfd"><a name="LibusbPollfd"></a><pre><span class="Identifier">LibusbPollfd</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -2558,7 +2557,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 File descriptor for polling.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2919"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2919"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbPollfdAddedCb"><a name="LibusbPollfdAddedCb"></a><pre><span class="Identifier">LibusbPollfdAddedCb</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">fd</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">events</span><span class="Other">:</span> <span class="Identifier">cshort</span><span class="Other">;</span> <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span></pre></dt>
@@ -2572,7 +2571,7 @@ Callback function, invoked when a new file descriptor should be added to the set
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2929"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2929"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbPollfdRemovedCb"><a name="LibusbPollfdRemovedCb"></a><pre><span class="Identifier">LibusbPollfdRemovedCb</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">fd</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span> <span class="Identifier">userData</span><span class="Other">:</span> <span class="Identifier">pointer</span><span class="Other">)</span></pre></dt>
@@ -2584,7 +2583,7 @@ Callback function, invoked when a file descriptor should be removed from the set
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2943"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2943"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbHotplugCallbackHandle"><a name="LibusbHotplugCallbackHandle"></a><pre><span class="Identifier">LibusbHotplugCallbackHandle</span> <span class="Other">=</span> <span class="Identifier">cint</span></pre></dt>
@@ -2593,7 +2592,7 @@ class="link-seesrc" target="_blank">Source</a>
 <p>Callbacks handles are generated by <a class="reference external" href="#libusbHotplugRegisterCallback">libusbHotplugRegisterCallback</a> and can be used to deregister callbacks. Callback handles are unique per <a class="reference external" href="#LibusbContext">LibusbContext</a> and it is safe to call <a class="reference external" href="#libusbHotplugDeregisterCallback">libusbHotplugDeregisterCallback</a> on an already deregisted callback.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3003"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3003"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbHotplugFlag"><a name="LibusbHotplugFlag"></a><pre><span class="Identifier">LibusbHotplugFlag</span> <span class="Other">=</span> <span class="Keyword">enum</span>
@@ -2603,7 +2602,7 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Enumerates flags for hotplug events.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3015"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3015"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="LibusbHotplugCallbackFn"><a name="LibusbHotplugCallbackFn"></a><pre><span class="Identifier">LibusbHotplugCallbackFn</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">device</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span>
@@ -2626,7 +2625,7 @@ Hotplug callback function type. When requesting hotplug event notifications, you
 <p>It is safe to call either <a class="reference external" href="#libusbHotplugRegisterCallback">libusbHotplugRegisterCallback</a> or <a class="reference external" href="#libusbHotplugDeregisterCallback">libusbHotplugDeregisterCallback</a> from within a callback function.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3038"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3038"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 
@@ -2638,161 +2637,161 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L33"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L33"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtDeviceSize"><a name="libusbDtDeviceSize"></a><pre><span class="Identifier">libusbDtDeviceSize</span> <span class="Other">=</span> <span class="DecNumber">18</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L134"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L134"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtConfigSize"><a name="libusbDtConfigSize"></a><pre><span class="Identifier">libusbDtConfigSize</span> <span class="Other">=</span> <span class="DecNumber">9</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L135"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L135"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtInterfaceSize"><a name="libusbDtInterfaceSize"></a><pre><span class="Identifier">libusbDtInterfaceSize</span> <span class="Other">=</span> <span class="DecNumber">9</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L136"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L136"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtEndpointSize"><a name="libusbDtEndpointSize"></a><pre><span class="Identifier">libusbDtEndpointSize</span> <span class="Other">=</span> <span class="DecNumber">7</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L137"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L137"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtEndpointAudioSize"><a name="libusbDtEndpointAudioSize"></a><pre><span class="Identifier">libusbDtEndpointAudioSize</span> <span class="Other">=</span> <span class="DecNumber">9</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L138"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L138"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtHubNonvarSize"><a name="libusbDtHubNonvarSize"></a><pre><span class="Identifier">libusbDtHubNonvarSize</span> <span class="Other">=</span> <span class="DecNumber">7</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L139"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L139"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtSsEndpointCompanionSize"><a name="libusbDtSsEndpointCompanionSize"></a><pre><span class="Identifier">libusbDtSsEndpointCompanionSize</span> <span class="Other">=</span> <span class="DecNumber">6</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L140"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L140"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtBosSize"><a name="libusbDtBosSize"></a><pre><span class="Identifier">libusbDtBosSize</span> <span class="Other">=</span> <span class="DecNumber">5</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L141"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L141"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtDeviceCapabilitySize"><a name="libusbDtDeviceCapabilitySize"></a><pre><span class="Identifier">libusbDtDeviceCapabilitySize</span> <span class="Other">=</span> <span class="DecNumber">3</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L142"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L142"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbBtUsb20ExtensionSize"><a name="libusbBtUsb20ExtensionSize"></a><pre><span class="Identifier">libusbBtUsb20ExtensionSize</span> <span class="Other">=</span> <span class="DecNumber">7</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L146"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L146"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbBtSsUsbDeviceCapabilitySize"><a name="libusbBtSsUsbDeviceCapabilitySize"></a><pre><span class="Identifier">libusbBtSsUsbDeviceCapabilitySize</span> <span class="Other">=</span> <span class="DecNumber">10</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L147"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L147"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbBtContainerIdSize"><a name="libusbBtContainerIdSize"></a><pre><span class="Identifier">libusbBtContainerIdSize</span> <span class="Other">=</span> <span class="DecNumber">20</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L148"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L148"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDtBosMaxSize"><a name="libusbDtBosMaxSize"></a><pre><span class="Identifier">libusbDtBosMaxSize</span> <span class="Other">=</span> <span class="DecNumber">42</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L152"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L152"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbEndpointAddressMask"><a name="libusbEndpointAddressMask"></a><pre><span class="Identifier">libusbEndpointAddressMask</span> <span class="Other">=</span> <span class="DecNumber">0x0000000F</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L156"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L156"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbEndpointDirMask"><a name="libusbEndpointDirMask"></a><pre><span class="Identifier">libusbEndpointDirMask</span> <span class="Other">=</span> <span class="DecNumber">0x00000080</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L157"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L157"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbTransferTypeMask"><a name="libusbTransferTypeMask"></a><pre><span class="Identifier">libusbTransferTypeMask</span> <span class="Other">=</span> <span class="DecNumber">0x00000003</span></pre></dt>
 <dd>
 Used in <a class="reference external" href="#LibusbEndpointDescriptor">LibusbEndpointDescriptor.bmAttributes</a>
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L172"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L172"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbIsoSyncTypeMask"><a name="libusbIsoSyncTypeMask"></a><pre><span class="Identifier">libusbIsoSyncTypeMask</span> <span class="Other">=</span> <span class="DecNumber">0x0000000C</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L254"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L254"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbIsoUsageTypeMask"><a name="libusbIsoUsageTypeMask"></a><pre><span class="Identifier">libusbIsoUsageTypeMask</span> <span class="Other">=</span> <span class="DecNumber">0x00000030</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L270"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L270"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbErrorCount"><a name="libusbErrorCount"></a><pre><span class="Identifier">libusbErrorCount</span> <span class="Other">=</span> <span class="DecNumber">14</span></pre></dt>
 <dd>
 Total number of error codes in <a class="reference external" href="#LibusbError">libusbError</a>.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L721"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L721"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHotplugDeviceArrived"><a name="libusbHotplugDeviceArrived"></a><pre><span class="Identifier">libusbHotplugDeviceArrived</span> <span class="Other">=</span> <span class="DecNumber">0x00000001</span></pre></dt>
 <dd>
 A device has been plugged in and is ready to use.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3023"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3023"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHotplugDeviceLeft"><a name="libusbHotplugDeviceLeft"></a><pre><span class="Identifier">libusbHotplugDeviceLeft</span> <span class="Other">=</span> <span class="DecNumber">0x00000002</span></pre></dt>
 <dd>
 A device has left and is no longer available. It is the user's responsibility to call <a class="reference external" href="#libusbClose">libusbClose</a> on any handle associated with a disconnected device. It is safe to call <a class="reference external" href="#libusbGetDeviceDescriptor">libusbGetDeviceDescriptor</a> on a device that has left.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3025"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3025"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHotplugMatchAny"><a name="libusbHotplugMatchAny"></a><pre><span class="Identifier">libusbHotplugMatchAny</span> <span class="Other">=</span> <span class="DecNumber">-1</span></pre></dt>
 <dd>
 Wildcard matching for hotplug events.
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3034"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3034"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 
@@ -2809,7 +2808,7 @@ Convert a 16-bit value from host-endian to little-endian format.<dl class="docut
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L36"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L36"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbInit"><a name="libusbInit,ptr.ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbInit</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2826,7 +2825,7 @@ Initializes libusb.<dl class="docutils"><dt>context</dt>
 <p>This function must be called before calling any other libusb function. If you do not provide an output location for a context pointer, a default context will be created. If there was already a default context, it will be reused (and nothing will be initialized/reinitialized).</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L893"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L893"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbExit"><a name="libusbExit,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbExit</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2838,7 +2837,7 @@ Shuts down libusb.<dl class="docutils"><dt>ctx</dt>
 <p>Should be called after closing all open devices and before your application terminates.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L910"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L910"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetDebug"><a name="libusbSetDebug,ptr.LibusbContext,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetDebug</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">level</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2855,7 +2854,7 @@ Sets the log message verbosity.<dl class="docutils"><dt>ctx</dt>
 <p>If libusb was compiled without any message logging, this function does nothing: you'll never get any messages. If libusb was compiled with verbose debug message logging, this function does nothing: you'll always get messages from all levels.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L921"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L921"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetVersion"><a name="libusbGetVersion,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetVersion</span><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbVersion</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2866,7 +2865,7 @@ Gets the version (major, minor, micro, nano and rc) of the running library.<dl c
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L950"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L950"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHasCapability"><a name="libusbHasCapability,LibusbCapability"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHasCapability</span><span class="Other">(</span><span class="Identifier">capability</span><span class="Other">:</span> <span class="Identifier">LibusbCapability</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -2883,7 +2882,7 @@ Checks at runtime if the loaded library has a given capability.<dl class="docuti
 <p>This call should be performed after <a class="reference external" href="#libusbInit">libusbInit</a>, to ensure that the backend has updated its capability set.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L958"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L958"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbErrorName"><a name="libusbErrorName,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbErrorName</span><span class="Other">(</span><span class="Identifier">errcode</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2900,7 +2899,7 @@ Gets a constant nil-terminated string with the ASCII name of a libusb error or t
 <p>The caller must not free the returned string.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L972"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L972"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetLocale"><a name="libusbSetLocale,cstring"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetLocale</span><span class="Other">(</span><span class="Identifier">locale</span><span class="Other">:</span> <span class="Identifier">cstring</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2928,7 +2927,7 @@ Set the language, and only the language, not the encoding! used for translatable
 <p>For POSIX UTF-8 environments if you want libusb to follow the standard locale settings, call <cite>libusbSetLocale(setlocale(LC_MESSAGES, nil))</cite>, after your app has done its locale setup.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L987"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L987"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbStrError"><a name="libusbStrError,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbStrError</span><span class="Other">(</span><span class="Identifier">errcode</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cstring</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2944,7 +2943,7 @@ Get a constant string with a short description of the given error code.<dl class
 <p>This description is intended for displaying to the end user and will be in the language set by <a class="reference external" href="#libusbSetLocale">libusbSetLocale</a>. The returned string is encoded in UTF-8. The messages always start with a capital letter and end without any dot. The caller must not free the returned string.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1026"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1026"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDeviceList"><a name="libusbGetDeviceList,ptr.LibusbContext,ptr.ptr.LibusbDeviceArray"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDeviceList</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">list</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceArray</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">csize</span> <span class="Other">{.</span>
@@ -2965,7 +2964,7 @@ Get a list of USB devices currently attached to the system.<dl class="docutils">
 <p>The return value of this function indicates the number of devices in the resultant list. The list is actually one element larger, as it is NULL-terminated.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1041"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1041"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeDeviceList"><a name="libusbFreeDeviceList,ptr.LibusbDeviceArray,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeDeviceList</span><span class="Other">(</span><span class="Identifier">list</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceArray</span><span class="Other">;</span> <span class="Identifier">unrefDevices</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -2979,7 +2978,7 @@ Free a list of devices previously discovered using <a class="reference external"
 <p>If the <cite>unrefDevices</cite> parameter is set, the reference count of each device in the list is decremented by <tt class="docutils literal"><span class="pre">1</span></tt>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1069"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1069"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbRefDevice"><a name="libusbRefDevice,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbRefDevice</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -2992,7 +2991,7 @@ Increment the reference count of a device.<dl class="docutils"><dt>dev</dt>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1083"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1083"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbUnrefDevice"><a name="libusbUnrefDevice,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbUnrefDevice</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3004,7 +3003,7 @@ Decrement the reference count of a device.<dl class="docutils"><dt>dev</dt>
 <p>If the decrement operation causes the reference count to reach zero, the device shall be destroyed.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1093"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1093"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetConfiguration"><a name="libusbGetConfiguration,ptr.LibusbDeviceHandle,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetConfiguration</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">config</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3025,7 +3024,7 @@ Determine the configuration value of the currently active configuration.<dl clas
 <p>If the OS does not cache this information, then this function will block while a control transfer is submitted to retrieve the information. This function will return a value of 0 in the config output parameter if the device is in unconfigured state.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1104"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1104"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDeviceDescriptor"><a name="libusbGetDeviceDescriptor,ptr.LibusbDevice,ptr.LibusbDeviceDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDeviceDescriptor</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span>
@@ -3045,7 +3044,7 @@ Get the USB device descriptor for a given device.<dl class="docutils"><dt>dev</d
 <p>This is a non-blocking function; the device descriptor is cached in memory. Note since libusb-1.0.16, <a class="reference external" href="#libusbApiVersion">libusbApiVersion</a> &gt;= 0x01000102, this function always succeeds.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1131"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1131"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetActiveConfigDescriptor"><a name="libusbGetActiveConfigDescriptor,ptr.LibusbDevice,ptr.ptr.LibusbConfigDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetActiveConfigDescriptor</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span>
@@ -3066,7 +3065,7 @@ Get the USB configuration descriptor for the currently active configuration.<dl 
 <p>This is a non-blocking function which does not involve any requests being sent to the device.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1149"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1149"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetConfigDescriptor"><a name="libusbGetConfigDescriptor,ptr.LibusbDevice,uint8,ptr.ptr.LibusbConfigDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetConfigDescriptor</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span> <span class="Identifier">config_index</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -3089,7 +3088,7 @@ Get a USB configuration descriptor based on its index.<dl class="docutils"><dt>d
 <p>This is a non-blocking function which does not involve any requests being sent to the device.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1171"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1171"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetConfigDescriptorByValue"><a name="libusbGetConfigDescriptorByValue,ptr.LibusbDevice,uint8,ptr.ptr.LibusbConfigDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetConfigDescriptorByValue</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span>
@@ -3113,7 +3112,7 @@ Gets a USB configuration descriptor with a specific configuration value.<dl clas
 <p>This is a non-blocking function which does not involve any requests being sent to the device.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1194"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1194"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeConfigDescriptor"><a name="libusbFreeConfigDescriptor,ptr.LibusbConfigDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeConfigDescriptor</span><span class="Other">(</span><span class="Identifier">config</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbConfigDescriptor</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3125,7 +3124,7 @@ Frees a configuration descriptor obtained from <a class="reference external" hre
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> config parameter, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1218"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1218"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetSsEndpointCompanionDescriptor"><a name="libusbGetSsEndpointCompanionDescriptor,ptr.LibusbContext,ptr.LibusbEndpointDescriptor,ptr.ptr.LibusbSsEndpointCompanionDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetSsEndpointCompanionDescriptor</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span>
@@ -3148,7 +3147,7 @@ Gets an endpoints superspeed endpoint companion descriptor (if any).<dl class="d
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1231"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1231"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeSsEndpointCompanionDescriptor"><a name="libusbFreeSsEndpointCompanionDescriptor,ptr.LibusbSsEndpointCompanionDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeSsEndpointCompanionDescriptor</span><span class="Other">(</span>
@@ -3161,7 +3160,7 @@ Free a superspeed endpoint companion descriptor obtained from <a class="referenc
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> <cite>epComp</cite> parameter, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1253"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1253"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetBosDescriptor"><a name="libusbGetBosDescriptor,ptr.LibusbDeviceHandle,ptr.ptr.LibusbBosDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetBosDescriptor</span><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span>
@@ -3182,7 +3181,7 @@ Gets a Binary Object Store (BOS) descriptor.<dl class="docutils"><dt>handle</dt>
 <p>This is a blocking function, which will send requests to the device.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1266"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1266"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeBosDescriptor"><a name="libusbFreeBosDescriptor,ptr.LibusbBosDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeBosDescriptor</span><span class="Other">(</span><span class="Identifier">bos</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbBosDescriptor</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3194,7 +3193,7 @@ Frees a BOS descriptor obtained from <cite>libusbGetBosDescriptor()</cite>.<dl c
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> <cite>bos</cite> parameter, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1287"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1287"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetUsb20ExtensionDescriptor"><a name="libusbGetUsb20ExtensionDescriptor,ptr.LibusbContext,ptr.LibusbBosDevCapabilityDescriptor,ptr.ptr.LibusbUsb20ExtensionDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetUsb20ExtensionDescriptor</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">devCap</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbBosDevCapabilityDescriptor</span><span class="Other">;</span>
@@ -3215,7 +3214,7 @@ Gets an USB 2.0 Extension descriptor.<dl class="docutils"><dt>ctx</dt>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1298"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1298"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeUsb20ExtensionDescriptor"><a name="libusbFreeUsb20ExtensionDescriptor,ptr.LibusbUsb20ExtensionDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeUsb20ExtensionDescriptor</span><span class="Other">(</span><span class="Identifier">usb20Extension</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbUsb20ExtensionDescriptor</span><span class="Other">)</span> <span class="Other">{.</span>
@@ -3227,7 +3226,7 @@ Frees a USB 2.0 Extension descriptor obtained from <a class="reference external"
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> <cite>usb20Extension</cite> parameter, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1319"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1319"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetSsUsbDeviceCapabilityDescriptor"><a name="libusbGetSsUsbDeviceCapabilityDescriptor,ptr.LibusbContext,ptr.LibusbBosDevCapabilityDescriptor,ptr.ptr.LibusbSsUsbDeviceCapabilityDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetSsUsbDeviceCapabilityDescriptor</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span>
@@ -3249,7 +3248,7 @@ Gets a SuperSpeed USB Device Capability descriptor.<dl class="docutils"><dt>ctx<
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1332"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1332"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeSsUsbDeviceCapabilityDescriptor"><a name="libusbFreeSsUsbDeviceCapabilityDescriptor,ptr.LibusbSsUsbDeviceCapabilityDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeSsUsbDeviceCapabilityDescriptor</span><span class="Other">(</span>
@@ -3262,7 +3261,7 @@ Frees a SuperSpeed USB Device Capability descriptor obtained from <cite>libusbGe
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> <cite>ssUsbDeviceCap parameter</cite>, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1354"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1354"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetContainerIdDescriptor"><a name="libusbGetContainerIdDescriptor,ptr.LibusbContext,ptr.LibusbBosDevCapabilityDescriptor,ptr.ptr.LibusbContainerIdDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetContainerIdDescriptor</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">devCap</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbBosDevCapabilityDescriptor</span><span class="Other">;</span>
@@ -3283,7 +3282,7 @@ Gets a Container ID descriptor.<dl class="docutils"><dt>ctx</dt>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1367"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1367"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeContainerIdDescriptor"><a name="libusbFreeContainerIdDescriptor,ptr.LibusbContainerIdDescriptor"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeContainerIdDescriptor</span><span class="Other">(</span><span class="Identifier">container_id</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContainerIdDescriptor</span><span class="Other">)</span> <span class="Other">{.</span>
@@ -3295,7 +3294,7 @@ Frees a Container ID descriptor obtained from <a class="reference external" href
 <p>It is safe to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> <cite>container_id</cite> parameter, in which case the function simply returns.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1388"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1388"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetBusNumber"><a name="libusbGetBusNumber,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetBusNumber</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint8</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3308,7 +3307,7 @@ Gets the number of the bus that a device is connected to.<dl class="docutils"><d
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1401"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1401"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetPortNumber"><a name="libusbGetPortNumber,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetPortNumber</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint8</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3323,7 +3322,7 @@ Get the number of the port that a device is connected to.<dl class="docutils"><d
 <p>But outside of this, there is no guarantee that the port number returned by this call will remain the same, or even match the order in which ports have been numbered by the HUB/HCD manufacturer.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1411"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1411"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetPortNumbers"><a name="libusbGetPortNumbers,ptr.LibusbDevice,ptr.uint8,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetPortNumbers</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span> <span class="Identifier">portNumbers</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -3344,7 +3343,7 @@ Get the list of all port numbers from root for the specified device.<dl class="d
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1430"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1430"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetParent"><a name="libusbGetParent,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetParent</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3361,7 +3360,7 @@ Get the the parent from the specified device.<dl class="docutils"><dt>dev</dt>
 <p>You should issue a <a class="reference external" href="#libusbGetDeviceList">libusbGetDeviceList</a> before calling this function and make sure that you only access the parent before issuing <a class="reference external" href="#libusbFreeDeviceList">libusbFreeDeviceList</a>. The reason is that libusb currently does not maintain a permanent list of device instances, and therefore can only guarantee that parents are fully instantiated within a <a class="reference external" href="#libusbGetDeviceList">libusbGetDeviceList</a> - <a class="reference external" href="#libusbFreeDeviceList">libusbFreeDeviceList</a> block.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1447"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1447"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDeviceAddress"><a name="libusbGetDeviceAddress,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDeviceAddress</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint8</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3374,7 +3373,7 @@ Get the address of the device on the bus it is connected to.<dl class="docutils"
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1466"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1466"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDeviceSpeed"><a name="libusbGetDeviceSpeed,ptr.LibusbDevice"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDeviceSpeed</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3389,7 +3388,7 @@ Get the negotiated connection speed for a device.<dl class="docutils"><dt>dev</d
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1476"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1476"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetMaxPacketSize"><a name="libusbGetMaxPacketSize,ptr.LibusbDevice,cuchar"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetMaxPacketSize</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span> <span class="Identifier">endpoint</span><span class="Other">:</span> <span class="Identifier">cuchar</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3409,7 +3408,7 @@ Convenience function to retrieve the <a class="reference external" href="#Libusb
 <p>This function was originally intended to be of assistance when setting up isochronous transfers, but a design mistake resulted in this function instead. It simply returns the <a class="reference external" href="#LibusbEndpointDescriptor">maxPacketSize</a> value without considering its contents. If you're dealing with isochronous transfers, you probably want <a class="reference external" href="#libusbGetMaxIsoPacketSize">libusbGetMaxIsoPacketSize</a> instead.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1488"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1488"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetMaxIsoPacketSize"><a name="libusbGetMaxIsoPacketSize,ptr.LibusbDevice,cuchar"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetMaxIsoPacketSize</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span> <span class="Identifier">endpoint</span><span class="Other">:</span> <span class="Identifier">cuchar</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3431,7 +3430,7 @@ Calculate the maximum packet size which a specific endpoint is capable is sendin
 <p>This function is useful for setting up isochronous transfers, for example you might pass the return value from this function to <a class="reference external" href="#libusbSetIsoPacketLengths">libusbSetIsoPacketLengths</a> in order to set the length field of every isochronous packet in a transfer.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1511"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1511"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbOpen"><a name="libusbOpen,ptr.LibusbDevice,ptr.ptr.LibusbDeviceHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbOpen</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span><span class="Other">;</span> <span class="Identifier">handle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3454,7 +3453,7 @@ Open a device and obtain a device handle.<dl class="docutils"><dt>dev</dt>
 <p>This is a non-blocking function; no requests are sent over the bus.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1540"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1540"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbClose"><a name="libusbClose,ptr.LibusbDeviceHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbClose</span><span class="Other">(</span><span class="Identifier">devHandle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3467,7 +3466,7 @@ Close a device handle.<dl class="docutils"><dt>devHandle</dt>
 <p>This is a non-blocking function; no requests are sent over the bus.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1566"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1566"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDevice"><a name="libusbGetDevice,ptr.LibusbDeviceHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDevice</span><span class="Other">(</span><span class="Identifier">devHandle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDevice</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3481,7 +3480,7 @@ Get the underlying device for a handle.<dl class="docutils"><dt>devHandle</dt>
 <p>This function does not modify the reference count of the returned device, so do not feel compelled to unreference it when you are done.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1580"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1580"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetConfiguration"><a name="libusbSetConfiguration,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetConfiguration</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">configuration</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3502,7 +3501,7 @@ Determine the <tt class="docutils literal"><span class="pre">configurationValue<
 <p>If the OS does not cache this information, then this function will block while a control transfer is submitted to retrieve the information. This function will return a value of 0 in the config output parameter if the device is in unconfigured state.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1593"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1593"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbClaimInterface"><a name="libusbClaimInterface,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbClaimInterface</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">interfaceNumber</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3527,7 +3526,7 @@ Claim an interface on a given device handle.<dl class="docutils"><dt>dev</dt>
 <p>See also <a class="reference external" href="#libusbAttachIKernelDriver">libusbAttachIKernelDriver</a>, <a class="reference external" href="#libusbDetachKernelDriver">libusbDetachKernelDriver</a>, <a class="reference external" href="#libusbSetAutoDetachKernelDriver">libusbSetAutoDetachKernelDriver</a></p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1621"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1621"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbReleaseInterface"><a name="libusbReleaseInterface,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbReleaseInterface</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">interfaceNumber</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3550,7 +3549,7 @@ Release an interface previously claimed with <a class="reference external" href=
 <p>This is a blocking function.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1658"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1658"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbOpenDeviceWithVidPid"><a name="libusbOpenDeviceWithVidPid,ptr.LibusbContext,cshort,cshort"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbOpenDeviceWithVidPid</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">vendorId</span><span class="Other">:</span> <span class="Identifier">cshort</span><span class="Other">;</span>
@@ -3572,7 +3571,7 @@ Convenience function for finding a device with a particular idVendor / idProduct
 <p>This function is intended for those scenarios where you are using libusb to knock up a quick test application - it allows you to avoid calling <a class="reference external" href="#libusbGetDeviceList">libusbGetDeviceList</a> and worrying about traversing or freeing the list. This function has limitations and is hence not intended for use in real applications: if multiple devices have the same IDs it will only give you the first one, etc.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1686"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1686"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetInterfaceAltSetting"><a name="libusbSetInterfaceAltSetting,ptr.LibusbDeviceHandle,cint,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetInterfaceAltSetting</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span>
@@ -3597,7 +3596,7 @@ Activate an alternate setting for an interface.<dl class="docutils"><dt>dev</dt>
 <p>This is a blocking function.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1711"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1711"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbClearHalt"><a name="libusbClearHalt,ptr.LibusbDeviceHandle,cuchar"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbClearHalt</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">endpoint</span><span class="Other">:</span> <span class="Identifier">cuchar</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3619,7 +3618,7 @@ Clear the halt/stall condition for an endpoint.<dl class="docutils"><dt>dev</dt>
 <p>This is a blocking function.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1739"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1739"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbResetDevice"><a name="libusbResetDevice,ptr.LibusbDeviceHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbResetDevice</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3638,7 +3637,7 @@ Perform a USB port reset to reinitialize a device.<dl class="docutils"><dt>dev</
 <p>This is a blocking function which usually incurs a noticeable delay.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1761"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1761"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbAllocStreams"><a name="libusbAllocStreams,ptr.LibusbDeviceHandle,uint32,ptr.cuchar,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbAllocStreams</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">numStreams</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">;</span>
@@ -3663,7 +3662,7 @@ Allocate up to <tt class="docutils literal"><span class="pre">numStreams</span><
 <p>Note this function may return less streams then requested. Also note that the same number of streams are allocated for each endpoint in the endpoint array. Stream id <tt class="docutils literal"><span class="pre">0</span></tt> is reserved, and should not be used to communicate with devices. If <a class="reference external" href="#libusbAllocStreams">libusbAllocStreams</a> returns with a value of <tt class="docutils literal"><span class="pre">N</span></tt>, you may use stream ids <tt class="docutils literal"><span class="pre">1</span></tt> to <tt class="docutils literal"><span class="pre">N</span></tt>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1783"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1783"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeStreams"><a name="libusbFreeStreams,ptr.LibusbDeviceHandle,ptr.cuchar,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeStreams</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">endpoints</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span><span class="Other">;</span>
@@ -3685,7 +3684,7 @@ Free usb bulk streams allocated with <a class="reference external" href="#libusb
 <p>Note streams are automatically free-ed when releasing an interface.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1811"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1811"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbKernelDriverActive"><a name="libusbKernelDriverActive,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbKernelDriverActive</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">interfaceNumber</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3707,7 +3706,7 @@ Determine if a kernel driver is active on an interface.<dl class="docutils"><dt>
 <p>If a kernel driver is active, you cannot claim the interface, and libusb will be unable to perform I/O. This functionality is not available on Windows.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1830"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1830"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbDetachKernelDriver"><a name="libusbDetachKernelDriver,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbDetachKernelDriver</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">interfaceNumber</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3730,7 +3729,7 @@ Detach a kernel driver from an interface.<dl class="docutils"><dt>dev</dt>
 <p>If successful, you will then be able to claim the interface and perform I/O. This functionality is not available on Darwin or Windows. Note that libusb itself also talks to the device through a special kernel driver, if this driver is already attached to the device, this call will not detach it and return <a class="reference external" href="#LibusbError">LibusbError.notFound</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1853"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1853"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbAttachIKernelDriver"><a name="libusbAttachIKernelDriver,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbAttachIKernelDriver</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">interfaceNumber</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3754,7 +3753,7 @@ Re-attach an interface's kernel driver, which was previously detached using <a c
 <p>This call is only effective on Linux and returns <a class="reference external" href="#LibusbError">LibusbError.notSupported</a> on all other platforms. This functionality is not available on Darwin or Windows.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1880"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1880"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetAutoDetachKernelDriver"><a name="libusbSetAutoDetachKernelDriver,ptr.LibusbDeviceHandle,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetAutoDetachKernelDriver</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">enable</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -3775,7 +3774,7 @@ class="link-seesrc" target="_blank">Source</a>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1909"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1909"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbControlTransferGetData"><a name="libusbControlTransferGetData,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbControlTransferGetData</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span> <span class="Other">{.</span><span class="Identifier">inline</span><span class="Other">,</span>
@@ -3789,7 +3788,7 @@ Get the data section of a control transfer.<dl class="docutils"><dt>transfer</dt
 <p>This convenience function is here to remind you that the data does not start until 8 bytes into the actual buffer, as the setup packet comes first. Calling this function only makes sense from a transfer callback function, or situations where you have already allocated a suitably sized buffer at <a class="reference external" href="#LibusbTransfer">transfer.buffer</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1936"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1936"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbControlTransferGetSetup"><a name="libusbControlTransferGetSetup,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbControlTransferGetSetup</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbControlSetup</span> <span class="Other">{.</span>
@@ -3803,7 +3802,7 @@ Get the control setup packet of a control transfer.<dl class="docutils"><dt>tran
 <p>This convenience function is here to remind you that the control setup occupies the first 8 bytes of the transfer data buffer. Calling this function only makes sense from a transfer callback function, or situations where you have already allocated a suitably sized buffer at <a class="reference external" href="#LibusbTransfer">transfer.buffer</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1953"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1953"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillControlSetup"><a name="libusbFillControlSetup,ptr.cuchar,uint8,uint8,uint16,uint16,uint16"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillControlSetup</span><span class="Other">(</span><span class="Identifier">buffer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span><span class="Other">;</span> <span class="Identifier">bmRequestType</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span> <span class="Identifier">request</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -3826,7 +3825,7 @@ Helper function to populate the setup packet (first 8 bytes of the data buffer) 
 <p>The <cite>index</cite>, <cite>value</cite> and <cite>length</cite> values should be given in host-endian byte order.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L1970"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L1970"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbAllocTransfer"><a name="libusbAllocTransfer,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbAllocTransfer</span><span class="Other">(</span><span class="Identifier">isoPackets</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3842,7 +3841,7 @@ Allocate a libusb transfer with a specified number of isochronous packet descrip
 <p>It is safe to allocate a transfer with some isochronous packets and then use it on a non-isochronous endpoint. If you do this, ensure that at time of submission, <a class="reference external" href="#LibusbTransfer.numIsoPackets">numIsoPackets</a> is <tt class="docutils literal"><span class="pre">0</span></tt> and that type is set appropriately.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2001"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2001"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSubmitTransfer"><a name="libusbSubmitTransfer,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSubmitTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3862,7 +3861,7 @@ Submit a transfer.<dl class="docutils"><dt>transfer</dt>
 <p>This function will fire off the USB transfer and then return immediately.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2029"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2029"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbCancelTransfer"><a name="libusbCancelTransfer,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbCancelTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3880,7 +3879,7 @@ Asynchronously cancel a previously submitted transfer.<dl class="docutils"><dt>t
 <p>This function returns immediately, but this does not indicate that cancellation is complete. Your callback function will be invoked at some later time with a transfer status of <a class="reference external" href="#LibusbTransferStatus">LibusbTransferStatus.cancelled</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2049"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2049"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFreeTransfer"><a name="libusbFreeTransfer,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFreeTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -3893,7 +3892,7 @@ Free a transfer structure.<dl class="docutils"><dt>transfer</dt>
 <p>It is legal to call this function with a <tt class="docutils literal"><span class="pre">nil</span></tt> transfer. In this case, the function will simply return safely. It is not legal to free an active transfer (one which has been submitted and has not yet completed).</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2067"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2067"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbTransferSetStreamId"><a name="libusbTransferSetStreamId,ptr.LibusbTransfer,uint32"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbTransferSetStreamId</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span> <span class="Identifier">streamId</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span> <span class="Other">{.</span>
@@ -3907,7 +3906,7 @@ Set a transfers bulk stream id.<dl class="docutils"><dt>transfer</dt>
 <p>Note users are advised to use <a class="reference external" href="#libusbFillBulkStreamTransfer">libusbFillBulkStreamTransfer</a> instead of calling this function directly.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2085"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2085"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbTransferGetStreamId"><a name="libusbTransferGetStreamId,ptr.LibusbTransfer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbTransferGetStreamId</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint32</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -3922,7 +3921,7 @@ Get a transfers bulk stream identifier.<dl class="docutils"><dt>transfer</dt>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2100"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2100"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillControlTransfer"><a name="libusbFillControlTransfer,ptr.LibusbTransfer,ptr.LibusbDeviceHandle,ptr.cuchar,LibusbTransferCbFn,pointer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillControlTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span>
@@ -3954,7 +3953,7 @@ Helper function to populate the <a class="reference external" href="#LibusbTrans
 <p>It is also legal to pass a <tt class="docutils literal"><span class="pre">nil</span></tt> buffer to this function, in which case this function will not attempt to populate the length field. Remember that you must then populate the buffer and length fields later.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2110"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2110"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillBulkTransfer"><a name="libusbFillBulkTransfer,ptr.LibusbTransfer,ptr.LibusbDeviceHandle,cuchar,ptr.cuchar,cint,LibusbTransferCbFn,pointer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillBulkTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span>
@@ -3982,7 +3981,7 @@ Helper function to populate the <a class="reference external" href="#LibusbTrans
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2158"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2158"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillBulkStreamTransfer"><a name="libusbFillBulkStreamTransfer,ptr.LibusbTransfer,ptr.LibusbDeviceHandle,cuchar,uint32,ptr.cuchar,cint,LibusbTransferCbFn,pointer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillBulkStreamTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span>
@@ -4013,7 +4012,7 @@ Helper function to populate the <a class="reference external" href="#LibusbTrans
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2190"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2190"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillInterruptTransfer"><a name="libusbFillInterruptTransfer,ptr.LibusbTransfer,ptr.LibusbDeviceHandle,cuchar,ptr.cuchar,cint,LibusbTransferCbFn,pointer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillInterruptTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span>
@@ -4041,7 +4040,7 @@ Helper function to populate the <a class="reference external" href="#LibusbTrans
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2221"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2221"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbFillIsoTransfer"><a name="libusbFillIsoTransfer,ptr.LibusbTransfer,ptr.LibusbDeviceHandle,cuchar,ptr.cuchar,cint,cint,LibusbTransferCbFn,pointer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbFillIsoTransfer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span>
@@ -4071,7 +4070,7 @@ Helper function to populate the <a class="reference external" href="#LibusbTrans
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2254"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2254"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetIsoPacketLengths"><a name="libusbSetIsoPacketLengths,ptr.LibusbTransfer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetIsoPacketLengths</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span> <span class="Identifier">length</span><span class="Other">:</span> <span class="Identifier">cuint</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">inline</span><span class="Other">,</span>
@@ -4084,7 +4083,7 @@ Convenience function to set the length of all packets in an isochronous transfer
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2290"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2290"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetIsoPacketBuffer"><a name="libusbGetIsoPacketBuffer,ptr.LibusbTransfer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetIsoPacketBuffer</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span> <span class="Identifier">packet</span><span class="Other">:</span> <span class="Identifier">cuint</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span> <span class="Other">{.</span>
@@ -4103,7 +4102,7 @@ Convenience function to locate the position of an isochronous packet within the 
 <p>This is a thorough function which loops through all preceding packets, accumulating their lengths to find the position of the specified packet. Typically you will assign equal lengths to each packet in the transfer, and hence the above method is sub-optimal. Consider using <a class="reference external" href="#libusbGetIsoPacketBufferSimple">libusbGetIsoPacketBufferSimple</a> instead.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2307"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2307"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetIsoPacketBufferSimple"><a name="libusbGetIsoPacketBufferSimple,ptr.LibusbTransfer,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetIsoPacketBufferSimple</span><span class="Other">(</span><span class="Identifier">transfer</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbTransfer</span><span class="Other">;</span> <span class="Identifier">packet</span><span class="Other">:</span> <span class="Identifier">cuint</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cuchar</span> <span class="Other">{.</span>
@@ -4124,7 +4123,7 @@ Convenience function to locate the position of an isochronous packet within the 
 <p>Do not use this function on transfers other than those that have identical packet lengths for each packet.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2342"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2342"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbControlTransfer"><a name="libusbControlTransfer,ptr.LibusbDeviceHandle,uint8,LibusbStandardRequest,uint16,uint16,ptr.cuchar,uint16,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbControlTransfer</span><span class="Other">(</span><span class="Identifier">devHandle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">bmRequestType</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -4161,7 +4160,7 @@ Perform a USB control transfer.<dl class="docutils"><dt>devHandle</dt>
 <p>The direction of the transfer is inferred from the bmRequestType field of the setup packet. The <cite>value</cite>, <cite>index</cite> and <cite>length</cite> fields values should be given in host-endian byte order.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2380"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2380"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbBulkTransfer"><a name="libusbBulkTransfer,ptr.LibusbDeviceHandle,cuchar,ptr.cuchar,cint,ptr.cint,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbBulkTransfer</span><span class="Other">(</span><span class="Identifier">devHandle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">endpoint</span><span class="Other">:</span> <span class="Identifier">cuchar</span><span class="Other">;</span>
@@ -4195,7 +4194,7 @@ Perform a USB bulk transfer.<dl class="docutils"><dt>devHandle</dt>
 <p>You should also check the transferred parameter for bulk writes. Not all of the data may have been written. Also check transferred when dealing with a timeout error code. libusb may have to split your transfer into a number of chunks to satisfy underlying O/S requirements, meaning that the timeout may expire after the first few chunks have completed. libusb is careful not to lose any data that may have been transferred; do not assume that timeout conditions indicate a complete lack of I/O.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2420"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2420"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbInterruptTransfer"><a name="libusbInterruptTransfer,ptr.LibusbDeviceHandle,cuchar,ptr.cuchar,cint,ptr.cint,cuint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbInterruptTransfer</span><span class="Other">(</span><span class="Identifier">devHandle</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">endpoint</span><span class="Other">:</span> <span class="Identifier">cuchar</span><span class="Other">;</span>
@@ -4230,7 +4229,7 @@ Perform a USB interrupt transfer.<dl class="docutils"><dt>devHandle</dt>
 <p>The default endpoint interval value is used as the polling interval.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2468"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2468"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetDescriptor"><a name="libusbGetDescriptor,ptr.LibusbDeviceHandle,uint8,uint8,ptr.cuchar,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetDescriptor</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">descType</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -4256,7 +4255,7 @@ Retrieve a descriptor from the default control pipe.<dl class="docutils"><dt>dev
 <p>This is a convenience function which formulates the appropriate control message to retrieve the descriptor.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2517"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2517"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetStringDescriptor"><a name="libusbGetStringDescriptor,ptr.LibusbDeviceHandle,uint8,uint16,ptr.cuchar,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetStringDescriptor</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">descIndex</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -4282,7 +4281,7 @@ Retrieve a descriptor from a device.<dl class="docutils"><dt>dev</dt>
 <p>This is a convenience function which formulates the appropriate control message to retrieve the descriptor. The string returned is Unicode, as detailed in the USB specifications.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2550"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2550"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetStringDescriptorAscii"><a name="libusbGetStringDescriptorAscii,ptr.LibusbDeviceHandle,uint8,ptr.cuchar,cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetStringDescriptorAscii</span><span class="Other">(</span><span class="Identifier">dev</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbDeviceHandle</span><span class="Other">;</span> <span class="Identifier">descIndex</span><span class="Other">:</span> <span class="Identifier">uint8</span><span class="Other">;</span>
@@ -4306,7 +4305,7 @@ Retrieve a string descriptor in C style ASCII.<dl class="docutils"><dt>dev</dt>
 <p>Uses the first language supported by the device.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2583"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2583"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbTryLockEvents"><a name="libusbTryLockEvents,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbTryLockEvents</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4324,7 +4323,7 @@ Attempt to acquire the event handling lock. This lock is used to ensure that onl
 <p>While holding this lock, you are trusted to actually be handling events. If you are no longer handling events, you must call <a class="reference external" href="#libusbUnlockEvents">libusbUnlockEvents</a> as soon as possible.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2605"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2605"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbLockEvents"><a name="libusbLockEvents,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbLockEvents</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4337,7 +4336,7 @@ Acquire the event handling lock, blocking until successful acquisition if it is 
 <p>While holding this lock, you are trusted to actually be handling events. If you are no longer handling events, you must call <a class="reference external" href="#libusbUnlockEvents">libusbUnlockEvents</a> as soon as possible.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2627"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2627"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbUnlockEvents"><a name="libusbUnlockEvents,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbUnlockEvents</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4349,7 +4348,7 @@ Release the lock previously acquired with <a class="reference external" href="#l
 <p>Releasing this lock will wake up any threads blocked on <a class="reference external" href="#libusbWaitForEvent">libusbWaitForEvent</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2647"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2647"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbEventHandlingOk"><a name="libusbEventHandlingOk,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbEventHandlingOk</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4367,7 +4366,7 @@ Determine if it is still OK for this thread to be doing event handling.<dl class
 <p>This function should be called while the events lock is held: you don't need to worry about the results of this function if your thread is not the current event handler.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2660"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2660"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbEventHandlerActive"><a name="libusbEventHandlerActive,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbEventHandlerActive</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4383,7 +4382,7 @@ Determine if an active thread is handling events (i.e. if anyone is holding the 
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2683"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2683"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbLockEventWaiters"><a name="libusbLockEventWaiters,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbLockEventWaiters</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4396,7 +4395,7 @@ Acquire the event waiters lock.<dl class="docutils"><dt>ctx</dt>
 <p>You only need to use this lock if you are developing an application which calls <cite>poll()</cite> or <cite>select()</cite> on libusb's file descriptors directly, and may potentially be handling events from 2 threads simultaenously. If you stick to libusb's event handling loop functions (e.g. <cite>libusbHandleEvents()</cite>) then you do not need to be concerned with this locking.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2695"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2695"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbUnlockEventWaiters"><a name="libusbUnlockEventWaiters,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbUnlockEventWaiters</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4407,7 +4406,7 @@ Release the event waiters lock.<dl class="docutils"><dt>ctx</dt>
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2715"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2715"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbWaitForEvent"><a name="libusbWaitForEvent,ptr.LibusbContext,ptr.libusbTimeval"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbWaitForEvent</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">tv</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">libusbTimeval</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -4433,7 +4432,7 @@ Wait for another thread to signal completion of an event.<dl class="docutils"><d
 <p>This function releases the event waiters lock before putting your thread to sleep, and reacquires the lock as it is being woken up.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2723"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2723"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHandleEvents"><a name="libusbHandleEvents,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHandleEvents</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span> <span class="Identifier">dynlib</span><span class="Other">:</span> <span class="Identifier">dllname</span><span class="Other">,</span>
@@ -4451,7 +4450,7 @@ Handle any pending events in blocking mode.<dl class="docutils"><dt>ctx</dt>
 <p>This function is kept primarily for backwards compatibility. Use <a class="reference external" href="#libusbHandleEventsCompleted">libusbHandleEventsCompleted</a> or <a class="reference external" href="#libusbHandleEventsTimeoutCompleted">libusbHandleEventsTimeoutCompleted</a> to avoid race conditions.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2755"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2755"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHandleEventsTimeoutCompleted"><a name="libusbHandleEventsTimeoutCompleted,ptr.LibusbContext,ptr.libusbTimeval,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHandleEventsTimeoutCompleted</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span>
@@ -4475,7 +4474,7 @@ Handle any pending events.<dl class="docutils"><dt>ctx</dt>
 <p>If an event arrives or a signal is raised, this function will return early. If the parameter completed is not <tt class="docutils literal"><span class="pre">nil</span></tt> then after obtaining the event handling lock this function will return immediately if the integer pointed to is not <tt class="docutils literal"><span class="pre">0</span></tt>. This allows for race free waiting for the completion of a specific transfer.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2777"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2777"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHandleEventsCompleted"><a name="libusbHandleEventsCompleted,ptr.LibusbContext,ptr.cint"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHandleEventsCompleted</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">completed</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">cint</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -4494,7 +4493,7 @@ Handle any pending events in blocking mode.<dl class="docutils"><dt>ctx</dt>
 <p>Like <a class="reference external" href="#libusbHandleEvents">libusbHandleEvents</a>, with the addition of a completed parameter to allow for race free waiting for the completion of a specific transfer. See <a class="reference external" href="#libusbHandleEventsTimeoutCompleted">libusbHandleEventsTimeoutCompleted</a> for details on the completed parameter.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2808"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2808"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHandleEventsLocked"><a name="libusbHandleEventsLocked,ptr.LibusbContext,ptr.libusbTimeval"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHandleEventsLocked</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">tv</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">libusbTimeval</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span>
@@ -4513,7 +4512,7 @@ Handle any pending events by polling file descriptors, without checking if any o
 <p>Must be called with the event lock held, see <a class="reference external" href="#libusbLockEvents">libusbLockEvents</a>. This function is designed to be called under the situation where you have taken the event lock and are calling <cite>poll()/select()</cite> directly on libusb's file descriptors (as opposed to using <cite>libusbHandleEventsXXX</cite> or similar). You detect events on libusb's descriptors, so you then call this function with a zero timeout value (while still holding the event lock).</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2827"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2827"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbPollfdsHandleTimeouts"><a name="libusbPollfdsHandleTimeouts,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbPollfdsHandleTimeouts</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -4532,7 +4531,7 @@ Determines whether your application must apply special timing considerations whe
 <p>Some platforms supported by libusb do not come with this baggage - any events relevant to timing will be represented by activity on the file descriptor set, and <a class="reference external" href="#libusbGetNextTimeout">libusbGetNextTimeout</a> will always return <tt class="docutils literal"><span class="pre">0</span></tt>. This function allows you to detect whether you are running on such a platform.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2850"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2850"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetNextTimeout"><a name="libusbGetNextTimeout,ptr.LibusbContext,ptr.libusbTimeval"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetNextTimeout</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">tv</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">libusbTimeval</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">cint</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -4556,7 +4555,7 @@ Determine the next internal timeout that libusb needs to handle.<dl class="docut
 <p>On some platforms, this function will always returns <tt class="docutils literal"><span class="pre">0</span></tt> (no pending timeouts). See Notes on time-based events.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2881"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2881"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbGetPollfds"><a name="libusbGetPollfds,ptr.LibusbContext"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbGetPollfds</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbPollfd</span> <span class="Other">{.</span><span class="Identifier">cdecl</span><span class="Other">,</span>
@@ -4574,7 +4573,7 @@ Retrieve a list of file descriptors that should be polled by your main loop as l
 <p>The returned list is NULL-terminated and should be freed with <cite>free()</cite> when done. The actual list contents must not be touched. As file descriptors are a Unix-specific concept, this function is not available on Windows and will always return <tt class="docutils literal"><span class="pre">nil</span></tt>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2955"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2955"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbSetPollfdNotifiers"><a name="libusbSetPollfdNotifiers,ptr.LibusbContext,LibusbPollfdAddedCb,LibusbPollfdRemovedCb,pointer"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbSetPollfdNotifiers</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">addedCb</span><span class="Other">:</span> <span class="Identifier">LibusbPollfdAddedCb</span><span class="Other">;</span>
@@ -4594,7 +4593,7 @@ Register notification functions for file descriptor additions/removals.<dl class
 <p>Note that file descriptors may have been added even before you register these notifiers (e.g. at <a class="reference external" href="#libusbInit">libusbInit</a> time). Additionally, note that the removal notifier may be called during <a class="reference external" href="#libusbExit">libusbExit</a> (e.g. when it is closing file descriptors that were opened and added to the poll set at <a class="reference external" href="#libusbInit">libusbInit</a> time). If you don't want this, remove the notifiers immediately before calling <a class="reference external" href="#libusbExit">libusbExit</a>.</p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L2973"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L2973"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHotplugRegisterCallback"><a name="libusbHotplugRegisterCallback,ptr.LibusbContext,cint,LibusbHotplugFlag,cint,cint,cint,LibusbHotplugCallbackFn,pointer,ptr.LibusbHotplugCallbackHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHotplugRegisterCallback</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span> <span class="Identifier">events</span><span class="Other">:</span> <span class="Identifier">cint</span><span class="Other">;</span>
@@ -4634,7 +4633,7 @@ Register a hotplug callback function.<dl class="docutils"><dt>ctx</dt>
 <p>See also <a class="reference external" href="#libusbHotplugDeregisterCallback">libusbHotplugDeregisterCallback</a></p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3066"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3066"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 <dt id="libusbHotplugDeregisterCallback"><a name="libusbHotplugDeregisterCallback,ptr.LibusbContext,LibusbHotplugCallbackHandle"></a><pre><span class="Keyword">proc</span> <span class="Identifier">libusbHotplugDeregisterCallback</span><span class="Other">(</span><span class="Identifier">ctx</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">LibusbContext</span><span class="Other">;</span>
@@ -4650,13 +4649,13 @@ De-register a hotplug callback.<dl class="docutils"><dt>ctx</dt>
 <p>See also <a class="reference external" href="#libusbHotplugRegisterCallback">libusbHotplugRegisterCallback</a></p>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L3124"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L3124"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 
 </dl></div>
-<div class="section" id="18">
-<h1><a class="toc-backref" href="#18">Templates</a></h1>
+<div class="section" id="17">
+<h1><a class="toc-backref" href="#17">Templates</a></h1>
 <dl class="item">
 <dt id="libusbLe16ToCpu"><a name="libusbLe16ToCpu.t,uint16"></a><pre><span class="Keyword">template</span> <span class="Identifier">libusbLe16ToCpu</span><span class="Other">(</span><span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">uint16</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">uint16</span></pre></dt>
 <dd>
@@ -4667,7 +4666,7 @@ Convert a 16-bit value from little-endian to host-endian format.<dl class="docut
 </dl>
 
 &nbsp;&nbsp;<a
-href="https://github.com/nimious/io-usb/tree/master/src/libusb.nim#L48"
+href="https://github.com/nimious/libusb/tree/master/src/libusb.nim#L48"
 class="link-seesrc" target="_blank">Source</a>
 </dd>
 
@@ -4679,8 +4678,8 @@ class="link-seesrc" target="_blank">Source</a>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
-        <br>
-        <small>Made with Nim. Generated: 2015-11-13 09:19:33 UTC</small>
+        <br/>
+        <small>Made with Nim. Generated: 2016-01-30 10:45:19 UTC</small>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-## *io-usb* - Nim bindings for libusb, the cross-platform user library to access
+## *libusb* - Nim bindings for libusb, the cross-platform user library to access
 ## USB devices.
 ##
 ## This file is part of the `Nim I/O <http://nimio.us>`_ package collection.
