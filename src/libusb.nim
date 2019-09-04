@@ -8,7 +8,7 @@
 import endians
 
 when defined(linux):
-  const dllname = "libusb(|-1.0).so(|.4|.4.4.4)"
+  const dllname = "libusb(|-1.0).so(|.0|.0.1.0)"
 elif defined(freebsd):
   const dllname = "libusb.so"
 elif defined(macosx):
