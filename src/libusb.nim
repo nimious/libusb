@@ -790,7 +790,7 @@ type
 
   LibusbIsoPacketDescriptorArray = UncheckedArray[LibusbIsoPacketDescriptor]
     ## Unchecked array of packet descriptors that will translate to C arrays of
-    ## undetermined size as required in the ``iso_packet_desc`` field of the
+    ## undetermined size as required in the ``isoPacketDesc`` field of the
     ## `LibusbTransfer <#LibusbTransfer>`_ object.
 
 
@@ -2331,7 +2331,7 @@ proc libusbGetIsoPacketBuffer*(transfer: ptr LibusbTransfer; packet: cuint):
   if p >= transfer.numIsoPackets: return nil
   i = 0
   while i < p:
-    offset += transfer.iso_packet_desc[i].length
+    offset += transfer.isoPacketDesc[i].length
     inc(i)
   return cast[ptr cuchar](cast[cuint](transfer.buffer) + offset)
 
@@ -2369,7 +2369,7 @@ proc libusbGetIsoPacketBufferSimple*(transfer: ptr LibusbTransfer;
   if p >= transfer.numIsoPackets:
     return nil
   return cast[ptr cuchar](cast[cuint](transfer.buffer) +
-    (transfer.iso_packet_desc[0].length * packet))
+    (transfer.isoPacketDesc[0].length * packet))
 
 
 # Sync I/O #####################################################################
@@ -2537,7 +2537,7 @@ proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; descType: uint8;
       uint8(LibusbRequestType.class) or
       uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
-    (uint16)((desc_type shl 8) or desc_index),
+    (uint16)((descType shl 8) or descIndex),
     0,
     data,
     cast[uint16](length),
@@ -2571,7 +2571,7 @@ proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; descIndex: uint8;
       uint8(LibusbRequestType.class) or
       uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
-    (uint16)((((int16)LibusbDescriptorType.str) shl 8) or (int16)desc_index),
+    (uint16)((((int16)LibusbDescriptorType.str) shl 8) or (int16)descIndex),
     langid,
     data,
     cast[uint16](length), 1000)
