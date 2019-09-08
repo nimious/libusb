@@ -5,13 +5,10 @@
 ## See the file LICENSE included in this distribution for licensing details.
 ## GitHub pull requests are encouraged. (c) 2015 Headcrash Industries LLC.
 
-{.deadCodeElim: on.}
-
 import endians
 
-
 when defined(linux):
-  const dllname = "libusb.so"
+  const dllname = "libusb(|-1.0).so(|.0|.0.1.0)"
 elif defined(freebsd):
   const dllname = "libusb.so"
 elif defined(macosx):
@@ -23,7 +20,7 @@ else:
 
 
 type
-  libusbTimeval* = object
+  LibusbTimeval* = object
     ## Specifies a time interval.
     tvSec*: clong
     tvUsec*: clong
@@ -621,7 +618,7 @@ type
     ## `libusbOpen <#libusbOpen>`_ adds another reference which is later
     ## destroyed by `libusbClose <#libusbClose>`_.
 
-  LibusbDeviceArray* {.unchecked.} = array[10_000, ptr LibusbDevice]
+  LibusbDeviceArray* = UncheckedArray[ptr LibusbDevice]
     ## Unchecked array of pointers to USB devices.
 
 
@@ -791,9 +788,9 @@ type
       ## Status code for this packet
 
 
-  LibusbIsoPacketDescriptorArray {.unchecked.} = array[0..0, LibusbIsoPacketDescriptor]
+  LibusbIsoPacketDescriptorArray = UncheckedArray[LibusbIsoPacketDescriptor]
     ## Unchecked array of packet descriptors that will translate to C arrays of
-    ## undetermined size as required in the ``iso_packet_desc`` field of the
+    ## undetermined size as required in the ``isoPacketDesc`` field of the
     ## `LibusbTransfer <#LibusbTransfer>`_ object.
 
 
@@ -2334,7 +2331,7 @@ proc libusbGetIsoPacketBuffer*(transfer: ptr LibusbTransfer; packet: cuint):
   if p >= transfer.numIsoPackets: return nil
   i = 0
   while i < p:
-    offset += transfer.iso_packet_desc[i].length
+    offset += transfer.isoPacketDesc[i].length
     inc(i)
   return cast[ptr cuchar](cast[cuint](transfer.buffer) + offset)
 
@@ -2372,7 +2369,7 @@ proc libusbGetIsoPacketBufferSimple*(transfer: ptr LibusbTransfer;
   if p >= transfer.numIsoPackets:
     return nil
   return cast[ptr cuchar](cast[cuint](transfer.buffer) +
-    (transfer.iso_packet_desc[0].length * packet))
+    (transfer.isoPacketDesc[0].length * packet))
 
 
 # Sync I/O #####################################################################
@@ -2540,7 +2537,7 @@ proc libusbGetDescriptor*(dev: ptr LibusbDeviceHandle; descType: uint8;
       uint8(LibusbRequestType.class) or
       uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
-    (uint16)((desc_type shl 8) or desc_index),
+    (uint16)((descType shl 8) or descIndex),
     0,
     data,
     cast[uint16](length),
@@ -2574,7 +2571,7 @@ proc libusbGetStringDescriptor*(dev: ptr LibusbDeviceHandle; descIndex: uint8;
       uint8(LibusbRequestType.class) or
       uint8(LibusbRequestRecipient.interf),
     LibusbStandardRequest.getDescriptor,
-    (uint16)((((int16)LibusbDescriptorType.str) shl 8) or (int16)desc_index),
+    (uint16)((((int16)LibusbDescriptorType.str) shl 8) or (int16)descIndex),
     langid,
     data,
     cast[uint16](length), 1000)
@@ -2720,7 +2717,7 @@ proc libusbUnlockEventWaiters*(ctx: ptr LibusbContext)
   ##   The context to operate on, or ``nil`` for the default context
 
 
-proc libusbWaitForEvent*(ctx: ptr LibusbContext; tv: ptr libusbTimeval): cint
+proc libusbWaitForEvent*(ctx: ptr LibusbContext; tv: ptr LibusbTimeval): cint
   {.cdecl, dynlib: dllname, importc: "libusb_wait_for_event".}
   ## Wait for another thread to signal completion of an event.
   ##
@@ -2775,7 +2772,7 @@ proc libusbHandleEvents*(ctx: ptr LibusbContext): cint
 
 
 proc libusbHandleEventsTimeoutCompleted*(ctx: ptr LibusbContext;
-  tv: ptr libusbTimeval; completed: ptr cint): cint
+  tv: ptr LibusbTimeval; completed: ptr cint): cint
   {.cdecl, dynlib: dllname, importc: "libusb_handle_events_timeout_completed".}
   ## Handle any pending events.
   ##
@@ -2783,7 +2780,7 @@ proc libusbHandleEventsTimeoutCompleted*(ctx: ptr LibusbContext;
   ##   The context to operate on, or ``nil`` for the default context
   ## tv
   ##   The maximum time to block waiting for events, or an all zero
-  ##   `libusbTimeval <#libusbTimeval>`_ struct for non-blocking mode
+  ##   `LibusbTimeval <#LibusbTimeval>`_ struct for non-blocking mode
   ## completed
   ##   Pointer to completion integer to check, or ``nil``
   ## result
@@ -2824,7 +2821,7 @@ proc libusbHandleEventsCompleted*(ctx: ptr LibusbContext; completed: ptr cint):
   ## for details on the completed parameter.
 
 
-proc libusbHandleEventsLocked*(ctx: ptr LibusbContext; tv: ptr libusbTimeval):
+proc libusbHandleEventsLocked*(ctx: ptr LibusbContext; tv: ptr LibusbTimeval):
   cint {.cdecl, dynlib: dllname, importc: "libusb_handle_events_locked".}
   ## Handle any pending events by polling file descriptors, without checking if
   ## any other threads are already doing so.
@@ -2878,7 +2875,7 @@ proc libusbPollfdsHandleTimeouts*(ctx: ptr LibusbContext): cint
   ## running on such a platform.
 
 
-proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr libusbTimeval): cint
+proc libusbGetNextTimeout*(ctx: ptr LibusbContext; tv: ptr LibusbTimeval): cint
   {.cdecl, dynlib: dllname, importc: "libusb_get_next_timeout".}
   ## Determine the next internal timeout that libusb needs to handle.
   ##

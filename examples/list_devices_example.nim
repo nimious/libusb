@@ -25,7 +25,7 @@ proc printDevice(device: ptr LibusbDevice) =
     if n > 0:
       p = " path: "
       p.add($path[0])
-      for i in 1.. <n:
+      for i in 1..<n:
         p.add(".")
         p.add($path[i])
     echo toHex(desc.idVendor, 4), ":", toHex(desc.idProduct, 4),
@@ -47,7 +47,7 @@ else:
   echo "Number of detected USB devices: ", cnt
 
   # print device details
-  for i in 0..high(devices[]):
+  for i in 0..<cnt:
     if devices[i] == nil:
       break
     printDevice(devices[i])
